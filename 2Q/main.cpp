@@ -1,14 +1,12 @@
-#include <iostream>
 #include "2Q.h"
+#include "TestGenerator.h"
 
 int main() {
-    size_t s = 10;
-    Cache2Q_t<int> in(10);
-    for (size_t i = 0; i < 10; ++i) {
-        in.check(i);
-    }
-    in.print_hit();
-    std::cout << "\n";
-    in.print_data();
+    TestRandom(10);
+ /*   Cache2Q_t<int> cache(CACHE_SIZE);
+    for (int i = 0 ; i < 1000; ++i) {
+        cache.check(i % 2);
+    }*/
+    //cache.print_hit();
     return 0;
 }

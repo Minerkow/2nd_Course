@@ -42,6 +42,13 @@ void HashList_t<T>::print() {
 }
 
 template<typename T>
+void HashList_t<T>::clear() {
+    size_ = 0;
+    hashT_.clear();
+    list_.clear();
+}
+
+template<typename T>
 typename Cache2Q_t<T>::listIterator Cache2Q_t<T>::check(size_t id) {
     numRequest_++;
     listIterator ptrOnObject = in_.find(id);
@@ -79,6 +86,27 @@ void Cache2Q_t<T>::print_data() {
     std::cout << "main: ";
     main_.print();
 }
+template<typename T>
+void Cache2Q_t<T>::load_from_array(std::vector<size_t>& vec) {
+    for (auto& req : vec) {
+        check(req);
+    }
+}
+
+template<typename T>
+void Cache2Q_t<T>::print_statistic() {
+    std::cerr << "[ Hits: " << hit_ << ", "
+              << double(hit_) / double (numRequest_) << " ]\n";
+}
+
+template<typename T>
+void Cache2Q_t<T>::clear() {
+    in_.clear();
+    out_.clear();
+    main_.clear();
+    numRequest_ = 0;
+    hit_ = 0;
+}
 
 template <typename T>
 object_t<T> load_by_id(size_t id) {
@@ -86,5 +114,8 @@ object_t<T> load_by_id(size_t id) {
     obj.id = id;
     return obj;
 }
+
+
+
 
 

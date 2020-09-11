@@ -3,7 +3,9 @@
 #include <iostream>
 #include <unordered_map>
 #include <list>
+#include "TestGenerator.h"
 
+enum {CACHE_SIZE = 10};
 
 template <typename T>
 struct object_t {
@@ -24,6 +26,7 @@ public:
     listIterator find(size_t id);
     listIterator end() {return list_.end();};
     void print();
+    void clear();
 private:
     size_t size_;
     std::unordered_map<size_t, listIterator> hashT_;
@@ -40,6 +43,9 @@ public:
     listIterator check(size_t id);
     void print_hit();
     void print_data();
+    void clear();
+    void load_from_array(std::vector<size_t>& vec);
+    void print_statistic();
 private:
     HashList_t<T> in_;
     HashList_t<T> out_;
@@ -47,5 +53,7 @@ private:
     size_t hit_;
     size_t numRequest_;
 };
+
+
 
 #include "2Q.inl"
