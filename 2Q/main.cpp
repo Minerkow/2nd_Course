@@ -1,12 +1,9 @@
 #include "2Q.h"
 #include "TestGenerator.h"
 
+enum {NUM_TESTS = 10};
+
 int main() {
-    TestRandom(10);
- /*   Cache2Q_t<int> cache(CACHE_SIZE);
-    for (int i = 0 ; i < 1000; ++i) {
-        cache.check(i % 2);
-    }*/
-    //cache.print_hit();
+    TestRandom(NUM_TESTS);
     return 0;
 }

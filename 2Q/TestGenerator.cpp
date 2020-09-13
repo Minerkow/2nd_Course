@@ -9,9 +9,19 @@ RandomGenerator_t::RandomGenerator_t() {
 void RandomGenerator_t::GenerateArray() {
     std::random_device rd{};
     std::mt19937 gen{rd()};
-    std::normal_distribution<double> normDistr(NUM_PAGES / 2, NUM_PAGES / 4);
+    if (DISTANCE_BETWEEN_PEAKS > NUM_PAGES / 4 * 3) {
+        std::cerr << "BIG DESTANCE" << std::endl;
+        exit(ERROR);
+    }
+    std::normal_distribution<double> normDistr1(NUM_PAGES / 4, NUM_PAGES / 4),
+                                     normDistr2(NUM_PAGES / 4 + DISTANCE_BETWEEN_PEAKS, NUM_PAGES / 4);
     for (auto& req : requests_) {
-        req = std::abs(lround(normDistr(gen))) % NUM_PAGES;
+        switch (random() % 2) {
+            case 0 :
+                req = std::abs(lround(normDistr1(gen))) % NUM_PAGES; break;
+            case 1:
+                req = std::abs(lround(normDistr2(gen))) % NUM_PAGES; break;
+        }
     }
 }
 

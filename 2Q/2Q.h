@@ -3,9 +3,10 @@
 #include <iostream>
 #include <unordered_map>
 #include <list>
+#include <assert.h>
 #include "TestGenerator.h"
 
-enum {CACHE_SIZE = 10};
+enum {CACHE_SIZE = 100, ERROR = 1};
 
 template <typename T>
 struct object_t {
@@ -20,15 +21,19 @@ template <typename T>
 class HashList_t {
 public:
     using listIterator = typename std::list<object_t<T>>::iterator;
-    explicit HashList_t(size_t size) : list_(size), hashT_(size), size_(size){};
+    explicit HashList_t(size_t size) : list_(0), hashT_(0), capacity_(size){};
+    HashList_t(): list_(0), hashT_(0), capacity_(0){};
     listIterator add(size_t id);
     void move_in_other(HashList_t& other, listIterator elem);
     listIterator find(size_t id);
+    size_t capacity() {return capacity_;};
+    size_t size() {return list_.size();}
     listIterator end() {return list_.end();};
     void print();
     void clear();
+    ~HashList_t();
 private:
-    size_t size_;
+    size_t capacity_;
     std::unordered_map<size_t, listIterator> hashT_;
     std::list<object_t<T>> list_;
 };
@@ -37,9 +42,7 @@ template <typename T>
 class Cache2Q_t {
 public:
     using listIterator = typename std::list<object_t<T>>::iterator;
-    explicit Cache2Q_t(size_t size) : main_(size / 10 * 2), in_(size / 10 * 2),
-                                      out_(size - size / 10 * 4), hit_(0),
-                                      numRequest_(0) {};
+    explicit Cache2Q_t(size_t size);
     listIterator check(size_t id);
     void print_hit();
     void print_data();
@@ -50,8 +53,8 @@ private:
     HashList_t<T> in_;
     HashList_t<T> out_;
     HashList_t<T> main_;
-    size_t hit_;
-    size_t numRequest_;
+    size_t hit_{};
+    size_t numRequest_{};
 };
 
 

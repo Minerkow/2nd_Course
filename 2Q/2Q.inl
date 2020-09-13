@@ -5,6 +5,11 @@ template<typename T>
 void HashList_t<T>::move_in_other(HashList_t &other, listIterator elem) {
     size_t id = elem->id;
     other.list_.splice(other.list_.begin(), list_, elem);
+    if (other.list_.size() > other.capacity_) {
+        other.hashT_.erase(other.list_.back().id);
+        other.list_.pop_back();
+    }
+
     hashT_.erase(id);
     other.hashT_.emplace(id, other.list_.begin());
 }
@@ -25,10 +30,10 @@ typename HashList_t<T>::listIterator HashList_t<T>::add(size_t id) {
 
     list_.push_front(obj);
     hashT_.emplace(id, list_.begin());
-    if (list_.size() <= size_)
-        return list_.begin();
-    hashT_.erase(list_.back().id);
-    list_.pop_back();
+    if (list_.size() > capacity_) {
+        hashT_.erase(list_.back().id);
+        list_.pop_back();
+    }
     return list_.begin();
 }
 
@@ -43,7 +48,14 @@ void HashList_t<T>::print() {
 
 template<typename T>
 void HashList_t<T>::clear() {
-    size_ = 0;
+    capacity_ = 0;
+    hashT_.clear();
+    list_.clear();
+}
+
+template<typename T>
+HashList_t<T>::~HashList_t() {
+    capacity_ = 0;
     hashT_.clear();
     list_.clear();
 }
@@ -65,16 +77,19 @@ typename Cache2Q_t<T>::listIterator Cache2Q_t<T>::check(size_t id) {
     ptrOnObject = main_.find(id);
     if (ptrOnObject != main_.end()) {
         hit_++;
+        main_.move_in_other(main_, ptrOnObject);
         return ptrOnObject;
     }
-    in_.move_in_other(out_, prev(in_.end()));
+    if (in_.capacity() == in_.size()) {
+        in_.move_in_other(out_, prev(in_.end()));
+    }
     listIterator it = in_.add(id);
     return it;
 }
 
 template<typename T>
 void Cache2Q_t<T>::print_hit() {
-    std::cout << "Hits:" << hit_;
+    std::cout << "Hits:" << hit_ << std::endl;
 }
 
 template<typename T>
@@ -96,7 +111,7 @@ void Cache2Q_t<T>::load_from_array(std::vector<size_t>& vec) {
 template<typename T>
 void Cache2Q_t<T>::print_statistic() {
     std::cerr << "[ Hits: " << hit_ << ", "
-              << double(hit_) / double (numRequest_) << " ]\n";
+              << double (hit_) / double (numRequest_) << " ]" << std::endl;
 }
 
 template<typename T>
@@ -106,6 +121,25 @@ void Cache2Q_t<T>::clear() {
     main_.clear();
     numRequest_ = 0;
     hit_ = 0;
+}
+
+template<typename T>
+Cache2Q_t<T>::Cache2Q_t(size_t size) {
+    if (size < 3) {
+        std::cerr << "SMALL SIZE ERROR" << std::endl;
+        exit(ERROR);
+    }
+   if(size >= 10) {
+        in_ = HashList_t<T>(size / 10 * 2);
+        main_ = HashList_t<T>(size / 10 * 2);
+        out_ = HashList_t<T>(size - size / 10 * 4);
+    } else {
+        in_ = HashList_t<T>(size / 3);
+        main_ = HashList_t<T>(size / 3);
+        out_ = HashList_t<T>(size - size / 3 * 2);
+    }
+    hit_ = 0;
+    numRequest_ = 0;
 }
 
 template <typename T>
