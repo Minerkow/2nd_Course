@@ -3,9 +3,9 @@
 #include <iostream>
 #include <vector>
 #include <random>
-#include "2Q.h"
+#include "2Q.hpp"
 
-enum {MAX_NUM_REQUETS = 1000, NUM_PAGES = 1000, DISTANCE_BETWEEN_PEAKS = 200};
+enum {MAX_NUM_REQUETS = 100, NUM_PAGES = 1500, DISTANCE_BETWEEN_PEAKS = 700};
 
 class RandomGenerator_t {
 public:

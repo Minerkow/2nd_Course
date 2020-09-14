@@ -14,7 +14,8 @@ void RandomGenerator_t::GenerateArray() {
         exit(ERROR);
     }
     std::normal_distribution<double> normDistr1(NUM_PAGES / 4, NUM_PAGES / 4),
-                                     normDistr2(NUM_PAGES / 4 + DISTANCE_BETWEEN_PEAKS, NUM_PAGES / 4);
+                                     normDistr2(NUM_PAGES / 4 + DISTANCE_BETWEEN_PEAKS,
+                                                NUM_PAGES / 4);
     for (auto& req : requests_) {
         switch (random() % 2) {
             case 0 :
@@ -34,8 +35,11 @@ void RandomGenerator_t::print() {
 void TestRandom(size_t numTests) {
     for (size_t i = 0; i < numTests; ++i) {
         Cache2Q_t<int> cache(CACHE_SIZE);
+        LRU_t<int> cacheLRU(CACHE_SIZE);
         RandomGenerator_t rnd;
         cache.load_from_array(rnd.requests());
+        cacheLRU.load_from_array(rnd.requests());
+        cacheLRU.print_statistic();
         cache.print_statistic();
     }
     std::cerr << "Test 2Q - OK" << std::endl;

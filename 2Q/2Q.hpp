@@ -1,5 +1,100 @@
+#pragma once
 
-#include "2Q.hpp"
+#include <iostream>
+#include <unordered_map>
+#include <list>
+#include <assert.h>
+#include "TestGenerator.h"
+
+enum {  CACHE_SIZE = 100, RECOMENDED_SIZE = 10,
+        ERROR = 1, PART_IN = 2, PART_MAIN = 2,
+        PARTS = 3 };
+
+template <typename T>
+struct object_t {
+    size_t id;
+    T data_;
+};
+
+template <typename T>
+object_t<T> load_by_id(size_t id);
+
+template <typename T>
+class HashList_t {
+public:
+    using listIterator = typename std::list<object_t<T>>::iterator;
+    explicit HashList_t(size_t size = 0) : list_(0), hashT_(0), capacity_(size){};
+    listIterator add(size_t id);
+    void move_in_other(HashList_t& other, listIterator elem);
+    listIterator find(size_t id);
+    size_t capacity() {return capacity_;};
+    size_t size() {return list_.size();}
+    listIterator end() {return list_.end();};
+    void print();
+    void clear();
+    ~HashList_t();
+private:
+    size_t capacity_;
+    std::unordered_map<size_t, listIterator> hashT_;
+    std::list<object_t<T>> list_;
+};
+
+template <typename T>
+class Cache2Q_t {
+public:
+    using listIterator = typename std::list<object_t<T>>::iterator;
+    explicit Cache2Q_t(size_t size);
+    listIterator check(size_t id);
+    void print_hit();
+    void print_data();
+    void clear();
+    void load_from_array(std::vector<size_t>& vec);
+    void print_statistic();
+private:
+    HashList_t<T> in_;
+    HashList_t<T> out_;
+    HashList_t<T> main_;
+    size_t hit_{};
+    size_t numRequest_{};
+};
+
+template<typename T>
+class LRU_t { ;
+    void check(size_t id);
+
+public:
+    explicit LRU_t(size_t size) : cache(size), hit_(0), numrequets_(0){}
+    void load_from_array(std::vector<size_t>& vec);
+    void print_statistic();
+private:
+    HashList_t<T> cache;
+    size_t hit_;
+    size_t numrequets_;
+};
+
+template<typename T>
+void LRU_t<T>::check(size_t id) {
+    numrequets_++;
+    if (cache.find(id) != cache.end()) {
+        hit_++;
+        cache.move_in_other(cache, cache.find(id));
+        return;
+    }
+    cache.add(id);
+}
+
+template<typename T>
+void LRU_t<T>::load_from_array(std::vector<size_t> &vec) {
+    for (auto& req : vec) {
+        check(req);
+    }
+}
+
+template<typename T>
+void LRU_t<T>::print_statistic() {
+    std::cerr << "LRU: [ Hits: " << hit_ << ", "
+              << double (hit_) / double (numrequets_) << " ]" << std::endl;
+}
 
 template<typename T>
 void HashList_t<T>::move_in_other(HashList_t &other, listIterator elem) {
@@ -65,6 +160,7 @@ typename Cache2Q_t<T>::listIterator Cache2Q_t<T>::check(size_t id) {
     numRequest_++;
     listIterator ptrOnObject = in_.find(id);
     if (ptrOnObject != in_.end()) {
+        hit_++;
         in_.move_in_other(out_, ptrOnObject);
         return ptrOnObject;
     }
@@ -89,7 +185,7 @@ typename Cache2Q_t<T>::listIterator Cache2Q_t<T>::check(size_t id) {
 
 template<typename T>
 void Cache2Q_t<T>::print_hit() {
-    std::cout << "Hits:" << hit_ << std::endl;
+    std::cout << hit_ << std::endl;
 }
 
 template<typename T>
@@ -129,14 +225,14 @@ Cache2Q_t<T>::Cache2Q_t(size_t size) {
         std::cerr << "SMALL SIZE ERROR" << std::endl;
         exit(ERROR);
     }
-   if(size >= 10) {
-        in_ = HashList_t<T>(size / 10 * 2);
-        main_ = HashList_t<T>(size / 10 * 2);
-        out_ = HashList_t<T>(size - size / 10 * 4);
+    if(size >= RECOMENDED_SIZE) {
+        in_ = HashList_t<T>(size / RECOMENDED_SIZE * PART_IN);
+        main_ = HashList_t<T>(size / RECOMENDED_SIZE * PART_MAIN);
+        out_ = HashList_t<T>(size - size / RECOMENDED_SIZE * (PART_MAIN + PART_IN));
     } else {
-        in_ = HashList_t<T>(size / 3);
-        main_ = HashList_t<T>(size / 3);
-        out_ = HashList_t<T>(size - size / 3 * 2);
+        in_ = HashList_t<T>(size / PARTS);
+        main_ = HashList_t<T>(size / PARTS);
+        out_ = HashList_t<T>(size - size / PARTS * 2);
     }
     hit_ = 0;
     numRequest_ = 0;
@@ -148,6 +244,7 @@ object_t<T> load_by_id(size_t id) {
     obj.id = id;
     return obj;
 }
+
 
 
 
