@@ -1,0 +1,22 @@
+CC = g++
+CFLAGS = -O0 -g -Wall -I include
+SOURCES = TestGenerator.cpp tests.cpp
+HEADERS = 2Q.h TestGenerator.h
+OBJECTS = $(SOURCES:.c=.o)
+
+TestGenerator.o: TestGenerator.cpp TestGenerator.h
+	$(CC) $(CFLAGS) TestGenerator.cpp -c -o TestGenerator.o
+
+main.o: tests.cpp
+	$(CC) $(CFLAGS) tests.cpp -c -o tests.o
+
+.PHONY: all
+all: TestGenerator.o tests.o
+	$(CC) $(CFLAGS) TestGenerator.o tests.o -o 2Q
+
+
+.PHONY: clean
+clean:
+	rm -r -f $(OBJECTS)
+	rm -f main
+	rm -r -f cache.o
