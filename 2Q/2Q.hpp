@@ -3,12 +3,11 @@
 #include <iostream>
 #include <unordered_map>
 #include <list>
-#include <assert.h>
+#include <cassert>
 #include "TestGenerator.h"
 
-enum {  CACHE_SIZE = 100, RECOMENDED_SIZE = 10,
-        ERROR = 1, PART_IN = 2, PART_MAIN = 2,
-        PARTS = 3 };
+enum {  CACHE_SIZE = 100, RECOMENDED_SIZE = 10, MIN_2QCACHE_SIZE = 3,
+        ERROR = 1, PART_IN = 2, PART_MAIN = 2, PARTS = 3 };
 
 template <typename T>
 struct object_t {
@@ -26,10 +25,11 @@ public:
     explicit HashList_t(size_t size = 0) : list_(0), hashT_(0), capacity_(size){};
     listIterator add(size_t id);
     void move_in_other(HashList_t& other, listIterator elem);
-    listIterator find(size_t id);
-    size_t capacity() {return capacity_;};
-    size_t size() {return list_.size();}
+    listIterator find (size_t id);
+    const size_t capacity() const {return capacity_;};
+    const size_t size() const {return list_.size();}
     listIterator end() {return list_.end();};
+
     void print();
     void clear();
     ~HashList_t();
@@ -59,22 +59,22 @@ private:
 };
 
 template<typename T>
-class LRU_t { ;
-    void check(size_t id);
-
+class LRU_t {
 public:
-    explicit LRU_t(size_t size) : cache(size), hit_(0), numrequets_(0){}
+    explicit LRU_t(size_t size) : cache(size), hit_(0), numrequests_(0){}
     void load_from_array(std::vector<size_t>& vec);
     void print_statistic();
+    void check(size_t id);
+    void print_hit() {std::cout<< hit_ << std::endl;};
 private:
     HashList_t<T> cache;
     size_t hit_;
-    size_t numrequets_;
+    size_t numrequests_;
 };
 
 template<typename T>
 void LRU_t<T>::check(size_t id) {
-    numrequets_++;
+    numrequests_++;
     if (cache.find(id) != cache.end()) {
         hit_++;
         cache.move_in_other(cache, cache.find(id));
@@ -93,7 +93,7 @@ void LRU_t<T>::load_from_array(std::vector<size_t> &vec) {
 template<typename T>
 void LRU_t<T>::print_statistic() {
     std::cerr << "LRU: [ Hits: " << hit_ << ", "
-              << double (hit_) / double (numrequets_) << " ]" << std::endl;
+              << double (hit_) / double (numrequests_) << " ]" << std::endl;
 }
 
 template<typename T>
@@ -110,7 +110,7 @@ void HashList_t<T>::move_in_other(HashList_t &other, listIterator elem) {
 }
 
 template<typename T>
-typename HashList_t<T>::listIterator HashList_t<T>::find(size_t id) {
+typename HashList_t<T>::listIterator HashList_t<T>::find (size_t id) {
     auto itOnObject = hashT_.find(id);
     if (itOnObject == hashT_.end()) {
         return list_.end();
@@ -121,10 +121,11 @@ typename HashList_t<T>::listIterator HashList_t<T>::find(size_t id) {
 
 template<typename T>
 typename HashList_t<T>::listIterator HashList_t<T>::add(size_t id) {
-    object_t<T> obj = load_by_id<T>(id);
 
+    object_t<T> obj = load_by_id<T>(id);
     list_.push_front(obj);
     hashT_.emplace(id, list_.begin());
+
     if (list_.size() > capacity_) {
         hashT_.erase(list_.back().id);
         list_.pop_back();
@@ -161,7 +162,7 @@ typename Cache2Q_t<T>::listIterator Cache2Q_t<T>::check(size_t id) {
     listIterator ptrOnObject = in_.find(id);
     if (ptrOnObject != in_.end()) {
         hit_++;
-        in_.move_in_other(out_, ptrOnObject);
+        in_.move_in_other(in_, ptrOnObject);
         return ptrOnObject;
     }
     ptrOnObject = out_.find(id);
@@ -221,7 +222,7 @@ void Cache2Q_t<T>::clear() {
 
 template<typename T>
 Cache2Q_t<T>::Cache2Q_t(size_t size) {
-    if (size < 3) {
+    if (size < 0) {
         std::cerr << "SMALL SIZE ERROR" << std::endl;
         exit(ERROR);
     }
