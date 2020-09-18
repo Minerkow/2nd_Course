@@ -24,12 +24,12 @@ public:
     using listIterator = typename std::list<object_t<T>>::iterator;
     explicit HashList_t(size_t size = 0) : list_(0), hashT_(0), capacity_(size){};
     listIterator add(size_t id);
+    void pop_back();
     void move_in_other(HashList_t& other, listIterator elem);
     listIterator find (size_t id);
     const size_t capacity() const {return capacity_;};
     const size_t size() const {return list_.size();}
     listIterator end() {return list_.end();};
-
     void print();
     void clear();
     ~HashList_t();
@@ -50,6 +50,7 @@ public:
     void clear();
     void load_from_array(std::vector<size_t>& vec);
     void print_statistic();
+    size_t size() const {return in_.size() + out_.size() + main_.size();};
 private:
     HashList_t<T> in_;
     HashList_t<T> out_;
@@ -96,15 +97,21 @@ void LRU_t<T>::print_statistic() {
               << double (hit_) / double (numrequests_) << " ]" << std::endl;
 }
 
+
+template<typename T>
+void HashList_t<T>::pop_back(){
+    hashT_.erase(list_.back().id);
+    list_.pop_back();
+}
+
+
+
 template<typename T>
 void HashList_t<T>::move_in_other(HashList_t &other, listIterator elem) {
     size_t id = elem->id;
     other.list_.splice(other.list_.begin(), list_, elem);
-    if (other.list_.size() > other.capacity_) {
-        other.hashT_.erase(other.list_.back().id);
-        other.list_.pop_back();
-    }
-
+    if (other.size() > other.capacity_)
+        other.pop_back();
     hashT_.erase(id);
     other.hashT_.emplace(id, other.list_.begin());
 }

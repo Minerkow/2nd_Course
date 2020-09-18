@@ -61,7 +61,6 @@ void BeladyCache_t::check(size_t id) {
     }
 
     if (size_ == capacity_) {
-        //std::cout << "[" << max_offset_object()->second->first << "]";
         erase_max_offset();
         add(id);
     }
@@ -71,7 +70,6 @@ void BeladyCache_t::check(size_t id) {
 void BeladyCache_t::add(size_t id) {
     cache_.emplace( id, load_by_id<int>(id));
     sortedOffsets_.emplace(history_[id].front(), cache_.find(id));
-    //std::cout << "{" << history_[id].front() << "}";
     history_[id].pop();
 }
 
@@ -103,10 +101,8 @@ void BeladyCache_t::update_offset() {
         size_t id = min_offset_object()->second->first;
         sortedOffsetIterator it = min_offset_object();
         if (history_[id].empty()) {
-            //cache_.erase(id);
             sortedOffsets_.erase(it);
             sortedOffsets_.emplace(MAX_ID, cache_.find(id));
-            //size_--;
             return;
         }
 
