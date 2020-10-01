@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/testTriangle.dir/Test/test_triangle.cpp.o CMakeFiles/testTriangle.dir/Triangle.cpp.o  -o testTriangle  /usr/lib/x86_64-linux-gnu/libgtest.a -lpthread 

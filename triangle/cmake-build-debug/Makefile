@@ -131,6 +131,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named testTriangle
+
+# Build rule for target.
+testTriangle: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 testTriangle
+.PHONY : testTriangle
+
+# fast build rule for target.
+testTriangle/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testTriangle.dir/build.make CMakeFiles/testTriangle.dir/build
+.PHONY : testTriangle/fast
+
+#=============================================================================
 # Target rules for targets named triangle
 
 # Build rule for target.
@@ -143,12 +156,40 @@ triangle/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/triangle.dir/build.make CMakeFiles/triangle.dir/build
 .PHONY : triangle/fast
 
+Test/test_triangle.o: Test/test_triangle.cpp.o
+
+.PHONY : Test/test_triangle.o
+
+# target to build an object file
+Test/test_triangle.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testTriangle.dir/build.make CMakeFiles/testTriangle.dir/Test/test_triangle.cpp.o
+.PHONY : Test/test_triangle.cpp.o
+
+Test/test_triangle.i: Test/test_triangle.cpp.i
+
+.PHONY : Test/test_triangle.i
+
+# target to preprocess a source file
+Test/test_triangle.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testTriangle.dir/build.make CMakeFiles/testTriangle.dir/Test/test_triangle.cpp.i
+.PHONY : Test/test_triangle.cpp.i
+
+Test/test_triangle.s: Test/test_triangle.cpp.s
+
+.PHONY : Test/test_triangle.s
+
+# target to generate assembly for a file
+Test/test_triangle.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testTriangle.dir/build.make CMakeFiles/testTriangle.dir/Test/test_triangle.cpp.s
+.PHONY : Test/test_triangle.cpp.s
+
 Triangle.o: Triangle.cpp.o
 
 .PHONY : Triangle.o
 
 # target to build an object file
 Triangle.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testTriangle.dir/build.make CMakeFiles/testTriangle.dir/Triangle.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/triangle.dir/build.make CMakeFiles/triangle.dir/Triangle.cpp.o
 .PHONY : Triangle.cpp.o
 
@@ -158,6 +199,7 @@ Triangle.i: Triangle.cpp.i
 
 # target to preprocess a source file
 Triangle.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testTriangle.dir/build.make CMakeFiles/testTriangle.dir/Triangle.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/triangle.dir/build.make CMakeFiles/triangle.dir/Triangle.cpp.i
 .PHONY : Triangle.cpp.i
 
@@ -167,6 +209,7 @@ Triangle.s: Triangle.cpp.s
 
 # target to generate assembly for a file
 Triangle.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testTriangle.dir/build.make CMakeFiles/testTriangle.dir/Triangle.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/triangle.dir/build.make CMakeFiles/triangle.dir/Triangle.cpp.s
 .PHONY : Triangle.cpp.s
 
@@ -205,7 +248,11 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... testTriangle"
 	@echo "... triangle"
+	@echo "... Test/test_triangle.o"
+	@echo "... Test/test_triangle.i"
+	@echo "... Test/test_triangle.s"
 	@echo "... Triangle.o"
 	@echo "... Triangle.i"
 	@echo "... Triangle.s"

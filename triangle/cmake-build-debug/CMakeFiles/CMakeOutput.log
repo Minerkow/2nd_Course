@@ -459,3 +459,31 @@ Parsed CXX implicit link information from above output:
   implicit fwks: []
 
 
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_018dd/fast && /usr/bin/make  -f CMakeFiles/cmTC_018dd.dir/build.make CMakeFiles/cmTC_018dd.dir/build
+make[1]: Entering directory '/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_018dd.dir/CheckIncludeFile.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_018dd.dir/CheckIncludeFile.c.o   -c /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_018dd
+/home/bibi/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/202.6948.80/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_018dd.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_018dd.dir/CheckIncludeFile.c.o  -o cmTC_018dd 
+make[1]: Leaving directory '/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
+Determining if the function pthread_create exists in the pthread passed with the following output:
+Change Dir: /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_d8b77/fast && /usr/bin/make  -f CMakeFiles/cmTC_d8b77.dir/build.make CMakeFiles/cmTC_d8b77.dir/build
+make[1]: Entering directory '/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_d8b77.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_d8b77.dir/CheckFunctionExists.c.o   -c /home/bibi/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/202.6948.80/bin/cmake/linux/share/cmake-3.17/Modules/CheckFunctionExists.c
+Linking C executable cmTC_d8b77
+/home/bibi/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/202.6948.80/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d8b77.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_d8b77.dir/CheckFunctionExists.c.o  -o cmTC_d8b77  -lpthread 
+make[1]: Leaving directory '/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+
