@@ -6,9 +6,25 @@
 
 #IncludeRegexTransform: 
 
-/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.cpp
+/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.cpp
+IntersectionTriangles.h
+/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.h
+
+/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.h
 Triangle.h
 /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.h
+
+/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_intersection.cpp
+../IntersectionTriangles.h
+/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.h
+gtest/gtest.h
+-
+
+/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_triangle.cpp
+../Triangle.h
+/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.h
+gtest/gtest.h
+-
 
 /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.h
 cmath

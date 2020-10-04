@@ -33,6 +33,8 @@ namespace gmtr {
         Point_t operator-(const Point_t& rhs) const;
         std::ostream& operator<<(std::ostream& os) const;
 
+        friend std::istream& operator>>(std::istream& is, Point_t point);
+
     private:
         double x_;
         double y_;
@@ -123,17 +125,26 @@ namespace gmtr {
         Point_t B() const {return b_;};
         Point_t C() const {return c_;};
 
+        double MinX();
+        double MinY();
+        double MinZ();
+
+        double MaxX();
+        double MaxY();
+        double MaxZ();
+
         Triangle_t() : a_(), b_(), c_() {}
         Triangle_t(Point_t a, Point_t b, Point_t c) : a_(a), b_(b), c_(c) {}
         bool Triangles_Intersection(Triangle_t& other);
         bool IsDegenerate();
 
         Plane_t Triangle_Plane();
+        friend std::istream& operator>>(std::istream& is, Triangle_t triangle);
 
     private:
-        Point_t a_;
         Point_t b_;
         Point_t c_;
+        Point_t a_;
     };
 
     class Interval_t {
@@ -151,6 +162,8 @@ namespace gmtr {
         Point_t a_;
         Point_t b_;
     };
+
+//--------------------------------------------------------------------------------------------------------------
 
     double Determinate_2x2 (double a, double b, double c, double d);
     bool operator==(Point_t const& lhs, Point_t const& rhs);

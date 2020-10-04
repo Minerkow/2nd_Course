@@ -66,6 +66,35 @@ namespace gmtr {
         }
     }
 
+    std::istream& operator>>(std::istream &is, Triangle_t triangle) {
+        is >> triangle.a_ >> triangle.b_ >> triangle.c_;
+        return is;
+    }
+
+    double Triangle_t::MinX() {
+        return std::min(a_.X(), std::min(b_.X(), c_.X()));
+    }
+
+    double Triangle_t::MinY() {
+        return std::min(a_.Y(), std::min(b_.Y(), c_.Y()));
+    }
+
+    double Triangle_t::MinZ() {
+        return std::min(a_.Z(), std::min(b_.Z(), c_.Z()));
+    }
+
+    double Triangle_t::MaxX() {
+        return std::max(a_.X(), std::max(b_.X(), c_.X()));
+    }
+
+    double Triangle_t::MaxY() {
+        return std::max(a_.Y(), std::max(b_.Y(), c_.Y()));
+    }
+
+    double Triangle_t::MaxZ() {
+        return std::max(a_.Z(), std::max(b_.Z(), c_.Z()));
+    }
+
 //-----------------------------------------------------------------------------
 
     double Determinate_2x2(double a, double b, double c, double d) {
@@ -292,6 +321,12 @@ namespace gmtr {
         return os;
     }
 
+    std::istream& operator>>(std::istream & is, Point_t point) {
+        is >> point.x_ >> point.y_ >> point.z_;
+        return is;
+    }
+
+
 
 //-------------------------------------------------------------------------------------------
 
@@ -372,3 +407,7 @@ namespace gmtr {
         return std::abs(rhs - lhs) < PRESISION;
     }
 }
+
+//--------------------------------------------------------------------------------------------------------
+
+
