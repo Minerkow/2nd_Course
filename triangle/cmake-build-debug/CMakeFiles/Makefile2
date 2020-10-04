@@ -96,12 +96,12 @@ clean: CMakeFiles/triangle.dir/clean
 CMakeFiles/testTriangle.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/testTriangle.dir/build.make CMakeFiles/testTriangle.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/testTriangle.dir/build.make CMakeFiles/testTriangle.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles --progress-num=1,2,3 "Built target testTriangle"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4,5 "Built target testTriangle"
 .PHONY : CMakeFiles/testTriangle.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/testTriangle.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/testTriangle.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/testTriangle.dir/rule
@@ -123,12 +123,12 @@ CMakeFiles/testTriangle.dir/clean:
 CMakeFiles/triangle.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/triangle.dir/build.make CMakeFiles/triangle.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/triangle.dir/build.make CMakeFiles/triangle.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles --progress-num=4,5,6 "Built target triangle"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles --progress-num=6,7,8,9 "Built target triangle"
 .PHONY : CMakeFiles/triangle.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/triangle.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/triangle.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/triangle.dir/rule

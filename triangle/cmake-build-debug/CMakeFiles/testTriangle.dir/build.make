@@ -90,9 +90,22 @@ CMakeFiles/testTriangle.dir/Test/test_triangle.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/testTriangle.dir/Test/test_triangle.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_triangle.cpp -o CMakeFiles/testTriangle.dir/Test/test_triangle.cpp.s
 
+CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.o: CMakeFiles/testTriangle.dir/flags.make
+CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.o: ../Test/test_intersection.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.o -c /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_intersection.cpp
+
+CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_intersection.cpp > CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.i
+
+CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_intersection.cpp -o CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.s
+
 CMakeFiles/testTriangle.dir/Triangle.cpp.o: CMakeFiles/testTriangle.dir/flags.make
 CMakeFiles/testTriangle.dir/Triangle.cpp.o: ../Triangle.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/testTriangle.dir/Triangle.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/testTriangle.dir/Triangle.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/testTriangle.dir/Triangle.cpp.o -c /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.cpp
 
 CMakeFiles/testTriangle.dir/Triangle.cpp.i: cmake_force
@@ -103,20 +116,37 @@ CMakeFiles/testTriangle.dir/Triangle.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/testTriangle.dir/Triangle.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.cpp -o CMakeFiles/testTriangle.dir/Triangle.cpp.s
 
+CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.o: CMakeFiles/testTriangle.dir/flags.make
+CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.o: ../IntersectionTriangles.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.o -c /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.cpp
+
+CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.cpp > CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.i
+
+CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.cpp -o CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.s
+
 # Object files for target testTriangle
 testTriangle_OBJECTS = \
 "CMakeFiles/testTriangle.dir/Test/test_triangle.cpp.o" \
-"CMakeFiles/testTriangle.dir/Triangle.cpp.o"
+"CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.o" \
+"CMakeFiles/testTriangle.dir/Triangle.cpp.o" \
+"CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.o"
 
 # External object files for target testTriangle
 testTriangle_EXTERNAL_OBJECTS =
 
 testTriangle: CMakeFiles/testTriangle.dir/Test/test_triangle.cpp.o
+testTriangle: CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.o
 testTriangle: CMakeFiles/testTriangle.dir/Triangle.cpp.o
+testTriangle: CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.o
 testTriangle: CMakeFiles/testTriangle.dir/build.make
 testTriangle: /usr/lib/x86_64-linux-gnu/libgtest.a
 testTriangle: CMakeFiles/testTriangle.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable testTriangle"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable testTriangle"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/testTriangle.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

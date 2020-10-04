@@ -156,6 +156,63 @@ triangle/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/triangle.dir/build.make CMakeFiles/triangle.dir/build
 .PHONY : triangle/fast
 
+IntersectionTriangles.o: IntersectionTriangles.cpp.o
+
+.PHONY : IntersectionTriangles.o
+
+# target to build an object file
+IntersectionTriangles.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testTriangle.dir/build.make CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/triangle.dir/build.make CMakeFiles/triangle.dir/IntersectionTriangles.cpp.o
+.PHONY : IntersectionTriangles.cpp.o
+
+IntersectionTriangles.i: IntersectionTriangles.cpp.i
+
+.PHONY : IntersectionTriangles.i
+
+# target to preprocess a source file
+IntersectionTriangles.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testTriangle.dir/build.make CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/triangle.dir/build.make CMakeFiles/triangle.dir/IntersectionTriangles.cpp.i
+.PHONY : IntersectionTriangles.cpp.i
+
+IntersectionTriangles.s: IntersectionTriangles.cpp.s
+
+.PHONY : IntersectionTriangles.s
+
+# target to generate assembly for a file
+IntersectionTriangles.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testTriangle.dir/build.make CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/triangle.dir/build.make CMakeFiles/triangle.dir/IntersectionTriangles.cpp.s
+.PHONY : IntersectionTriangles.cpp.s
+
+Test/test_intersection.o: Test/test_intersection.cpp.o
+
+.PHONY : Test/test_intersection.o
+
+# target to build an object file
+Test/test_intersection.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testTriangle.dir/build.make CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.o
+.PHONY : Test/test_intersection.cpp.o
+
+Test/test_intersection.i: Test/test_intersection.cpp.i
+
+.PHONY : Test/test_intersection.i
+
+# target to preprocess a source file
+Test/test_intersection.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testTriangle.dir/build.make CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.i
+.PHONY : Test/test_intersection.cpp.i
+
+Test/test_intersection.s: Test/test_intersection.cpp.s
+
+.PHONY : Test/test_intersection.s
+
+# target to generate assembly for a file
+Test/test_intersection.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testTriangle.dir/build.make CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.s
+.PHONY : Test/test_intersection.cpp.s
+
 Test/test_triangle.o: Test/test_triangle.cpp.o
 
 .PHONY : Test/test_triangle.o
@@ -250,6 +307,12 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... testTriangle"
 	@echo "... triangle"
+	@echo "... IntersectionTriangles.o"
+	@echo "... IntersectionTriangles.i"
+	@echo "... IntersectionTriangles.s"
+	@echo "... Test/test_intersection.o"
+	@echo "... Test/test_intersection.i"
+	@echo "... Test/test_intersection.s"
 	@echo "... Test/test_triangle.o"
 	@echo "... Test/test_triangle.i"
 	@echo "... Test/test_triangle.s"

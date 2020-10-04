@@ -126,6 +126,16 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.cpp">
+			<Option target="testTriangle"/>
+			<Option target="triangle"/>
+		</Unit>
+		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.h">
+			<Option target="triangle"/>
+		</Unit>
+		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_intersection.cpp">
+			<Option target="testTriangle"/>
+		</Unit>
 		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_triangle.cpp">
 			<Option target="testTriangle"/>
 		</Unit>

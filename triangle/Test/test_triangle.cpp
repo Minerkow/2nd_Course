@@ -96,8 +96,48 @@ TEST(Interval, Intersection_with_Interval) {
     gmtr::Interval_t i3{{1, 0, 0}, {0, 0 , 0}};
     gmtr::Interval_t i4{{1, 0, 0}, {2, 0, 0}};
 
-    ASSERT_TRUE(i1.Intersection_with_Interval(i2));
+    ASSERT_TRUE(i3.Intersection_with_Interval(i4));
+
+    gmtr::Interval_t i5{{0, 0, 0}, {2, 0, 0}};
+    gmtr::Interval_t i6{{1, 0, 0}, {3, 0, 0}};
+
+    ASSERT_TRUE(i5.Intersection_with_Interval(i6));
 }
 
+TEST(Line, Intersection_with_Triangle) {
+    gmtr::Point_t p1{ 0, 0, 0};
+    gmtr::Point_t p2{ 2, 4, 0};
+    gmtr::Point_t p3{ 4, 0 ,0};
+    gmtr::Line_t line{gmtr::Point_t{0, 2, 0}, gmtr::Point_t{4, 2, 0}};
+    gmtr::Triangle_t triag{p1, p2, p3};
 
+    gmtr::Interval_t res{{1, 2, 0}, {3, 2, 0}};
 
+    gmtr::Interval_t inter = line.Intersection_with_Triangle(triag);
+
+    ASSERT_EQ(res, inter);
+}
+
+TEST(Triangle, Triangles_Intersection) {
+    gmtr::Point_t p000{0, 0, 0};
+    gmtr::Point_t p240{2, 4, 0};
+    gmtr::Point_t p400{4, 0, 0};
+    gmtr::Point_t p210{2, 1, 0};
+    gmtr::Point_t p230{2, 3, 0};
+    gmtr::Point_t p420{4, 2, 0};
+    gmtr::Point_t p110{1, 1, 0};
+    gmtr::Point_t p112{1, 1, 2};
+    gmtr::Point_t p100{1, 0, 0};
+    gmtr::Point_t p010{0, 1, 0};
+
+    gmtr::Triangle_t tr1{p000, p240, p400};
+    gmtr::Triangle_t tr2{p210, p230, p420};
+
+    gmtr::Triangle_t tr3{p000, p110, p112};
+    gmtr::Triangle_t tr4{p100, p010, p112};
+
+    ASSERT_TRUE(tr1.Triangles_Intersection(tr2));
+
+    ASSERT_TRUE(tr3.Triangles_Intersection(tr4));
+
+}

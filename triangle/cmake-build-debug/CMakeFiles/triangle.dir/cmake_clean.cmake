@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/triangle.dir/IntersectionTriangles.cpp.o"
   "CMakeFiles/triangle.dir/Triangle.cpp.o"
   "CMakeFiles/triangle.dir/main.cpp.o"
   "triangle"

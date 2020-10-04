@@ -6,12 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_triangle.cpp
-../Triangle.h
-/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.h
-gtest/gtest.h
--
-
 /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.cpp
 Triangle.h
 /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.h
@@ -20,6 +14,8 @@ Triangle.h
 cmath
 -
 iostream
+-
+cassert
 -
 Triangle.h
 /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.h

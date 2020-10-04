@@ -4,6 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.cpp" "/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.o"
+  "/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_intersection.cpp" "/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.o"
   "/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_triangle.cpp" "/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles/testTriangle.dir/Test/test_triangle.cpp.o"
   "/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.cpp" "/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles/testTriangle.dir/Triangle.cpp.o"
   )

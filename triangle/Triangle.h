@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <cassert>
 #include "Triangle.h"
 
 namespace gmtr {
@@ -31,6 +32,7 @@ namespace gmtr {
 
         Point_t operator-(const Point_t& rhs) const;
         std::ostream& operator<<(std::ostream& os) const;
+
     private:
         double x_;
         double y_;
@@ -58,7 +60,6 @@ namespace gmtr {
 
         Vector_t operator-(Vector_t& other) const;
         std::ostream& operator<<(std::ostream& os) const;
-
     private:
         double x_;
         double y_;
@@ -78,8 +79,10 @@ namespace gmtr {
 
         Point_t Intersection_with_Line(Line_t other);
         Interval_t Intersection_with_Triangle(Triangle_t triangle);
+        Point_t Intersection_with_Interval(Interval_t interval);
 
         bool IsValid();
+
 
     private:
         Point_t point_;
@@ -100,8 +103,8 @@ namespace gmtr {
                                                           C_(C), D_(D) {}
 
         Line_t Planes_Intersection(Plane_t& other);
-        Vector_t n();
-        bool IsCollinear(Plane_t other) const;
+        const Vector_t n();
+        bool IsCollinear(Plane_t other);
 
         bool operator==(Plane_t& rhs) const;
 
@@ -121,7 +124,7 @@ namespace gmtr {
         Point_t C() const {return c_;};
 
         Triangle_t() : a_(), b_(), c_() {}
-
+        Triangle_t(Point_t a, Point_t b, Point_t c) : a_(a), b_(b), c_(c) {}
         bool Triangles_Intersection(Triangle_t& other);
         bool IsDegenerate();
 
@@ -135,16 +138,24 @@ namespace gmtr {
 
     class Interval_t {
     public:
+        Point_t A() const {return a_;}
+        Point_t B() const {return b_;}
+
+        Interval_t() : a_{}, b_{} {}
         Interval_t(Point_t a, Point_t b) : a_(a), b_(b) {}
         bool Intersection_with_Interval(Interval_t other);
         bool is_Interval_Point(Point_t point);
+
+        Line_t Line() {return {a_, b_};}
     private:
         Point_t a_;
         Point_t b_;
     };
 
     double Determinate_2x2 (double a, double b, double c, double d);
-
-    bool operator==( Vector_t  const& lhs, Vector_t const& rhs) ;
     bool operator==(Point_t const& lhs, Point_t const& rhs);
+    bool operator==(Vector_t const& lhs, Vector_t const& rhs);
+    bool operator==(Interval_t const& lhs, Interval_t const& rhs);
+    int DoubleSign(double number);
+    bool DoubleEqual(double rhs, double lhs);
 }
