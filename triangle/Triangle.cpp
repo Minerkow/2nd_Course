@@ -326,6 +326,10 @@ namespace gmtr {
         return is;
     }
 
+    Point_t Point_t::operator+(const Point_t& rhs) const {
+        return Point_t{x_ + rhs.x_, y_ + rhs.y_, z_ + rhs.z_};
+    }
+
 
 
 //-------------------------------------------------------------------------------------------

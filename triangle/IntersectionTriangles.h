@@ -2,6 +2,7 @@
 
 #include "Triangle.h"
 
+#include <utility>
 #include <vector>
 #include <limits>
 #include <array>
@@ -9,17 +10,24 @@
 
 namespace trs {
 
+    enum {LEVELS = 3};
+
+    using triangleIterator = std::vector<gmtr::Triangle_t>::iterator;
+
     class Cube_t;
     class Octree_t;
+    class Triangles_t;
+    class Node_t;
 
-        class Cube_t {
+    class Cube_t {
     public:
-        using triangleIterator = std::vector<gmtr::Triangle_t>::iterator;
-
-        Cube_t() : leftBottom_{}, lenEdge_(NAN) {}
-        Cube_t(gmtr::Point_t leftBottom, double lenEdge) : leftBottom_(leftBottom),
-                                                           lenEdge_(lenEdge) {}
-    private:
+        Cube_t() : leftBottom_{}, lenEdge_(NAN), data_(0) {}
+        Cube_t(gmtr::Point_t leftBottom, double lenEdge,
+               std::vector<triangleIterator> data) : leftBottom_(leftBottom),
+                                                     lenEdge_(lenEdge),
+                                                     data_(std::move(data)) {}
+        bool Check_Add(triangleIterator triangle);
+    public:
         gmtr::Point_t leftBottom_;
         double lenEdge_;
         std::vector<triangleIterator> data_;
@@ -27,36 +35,35 @@ namespace trs {
 
 //------------------------------------------------------------------------------------------------------
 
-    class Triangles_t {
+    struct Node_t {
+        Cube_t cube_;
+        std::array<Node_t*, 8> children_{};
+        unsigned level_;
+    };
+
+//---------------------------------------------------------------------------------------
+
+    class Octree_t {
     public:
-        using triangleIterator = std::vector<gmtr::Triangle_t>::iterator;
+        friend Triangles_t;
 
-        explicit Triangles_t(size_t numTriangles);
-        explicit Triangles_t(const std::vector<gmtr::Triangle_t>& data);
-
-        friend Cube_t;
-        friend Octree_t;
+        void Split_Cube(Node_t* top);
+        friend Node_t;
     private:
-        std::vector<gmtr::Triangle_t> data_;
-
-        std::multimap<double, triangleIterator> sortedByX_;
-        std::multimap<double, triangleIterator> sortedByY_;
-        std::multimap<double, triangleIterator> sortedByZ_;
-
-        Cube_t mainCube_;
+        Node_t top_;
     };
 
 //------------------------------------------------------------------------------------------------------
 
-    class Octree_t {
+    class Triangles_t {
     public:
-        using triangleIterator = std::vector<gmtr::Triangle_t>::iterator;
+        explicit Triangles_t(size_t numTriangles);
 
-        struct Node_t {
-            Cube_t cube_;
-            std::array<triangleIterator, 8> children_;
-        };
     private:
-        Node_t top_;
+        std::vector<gmtr::Triangle_t> data_;
+        Octree_t octree_;
     };
+
+//------------------------------------------------------------------------------------------------------
+
 }

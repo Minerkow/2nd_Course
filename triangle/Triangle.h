@@ -31,6 +31,7 @@ namespace gmtr {
         Vector_t Into_Vector() const;
 
         Point_t operator-(const Point_t& rhs) const;
+        Point_t operator+(const Point_t& rhs) const;
         std::ostream& operator<<(std::ostream& os) const;
 
         friend std::istream& operator>>(std::istream& is, Point_t point);
