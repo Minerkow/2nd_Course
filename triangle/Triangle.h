@@ -2,10 +2,16 @@
 
 #include <cmath>
 #include <iostream>
+#include "Triangle.h"
 
 namespace gmtr {
+    class Plane_t;
+    class Triangle_t;
+    class Vector_t;
+    class Interval_t;
 
-    const double PRESISION = 0.00001;
+
+        const double PRESISION = 0.00001;
 
     class Point_t {
     public:
@@ -18,11 +24,20 @@ namespace gmtr {
 
         bool IsValid() const;
 
+        double Distance_to_Point(Point_t other) const;
+        double Distince_to_Plane(Plane_t plane) const;
+
+        Vector_t Into_Vector() const;
+
+        Point_t operator-(const Point_t& rhs) const;
+        std::ostream& operator<<(std::ostream& os) const;
     private:
         double x_;
         double y_;
         double z_;
     };
+
+//---------------------------------------------------------------------------------------------------------
 
     class Vector_t {
     public:
@@ -33,17 +48,24 @@ namespace gmtr {
         Vector_t() : x_(NAN), y_(NAN), z_(NAN) {}
         Vector_t(double x, double y, double z) : x_(x), y_(y),
                                                  z_(z) {}
+        Vector_t(Point_t p1, Point_t p2);
 
         Vector_t Vector_Mult(const Vector_t& other) const;
         double Scalar_Mult(const Vector_t& other) const;
+        double Length() const;
 
         bool IsValid() const;
+
+        Vector_t operator-(Vector_t& other) const;
+        std::ostream& operator<<(std::ostream& os) const;
 
     private:
         double x_;
         double y_;
         double z_;
     };
+
+//---------------------------------------------------------------------------------------------------------
 
     class Line_t {
     public:
@@ -52,6 +74,10 @@ namespace gmtr {
 
         Line_t() : point_(), vector_() {}
         Line_t(Point_t point, Vector_t vector) : point_(point), vector_(vector) {}
+        Line_t(Point_t p1, Point_t p2) : point_(p1), vector_(p1, p2) {}
+
+        Point_t Intersection_with_Line(Line_t other);
+        Interval_t Intersection_with_Triangle(Triangle_t triangle);
 
         bool IsValid();
 
@@ -60,8 +86,14 @@ namespace gmtr {
         Vector_t vector_;
     };
 
+//---------------------------------------------------------------------------------------------------------
+
     class Plane_t {
     public:
+        double A() const {return A_;}
+        double B() const {return B_;}
+        double C() const {return C_;}
+        double D() const {return D_;}
 
         Plane_t() : A_(NAN), B_(NAN), C_(NAN), D_(NAN) {}
         Plane_t(double A, double B, double C, double D) : A_(A), B_(B),
@@ -69,6 +101,9 @@ namespace gmtr {
 
         Line_t Planes_Intersection(Plane_t& other);
         Vector_t n();
+        bool IsCollinear(Plane_t other) const;
+
+        bool operator==(Plane_t& rhs) const;
 
     private:
         double A_;
@@ -76,6 +111,8 @@ namespace gmtr {
         double C_;
         double D_;
     };
+
+//---------------------------------------------------------------------------------------------------------
 
     class Triangle_t {
     public:
@@ -86,12 +123,24 @@ namespace gmtr {
         Triangle_t() : a_(), b_(), c_() {}
 
         bool Triangles_Intersection(Triangle_t& other);
+        bool IsDegenerate();
+
         Plane_t Triangle_Plane();
 
     private:
         Point_t a_;
         Point_t b_;
         Point_t c_;
+    };
+
+    class Interval_t {
+    public:
+        Interval_t(Point_t a, Point_t b) : a_(a), b_(b) {}
+        bool Intersection_with_Interval(Interval_t other);
+        bool is_Interval_Point(Point_t point);
+    private:
+        Point_t a_;
+        Point_t b_;
     };
 
     double Determinate_2x2 (double a, double b, double c, double d);

@@ -24,5 +24,6 @@ add_executable(
 )
 
 target_link_libraries(
-        testTriangle ${GTEST_LIBRARIES} Threads::Threads)
+        testTriangle ${GTEST_LIBRARIES} Threads::Threads
+)
 
