@@ -316,8 +316,8 @@ namespace gmtr {
 
 //-------------------------------------------------------------------------------------------
 
-    std::ostream &Point_t::operator<<(std::ostream &os) const {
-        os << "[" << x_ << " " << y_ << " " << z_ << "]\n";
+    std::ostream &operator<<(std::ostream &os, Point_t point) {
+        os << "[" << point.X() << " " << point.Y() << " " << point.Z() << "]";
         return os;
     }
 
@@ -415,6 +415,24 @@ namespace gmtr {
     }
 
 
+    Point_t Sphere_t::Random_Point() {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_real_distribution<> dis{-radius_, radius_};
+
+        double dist = radius_ + 1;
+        double x, y;
+        while (dist > radius_) {
+            x = dis(gen);
+            y = dis(gen);
+            dist = sqrt(x*x + y*y);
+        }
+        double z = std::sqrt(radius_ * radius_ - x*x - y*y);
+        if (dis(gen) < 0) {
+            z = -z;
+        }
+        return centre_ + Point_t{x, y, z};
+    }
 }
 
 //--------------------------------------------------------------------------------------------------------

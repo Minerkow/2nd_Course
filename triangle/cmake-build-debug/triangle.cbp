@@ -133,6 +133,12 @@
 		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.h">
 			<Option target="triangle"/>
 		</Unit>
+		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_generator.cpp">
+			<Option target="testTriangle"/>
+		</Unit>
+		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_generator.h">
+			<Option target="testTriangle"/>
+		</Unit>
 		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_intersection.cpp">
 			<Option target="testTriangle"/>
 		</Unit>

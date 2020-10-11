@@ -5,8 +5,13 @@ CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.o
  /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.cpp
  /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.h
  /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.h
+CMakeFiles/testTriangle.dir/Test/test_generator.cpp.o
+ /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_generator.cpp
+ /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_generator.h
+ /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.h
 CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.o
  /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.h
+ /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_generator.h
  /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_intersection.cpp
  /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.h
 CMakeFiles/testTriangle.dir/Test/test_triangle.cpp.o

@@ -186,6 +186,33 @@ IntersectionTriangles.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/triangle.dir/build.make CMakeFiles/triangle.dir/IntersectionTriangles.cpp.s
 .PHONY : IntersectionTriangles.cpp.s
 
+Test/test_generator.o: Test/test_generator.cpp.o
+
+.PHONY : Test/test_generator.o
+
+# target to build an object file
+Test/test_generator.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testTriangle.dir/build.make CMakeFiles/testTriangle.dir/Test/test_generator.cpp.o
+.PHONY : Test/test_generator.cpp.o
+
+Test/test_generator.i: Test/test_generator.cpp.i
+
+.PHONY : Test/test_generator.i
+
+# target to preprocess a source file
+Test/test_generator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testTriangle.dir/build.make CMakeFiles/testTriangle.dir/Test/test_generator.cpp.i
+.PHONY : Test/test_generator.cpp.i
+
+Test/test_generator.s: Test/test_generator.cpp.s
+
+.PHONY : Test/test_generator.s
+
+# target to generate assembly for a file
+Test/test_generator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/testTriangle.dir/build.make CMakeFiles/testTriangle.dir/Test/test_generator.cpp.s
+.PHONY : Test/test_generator.cpp.s
+
 Test/test_intersection.o: Test/test_intersection.cpp.o
 
 .PHONY : Test/test_intersection.o
@@ -310,6 +337,9 @@ help:
 	@echo "... IntersectionTriangles.o"
 	@echo "... IntersectionTriangles.i"
 	@echo "... IntersectionTriangles.s"
+	@echo "... Test/test_generator.o"
+	@echo "... Test/test_generator.i"
+	@echo "... Test/test_generator.s"
 	@echo "... Test/test_intersection.o"
 	@echo "... Test/test_intersection.i"
 	@echo "... Test/test_intersection.s"

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cassert>
 #include <array>
+#include <random>
 #include "Triangle.h"
 
 namespace gmtr {
@@ -34,7 +35,6 @@ namespace gmtr {
         Point_t operator-(const Point_t& rhs) const;
         Point_t operator+(const Point_t& rhs) const;
         Point_t operator+(const Vector_t& rhs) const;
-        std::ostream& operator<<(std::ostream& os) const;
 
         friend std::istream& operator>>(std::istream& is, Point_t point);
 
@@ -174,6 +174,19 @@ namespace gmtr {
 
 //--------------------------------------------------------------------------------------------------------------
 
+    class Sphere_t {
+    public:
+        Sphere_t() : radius_{NAN}, centre_{} {}
+        Sphere_t(double radius, Point_t centre)
+                                :radius_{radius}, centre_{centre} {}
+        Point_t Random_Point();
+    private:
+        double radius_;
+        Point_t centre_;
+    };
+
+//--------------------------------------------------------------------------------------------------------------
+
 
     double Determinate_2x2 (double a, double b, double c, double d);
     bool operator==(Point_t const& lhs, Point_t const& rhs);
@@ -181,4 +194,5 @@ namespace gmtr {
     bool operator==(Interval_t const& lhs, Interval_t const& rhs);
     int DoubleSign(double number);
     bool DoubleEqual(double rhs, double lhs);
+    std::ostream &operator<<(std::ostream &os, Point_t point);
 }

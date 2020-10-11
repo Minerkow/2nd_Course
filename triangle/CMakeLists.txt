@@ -25,6 +25,8 @@ add_executable(
         Test/test_intersection.cpp
         Triangle.cpp
         IntersectionTriangles.cpp
+        Test/test_generator.cpp
+        Test/test_generator.h
 )
 
 target_link_libraries(

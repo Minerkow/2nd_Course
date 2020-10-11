@@ -5,7 +5,12 @@ CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.o: ../IntersectionTriangle
 CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.o: ../IntersectionTriangles.h
 CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.o: ../Triangle.h
 
+CMakeFiles/testTriangle.dir/Test/test_generator.cpp.o: ../Test/test_generator.cpp
+CMakeFiles/testTriangle.dir/Test/test_generator.cpp.o: ../Test/test_generator.h
+CMakeFiles/testTriangle.dir/Test/test_generator.cpp.o: ../Triangle.h
+
 CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.o: ../IntersectionTriangles.h
+CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.o: ../Test/test_generator.h
 CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.o: ../Test/test_intersection.cpp
 CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.o: ../Triangle.h
 
