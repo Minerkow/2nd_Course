@@ -7,48 +7,59 @@
 #include <limits>
 #include <array>
 #include <map>
+#include <list>
 
 namespace trs {
 
-    enum {LEVELS = 3};
+    enum {LEVELS = 3, MIN_TRIANGLES_IN_CUBE = 3};
 
     using triangleIterator = std::vector<gmtr::Triangle_t>::iterator;
 
     class Cube_t;
     class Octree_t;
     class Triangles_t;
-    class Node_t;
+    struct Node_t;
+    class Square_t;
 
-    class Cube_t {
+
+        class Cube_t {
     public:
-        Cube_t() : leftBottom_{}, lenEdge_(NAN), data_(0) {}
-        Cube_t(gmtr::Point_t leftBottom, double lenEdge,
-               std::vector<triangleIterator> data) : leftBottom_(leftBottom),
-                                                     lenEdge_(lenEdge),
-                                                     data_(std::move(data)) {}
-        bool Check_Add(triangleIterator triangle);
-    public:
+        Cube_t() : leftBottom_{}, lenEdge_(NAN) {}
+        Cube_t(gmtr::Point_t leftBottom, double lenEdge) : leftBottom_(leftBottom),
+                                                           lenEdge_(lenEdge) {}
+        gmtr::Point_t Left_Bottom() const {return leftBottom_;}
+        double Len_Edge() const {return lenEdge_;}
+        bool Is_Cube_Triangle(gmtr::Triangle_t trig);
+    private:
         gmtr::Point_t leftBottom_;
         double lenEdge_;
-        std::vector<triangleIterator> data_;
     };
 
 //------------------------------------------------------------------------------------------------------
 
     struct Node_t {
+    public:
+        Node_t(Cube_t cube, std::vector<triangleIterator> data,
+               unsigned level) : cube_(cube), data_(std::move(data)),
+               level_(level), unassigned_(){}
+        Node_t() : cube_{}, data_{}, level_{} {}
+        Node_t(Cube_t cube, unsigned level) : cube_(cube), data_{0},
+                                              level_(level), unassigned_(0){}
+
         Cube_t cube_;
+        std::vector<triangleIterator> data_;
         std::array<Node_t*, 8> children_{};
         unsigned level_;
+        std::vector<triangleIterator> unassigned_
     };
 
 //---------------------------------------------------------------------------------------
 
     class Octree_t {
     public:
-        friend Triangles_t;
-
+        Octree_t() : top_{} {}
+        Octree_t(Node_t top) : top_(top) {}
         void Split_Cube(Node_t* top);
-        friend Node_t;
     private:
         Node_t top_;
     };
@@ -57,13 +68,13 @@ namespace trs {
 
     class Triangles_t {
     public:
-        explicit Triangles_t(size_t numTriangles);
-
+        Triangles_t(size_t numTriangles);
     private:
         std::vector<gmtr::Triangle_t> data_;
         Octree_t octree_;
     };
 
 //------------------------------------------------------------------------------------------------------
+
 
 }

@@ -3,6 +3,7 @@
 #include <cmath>
 #include <iostream>
 #include <cassert>
+#include <array>
 #include "Triangle.h"
 
 namespace gmtr {
@@ -32,9 +33,11 @@ namespace gmtr {
 
         Point_t operator-(const Point_t& rhs) const;
         Point_t operator+(const Point_t& rhs) const;
+        Point_t operator+(const Vector_t& rhs) const;
         std::ostream& operator<<(std::ostream& os) const;
 
         friend std::istream& operator>>(std::istream& is, Point_t point);
+
 
     private:
         double x_;
@@ -165,6 +168,7 @@ namespace gmtr {
     };
 
 //--------------------------------------------------------------------------------------------------------------
+
 
     double Determinate_2x2 (double a, double b, double c, double d);
     bool operator==(Point_t const& lhs, Point_t const& rhs);

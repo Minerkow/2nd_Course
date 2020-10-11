@@ -28,41 +28,81 @@ namespace trs {
 
         double lenEdge = std::max(maxX - minX,
                                   std::max(maxY - minY, maxZ - minZ));
-        Cube_t mainCube = Cube_t{{minX, minY, minZ}, lenEdge, triangles};
-        octree_.top_.cube_ = std::move(mainCube);
-        octree_.top_.level_ = 0;
+        Cube_t mainCube = Cube_t{{minX, minY, minZ}, lenEdge};
+        Node_t topNode{mainCube, triangles, 0};
+
+        octree_ = Octree_t{topNode};
     }
 
 
     void Octree_t::Split_Cube(Node_t* top) {
-        if (top->level_ == 3)
+        if (top->data_.size() <=  MIN_TRIANGLES_IN_CUBE) {
             return;
+        }
 
-        double childLenEdge =  top->cube_.lenEdge_ / 2;
+        double childLenEdge = top->cube_.Len_Edge() / 2;
+        unsigned childLevel = top->level_ + 1;
+
+        gmtr::Point_t leftBottom = top->cube_.Left_Bottom();
+        std::vector<gmtr::Point_t> leftBottoms{8};
+        leftBottoms.push_back(leftBottom);
+        leftBottoms.emplace_back(leftBottom.X() + childLenEdge, leftBottom.Y(),
+                                    leftBottom.Z());
+        leftBottoms.emplace_back(leftBottom.X(), leftBottom.Y() + childLenEdge,
+                                  leftBottom.Z());
+        leftBottoms.emplace_back(leftBottom.X() + childLenEdge,
+                                  leftBottom.Y() + childLenEdge, leftBottom.Z());
+        leftBottoms.emplace_back(leftBottom.X(), leftBottom.Y(),
+                                  leftBottom.Z() + childLenEdge);
+        leftBottoms.emplace_back(leftBottom.X() + childLenEdge, leftBottom.Y(),
+                                  leftBottom.Z() + childLenEdge);
+        leftBottoms.emplace_back(leftBottom.X(), leftBottom.Y() + childLenEdge,
+                                  leftBottom.Z() + childLenEdge);
+        leftBottoms.emplace_back(leftBottom.X() + childLenEdge,
+                                   leftBottom.Y() + childLenEdge,
+                                   leftBottom.Z() + childLenEdge);
+
 
         for (int i = 0; i < 8; ++i) {
-            top->children_[i] = new Node_t;
-            top->children_[i]->level_ = top->level_ + 1;
-            top->children_[i]->cube_.lenEdge_ = childLenEdge;
+            top->children_[i] = new Node_t{{leftBottoms[i], childLenEdge},
+                                           childLevel};
         }
 
-        top->children_[0]->cube_.leftBottom_ = top->cube_.leftBottom_;
-        top->children_[1]->cube_.leftBottom_ = top->cube_.leftBottom_ + gmtr::Point_t{childLenEdge, 0, 0};
-        top->children_[2]->cube_.leftBottom_ = top->cube_.leftBottom_ + gmtr::Point_t{0, childLenEdge, 0};
-        top->children_[3]->cube_.leftBottom_ = top->cube_.leftBottom_ + gmtr::Point_t{childLenEdge, childLenEdge, 0};
-        top->children_[4]->cube_.leftBottom_ = top->cube_.leftBottom_ + gmtr::Point_t{0, 0, childLenEdge};
-        top->children_[5]->cube_.leftBottom_ = top->cube_.leftBottom_ + gmtr::Point_t{childLenEdge, 0, childLenEdge};
-        top->children_[6]->cube_.leftBottom_ = top->cube_.leftBottom_ + gmtr::Point_t{0, childLenEdge, childLenEdge};
-        top->children_[7]->cube_.leftBottom_ = top->cube_.leftBottom_ + gmtr::Point_t{childLenEdge, childLenEdge, childLenEdge};
+        auto children = top->children_;
 
-        for (auto& it : top->cube_.data_) {
+        for (auto& it : top->data_) {
+            bool check = false;
             for (int i = 0; i < 8; ++i) {
-                //TODO::add to cubes correctly
+                if (children[i]->cube_.Is_Cube_Triangle(*it)) {
+                    children[i]->data_.push_back(it);
+                    check = true;
+                    break;
+                }
+            }
+            if (check) {
+                break;
+            } else {
+                top->unassigned_.push_back(it);
             }
         }
+        if (childLevel == LEVELS) {
+            return;
+        }
+        for (int i = 0; i < 8; ++i) {
+            Split_Cube(children[i]);
+        }
     }
 
-    bool Cube_t::Check_Add(triangleIterator triangle) {
-        //TODO:: add triangle in cube
+    bool Cube_t::Is_Cube_Triangle(gmtr::Triangle_t trig) {
+        if (trig.MinX() >= leftBottom_.X() && trig.MaxX() <= leftBottom_.X() + lenEdge_ &&
+            trig.MinZ() >= leftBottom_.Z() && trig.MaxZ() <= leftBottom_.Z() + lenEdge_ &&
+            trig.MinY() >= leftBottom_.Y() && trig.MaxY() <= leftBottom_.Y() + lenEdge_)
+        {
+            return true;
+        } else {
+            return false;
+        }
     }
+
+
 }

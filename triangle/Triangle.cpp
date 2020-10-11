@@ -330,6 +330,9 @@ namespace gmtr {
         return Point_t{x_ + rhs.x_, y_ + rhs.y_, z_ + rhs.z_};
     }
 
+    Point_t Point_t::operator+(const Vector_t &rhs) const {
+        return Point_t{x_ + rhs.X(), y_ + rhs.Y(), z_ + rhs.Y()};
+    }
 
 
 //-------------------------------------------------------------------------------------------
@@ -410,6 +413,8 @@ namespace gmtr {
     bool DoubleEqual(double rhs, double lhs) {
         return std::abs(rhs - lhs) < PRESISION;
     }
+
+
 }
 
 //--------------------------------------------------------------------------------------------------------
