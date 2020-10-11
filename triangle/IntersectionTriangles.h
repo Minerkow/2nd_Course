@@ -8,7 +8,7 @@
 #include <array>
 #include <map>
 #include <list>
-
+#include <unordered_set>
 namespace trs {
 
     enum {LEVELS = 3, MIN_TRIANGLES_IN_CUBE = 3};
@@ -39,18 +39,19 @@ namespace trs {
 
     struct Node_t {
     public:
-        Node_t(Cube_t cube, std::vector<triangleIterator> data,
-               unsigned level) : cube_(cube), data_(std::move(data)),
-               level_(level), unassigned_(){}
-        Node_t() : cube_{}, data_{}, level_{} {}
+        Node_t(Cube_t cube, std::vector<triangleIterator> data, unsigned level)
+                : cube_(cube), data_(std::move(data)),
+                  level_(level), unassigned_(), children_{} {}
+        Node_t() : cube_{}, data_{}, level_{}, children_() {}
         Node_t(Cube_t cube, unsigned level) : cube_(cube), data_{0},
-                                              level_(level), unassigned_(0){}
+                                              level_(level), unassigned_(0),
+                                              children_{} {}
 
         Cube_t cube_;
         std::vector<triangleIterator> data_;
-        std::array<Node_t*, 8> children_{};
+        std::array<Node_t*, 8> children_;
         unsigned level_;
-        std::vector<triangleIterator> unassigned_
+        std::vector<triangleIterator> unassigned_;
     };
 
 //---------------------------------------------------------------------------------------
@@ -60,6 +61,10 @@ namespace trs {
         Octree_t() : top_{} {}
         Octree_t(Node_t top) : top_(top) {}
         void Split_Cube(Node_t* top);
+        void Split_Cube() {Split_Cube(&top_);}
+        void Post_Order(Node_t* top, std::unordered_set<size_t>& res);
+        void Post_Order(std::unordered_set<size_t>& res) {Post_Order(&top_, res);}
+
     private:
         Node_t top_;
     };
@@ -69,6 +74,9 @@ namespace trs {
     class Triangles_t {
     public:
         Triangles_t(size_t numTriangles);
+
+        void Output_Intersecting_Triangles();
+        size_t Triangle_Number(triangleIterator triangle) {return triangle - data_.begin();}
     private:
         std::vector<gmtr::Triangle_t> data_;
         Octree_t octree_;
@@ -76,5 +84,6 @@ namespace trs {
 
 //------------------------------------------------------------------------------------------------------
 
-
+    void Triangles_IntersectionN2(std::vector<triangleIterator>& data,
+                                  std::unordered_set<size_t>& res);
 }

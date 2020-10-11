@@ -125,9 +125,10 @@ namespace gmtr {
 
     class Triangle_t {
     public:
-        Point_t A() const {return a_;};
-        Point_t B() const {return b_;};
-        Point_t C() const {return c_;};
+        Point_t A() const {return a_;}
+        Point_t B() const {return b_;}
+        Point_t C() const {return c_;}
+        size_t Id() const {return id_;}
 
         double MinX();
         double MinY();
@@ -138,7 +139,8 @@ namespace gmtr {
         double MaxZ();
 
         Triangle_t() : a_(), b_(), c_() {}
-        Triangle_t(Point_t a, Point_t b, Point_t c) : a_(a), b_(b), c_(c) {}
+        Triangle_t(Point_t a, Point_t b, Point_t c) : a_(a), b_(b), c_(c), id_(0) {}
+        Triangle_t(Point_t a, Point_t b, Point_t c, size_t id) : a_(a), b_(b), c_(c), id_(id) {}
         bool Triangles_Intersection(Triangle_t& other);
         bool IsDegenerate();
 
@@ -149,7 +151,10 @@ namespace gmtr {
         Point_t b_;
         Point_t c_;
         Point_t a_;
+        size_t id_;
     };
+
+//----------------------------------------------------------------------------------
 
     class Interval_t {
     public:
