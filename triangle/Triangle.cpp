@@ -1,5 +1,6 @@
 #include "Triangle.h"
 
+
 namespace gmtr {
     bool Triangle_t::Triangles_Intersection(Triangle_t &other) {
         Plane_t plane1 = other.Triangle_Plane();
@@ -333,6 +334,7 @@ namespace gmtr {
     Point_t Point_t::operator+(const Vector_t &rhs) const {
         return Point_t{x_ + rhs.X(), y_ + rhs.Y(), z_ + rhs.Y()};
     }
+
 
 
 //-------------------------------------------------------------------------------------------

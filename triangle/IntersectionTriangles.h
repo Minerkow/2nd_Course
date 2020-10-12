@@ -22,14 +22,14 @@ namespace trs {
     class Square_t;
 
 
-        class Cube_t {
+    class Cube_t {
     public:
         Cube_t() : leftBottom_{}, lenEdge_(NAN) {}
         Cube_t(gmtr::Point_t leftBottom, double lenEdge) : leftBottom_(leftBottom),
                                                            lenEdge_(lenEdge) {}
         gmtr::Point_t Left_Bottom() const {return leftBottom_;}
         double Len_Edge() const {return lenEdge_;}
-        bool Is_Cube_Triangle(gmtr::Triangle_t trig);
+        bool Is_Cube_Triangle(gmtr::Triangle_t& trig);
     private:
         gmtr::Point_t leftBottom_;
         double lenEdge_;
@@ -65,6 +65,7 @@ namespace trs {
         void Post_Order(Node_t* top, std::unordered_set<size_t>& res);
         void Post_Order(std::unordered_set<size_t>& res) {Post_Order(&top_, res);}
 
+        void Print();
     private:
         Node_t top_;
     };
@@ -74,8 +75,10 @@ namespace trs {
     class Triangles_t {
     public:
         Triangles_t(size_t numTriangles);
+        Triangles_t(std::vector<gmtr::Triangle_t>& data);
 
         void Output_Intersecting_Triangles();
+        std::unordered_set<size_t> Intersecting_Triangles();
         size_t Triangle_Number(triangleIterator triangle) {return triangle - data_.begin();}
     private:
         std::vector<gmtr::Triangle_t> data_;

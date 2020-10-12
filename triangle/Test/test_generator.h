@@ -13,16 +13,16 @@ namespace trgtest {
     const double MAXY = 10.0;
     const double MAXZ = 10.0;
 
-    const double MAX_RADIUS = 5.0;
+    const double MAX_RADIUS = 1.0;
 
-    const unsigned NUM_TRIANGLES = 100;
+    const unsigned NUM_TRIANGLES = 10;
 
     class TrianglesGenerator_t {
     public:
         TrianglesGenerator_t();
 
         friend std::ostream& operator<<(std::ostream& os, TrianglesGenerator_t& trg);
-    private:
+    //private:
         std::vector <gmtr::Triangle_t> triangles_;
     };
 

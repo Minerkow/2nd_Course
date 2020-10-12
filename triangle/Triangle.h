@@ -23,8 +23,8 @@ namespace gmtr {
         double Z() const {return z_;};
 
         Point_t() : x_(NAN), y_(NAN), z_(NAN) {}
-        Point_t(double x, double y, double z) : x_(x), y_(y), z_(z) {};
-
+        Point_t(double x, double y, double z) : x_(x), y_(y), z_(z) {}
+        Point_t(Point_t const &point) = default;
         bool IsValid() const;
 
         double Distance_to_Point(Point_t other) const;
