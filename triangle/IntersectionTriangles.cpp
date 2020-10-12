@@ -130,9 +130,7 @@ namespace trs {
                     break;
                 }
             }
-            if (check) {
-                break;
-            } else {
+            if (!check) {
                 top->unassigned_.push_back(it);
             }
         }
@@ -174,9 +172,9 @@ namespace trs {
 
 
     bool Cube_t::Is_Cube_Triangle(gmtr::Triangle_t& trig) {
-        if (trig.MinX() > leftBottom_.X() && trig.MaxX() < leftBottom_.X() + lenEdge_ &&
-            trig.MinZ() > leftBottom_.Z() && trig.MaxZ() < leftBottom_.Z() + lenEdge_ &&
-            trig.MinY() > leftBottom_.Y() && trig.MaxY() < leftBottom_.Y() + lenEdge_)
+        if (trig.MinX() >= leftBottom_.X() && trig.MaxX() <= leftBottom_.X() + lenEdge_ &&
+            trig.MinZ() >= leftBottom_.Z() && trig.MaxZ() <= leftBottom_.Z() + lenEdge_ &&
+            trig.MinY() >= leftBottom_.Y() && trig.MaxY() <= leftBottom_.Y() + lenEdge_)
         {
             return true;
         } else {

@@ -15,7 +15,7 @@ namespace trgtest {
 
     const double MAX_RADIUS = 1.0;
 
-    const unsigned NUM_TRIANGLES = 10;
+    const unsigned NUM_TRIANGLES = 100;
 
     class TrianglesGenerator_t {
     public:
