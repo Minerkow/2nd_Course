@@ -38,7 +38,6 @@ namespace gmtr {
 
         friend std::istream& operator>>(std::istream& is, Point_t point);
 
-
     private:
         double x_;
         double y_;

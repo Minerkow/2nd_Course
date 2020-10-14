@@ -170,6 +170,20 @@ namespace trs {
         }
     }
 
+    Octree_t::~Octree_t() {
+        Delete_Node(&top_);
+    }
+
+    void Octree_t::Delete_Node(Node_t *top) {
+        if (top == nullptr || top->level_ == 0) {
+            return;
+        }
+        for (auto& it : top->children_) {
+            Delete_Node(it);
+        }
+        delete top;
+    }
+
 
     bool Cube_t::Is_Cube_Triangle(gmtr::Triangle_t& trig) {
         if (trig.MinX() >= leftBottom_.X() && trig.MaxX() <= leftBottom_.X() + lenEdge_ &&

@@ -4,10 +4,16 @@
 namespace gmtr {
     bool Triangle_t::Triangles_Intersection(Triangle_t &other) {
         Plane_t plane1 = other.Triangle_Plane();
-        if ((DoubleSign(a_.Distince_to_Plane(plane1)) != DoubleSign(b_.Distince_to_Plane(plane1))) &&
-            (DoubleSign(a_.Distince_to_Plane(plane1)) != DoubleSign(c_.Distince_to_Plane(plane1)))) {
+
+        double DistA = a_.Distince_to_Plane(plane1);
+        double DistB = b_.Distince_to_Plane(plane1);
+        double DistC = c_.Distince_to_Plane(plane1);
+
+        if (DoubleSign(DistA) == DoubleSign(DistB) &&
+            DoubleSign(DistA) == DoubleSign(DistC) && DoubleSign(DistA) != 0) {
             return false;
         }
+
         Plane_t plane0 = Triangle_Plane();
         if (plane0.IsCollinear(plane1)) {
             if (std::abs(plane0.D() - plane1.D()) <= PRESISION) {
@@ -22,10 +28,16 @@ namespace gmtr {
                 return false;
             }
         }
-        if ((DoubleSign(other.a_.Distince_to_Plane(plane0)) != DoubleSign(other.b_.Distince_to_Plane(plane0))) &&
-            (DoubleSign(other.a_.Distince_to_Plane(plane0)) != DoubleSign(other.c_.Distince_to_Plane(plane0)))) {
+
+        DistA = other.a_.Distince_to_Plane(plane0);
+        DistB = other.b_.Distince_to_Plane(plane0);
+        DistC = other.c_.Distince_to_Plane(plane0);
+
+        if (DoubleSign(DistA) == DoubleSign(DistB) &&
+            DoubleSign(DistA) == DoubleSign(DistC) && DoubleSign(DistA) != 0) {
             return false;
         }
+
         Line_t interLine = plane1.Planes_Intersection(plane0);
         if (interLine.IsValid()) {
             Interval_t interval1 = interLine.Intersection_with_Triangle(*this);
@@ -45,7 +57,7 @@ namespace gmtr {
 
         double A = Determinate_2x2(b_.Y() - a_.Y(), c_.Y() - a_.Y(),
                                    b_.Z() - a_.Z(), c_.Z() - a_.Z());
-        double B = Determinate_2x2(b_.X() - a_.X(), c_.X() - a_.X(),
+        double B = -Determinate_2x2(b_.X() - a_.X(), c_.X() - a_.X(),
                                    b_.Z() - a_.Z(), c_.Z() - a_.Z());
         double C = Determinate_2x2(b_.X() - a_.X(), c_.X() - a_.X(),
                                    b_.Y() - a_.Y(), c_.Y() - a_.Y());
@@ -223,7 +235,7 @@ namespace gmtr {
         if (g1.Vector_Mult(g2) == Vector_t{0, 0, 0}) {
             return Point_t{0, 0, NAN};
         }
-        double t1;
+        double t1 = 0; //TODO:: Тут блять че-то не так сука!!!
         if (g1.Vector_Mult(g2).X() != 0 && (p2 - p1).Vector_Mult(g2).X() != 0) {
             t1 = (p2 - p1).Vector_Mult(g2).X() /
                  g1.Vector_Mult(g2).X();
@@ -404,7 +416,10 @@ namespace gmtr {
 //---------------------------------------------------------------------------------------------
 
     int DoubleSign(double number) {
-        if (number >= 0) {
+        if (DoubleEqual(0, number)) {
+            return 0;
+        }
+        if (number > 0) {
             return 1;
         }
         if (number < 0) {

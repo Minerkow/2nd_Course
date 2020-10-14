@@ -6,10 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.cpp
-IntersectionTriangles.h
-/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.h
-
 /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.h
 Triangle.h
 /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.h
@@ -26,6 +22,30 @@ map
 list
 -
 unordered_set
+-
+
+/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_generator.h
+../Triangle.h
+/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.h
+vector
+-
+random
+-
+
+/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_intersection.cpp
+gtest/gtest.h
+-
+../Triangle.h
+/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.h
+../IntersectionTriangles.h
+/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.h
+test_generator.h
+/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_generator.h
+
+/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_triangle.cpp
+../Triangle.h
+/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.h
+gtest/gtest.h
 -
 
 /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.h

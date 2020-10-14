@@ -64,8 +64,8 @@ namespace trs {
         void Split_Cube() {Split_Cube(&top_);}
         void Post_Order(Node_t* top, std::unordered_set<size_t>& res);
         void Post_Order(std::unordered_set<size_t>& res) {Post_Order(&top_, res);}
-
-        void Print();
+        void Delete_Node(Node_t* top);
+        ~Octree_t();
     private:
         Node_t top_;
     };

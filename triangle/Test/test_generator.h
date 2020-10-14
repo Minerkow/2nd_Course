@@ -13,7 +13,7 @@ namespace trgtest {
     const double MAXY = 10.0;
     const double MAXZ = 10.0;
 
-    const double MAX_RADIUS = 1.0;
+    const double MAX_RADIUS = 2.0;
 
     const unsigned NUM_TRIANGLES = 100;
 
