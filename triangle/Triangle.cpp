@@ -235,7 +235,7 @@ namespace gmtr {
         if (g1.Vector_Mult(g2) == Vector_t{0, 0, 0}) {
             return Point_t{0, 0, NAN};
         }
-        double t1 = 0; //TODO:: Тут блять че-то не так сука!!!
+        double t1 = 0;
         if (g1.Vector_Mult(g2).X() != 0 && (p2 - p1).Vector_Mult(g2).X() != 0) {
             t1 = (p2 - p1).Vector_Mult(g2).X() /
                  g1.Vector_Mult(g2).X();
