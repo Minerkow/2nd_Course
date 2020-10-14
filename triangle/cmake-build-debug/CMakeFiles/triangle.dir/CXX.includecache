@@ -6,6 +6,28 @@
 
 #IncludeRegexTransform: 
 
+/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.cpp
+IntersectionTriangles.h
+/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.h
+
+/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.h
+Triangle.h
+/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.h
+utility
+-
+vector
+-
+limits
+-
+array
+-
+map
+-
+list
+-
+unordered_set
+-
+
 /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.cpp
 Triangle.h
 /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.h
@@ -13,4 +35,18 @@ Triangle.h
 /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.h
 cmath
 -
+iostream
+-
+cassert
+-
+array
+-
+random
+-
+Triangle.h
+/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.h
+
+/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/main.cpp
+IntersectionTriangles.h
+/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.h
 

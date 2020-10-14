@@ -42,12 +42,6 @@ gtest/gtest.h
 test_generator.h
 /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_generator.h
 
-/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_triangle.cpp
-../Triangle.h
-/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.h
-gtest/gtest.h
--
-
 /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.h
 cmath
 -

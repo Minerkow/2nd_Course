@@ -1,6 +1,9 @@
-#include <iostream>
+#include "IntersectionTriangles.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    size_t numTriangles = 0;
+    std:: cin >> numTriangles;
+    trs::Triangles_t trgs{numTriangles};
+    trgs.Output_Intersecting_Triangles();
     return 0;
 }
