@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <iostream>
+#include <future>
 
 namespace mtrx {
 
@@ -24,7 +25,7 @@ namespace mtrx {
 
         double Determinant();
 
-        Matrix_t<T> Mult(Matrix_t<T>& other);
+        Matrix_t<T> Matrix_Mult(Matrix_t<T>& other);
 
         Matrix_t<T>& operator=(const Matrix_t<T>& rhs) = default;
 
@@ -88,8 +89,26 @@ namespace mtrx {
     }
 
     template<typename T>
-    Matrix_t<T> Matrix_t<T>::Mult(Matrix_t<T> &other) {
-        //TODO
+    Matrix_t<T> Matrix_t<T>::Matrix_Mult(Matrix_t<T> &other) {
+        if (other.numRows_ != numColumns_) {
+            std::cerr << "Matrix_Mult ERROR!\n";
+            exit(EXIT_FAILURE);
+        }
+        Matrix_t<T> res{numRows_, other.numColumns_};
+        std::vector<std::future<void>> futures;
+        for (size_t m = 0; m < numRows_; ++m) {
+            futures.push_back(std::async([this, other, &res, m] {
+                for (size_t k = 0; k < other.numColumns_; ++k) {
+                    for (size_t n = 0; n < other.numRows_; ++n) {
+                        res[m][k] = res[m][k] + rows_[m][n] * other[n][k];
+                    }
+                }
+            }));
+        }
+        for (auto& it : futures) {
+            it.get();
+        }
+        return res;
     }
 
     template<typename T>

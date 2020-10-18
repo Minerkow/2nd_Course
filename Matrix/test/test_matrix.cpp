@@ -41,6 +41,21 @@ TEST(Matrix, Transposition) {
                              {3, 7, 11},
                              {4, 8, 12}}};
     mtrx::Matrix_t<int> m = matrix.Transposition();
-    std::cout << m;
     ASSERT_EQ(matrix.Transposition(), res);
+}
+
+TEST(Matrix, Matrix_Mult) {
+    mtrx::Matrix_t<int> matrix1{{{1, 2, 3, 4},
+                                 {5, 6, 7, 8},
+                                 {9, 10, 11, 12}}};
+    mtrx::Matrix_t<int> matrix2{{{1, 2, 3},
+                                 {4, 5, 6},
+                                 {7, 8, 9},
+                                 {10, 11, 12}}};
+    mtrx::Matrix_t<int> trueRes {{{70, 80, 90},
+                              {158, 184, 210},
+                              {246, 288, 330}}};
+    mtrx::Matrix_t<int> res = matrix1.Matrix_Mult(matrix2);
+
+    ASSERT_EQ(res, trueRes);
 }
