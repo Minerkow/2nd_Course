@@ -1,0 +1,4 @@
+/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/Matrix/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/Matrix/cmake-build-debug/CMakeFiles/test_matrix.dir
+/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/Matrix/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/Matrix/cmake-build-debug/CMakeFiles/Matrix.dir
