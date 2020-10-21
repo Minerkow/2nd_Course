@@ -13,6 +13,8 @@ iostream
 -
 future
 -
+exception
+-
 
 /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/Matrix/test/test_matrix.cpp
 ../Matrix.hpp

@@ -3,17 +3,29 @@
 #include <vector>
 #include <iostream>
 #include <future>
+#include <exception>
 
 namespace mtrx {
 
     const double PRESISION = 0.00001;
+
+    enum {NUM_ELEM_SMALL_MATRIX = 10000};
+
+    template <typename T>
+    struct ProxyRow_t {
+        T* row_;
+        size_t len_;
+        const T& operator[](const size_t index) const;
+        T& operator[](const size_t index);
+    };
 
     template<typename T>
     class Matrix_t {
     public:
         using rows_t = std::vector<T>;
 
-        Matrix_t() : numRows_(0), numColumns_(0) {}
+        Matrix_t() : data_(nullptr), rows_(nullptr),
+                     numRows_(0), numColumns_(0) {}
         Matrix_t(size_t numRows, size_t numColumns);
         Matrix_t(const Matrix_t<T>& matrix);
         explicit Matrix_t(const std::vector<rows_t>& rows);
@@ -28,14 +40,18 @@ namespace mtrx {
         Matrix_t<T> Matrix_Mult(Matrix_t<T>& other);
 
         Matrix_t<T>& operator=(const Matrix_t<T>& rhs) = default;
+        Matrix_t<T>& operator+=(const Matrix_t<T>& rhs);
 
-        T* operator[](const size_t index);
-        T* operator[](const size_t index) const;
+        template<typename coefficientT>
+        Matrix_t<T>& operator*=(coefficientT coeff);
+
+        ProxyRow_t<T>& operator[](const size_t index);
+        const ProxyRow_t<T>& operator[](const size_t index) const;
 
         ~Matrix_t();
     private:
         T* data_;
-        std::vector<T*> rows_;
+        ProxyRow_t<T>* rows_;
         size_t numRows_;
         size_t numColumns_;
     };
@@ -62,11 +78,12 @@ namespace mtrx {
     Matrix_t<T>::Matrix_t(size_t numRows, size_t numColumns) : numColumns_(numColumns),
                                                                numRows_(numRows)
     {
-        data_ = new T[numRows * numColumns];
+        data_ = new T[numRows * numColumns]{};
         T* beginRow = data_;
-        rows_.reserve(numRows);
+        rows_ = new ProxyRow_t<T>[numRows];
         for (int i = 0; i < numRows; ++i) {
-            rows_.push_back(beginRow);
+            rows_[i].row_ = beginRow;
+            rows_[i].len_ = numColumns;
             beginRow += numColumns;
         }
     }
@@ -94,13 +111,38 @@ namespace mtrx {
             std::cerr << "Matrix_Mult ERROR!\n";
             exit(EXIT_FAILURE);
         }
+
+        /* [m*n] * [n*k] = [m*k] */
+
         Matrix_t<T> res{numRows_, other.numColumns_};
+        if (other.numColumns_*other.numRows_ <= NUM_ELEM_SMALL_MATRIX) {
+            Matrix_t<T> othT = other.Transposition();
+            std::vector<std::future<void>> futures;
+            for (size_t m = 0; m < numRows_; ++m) {
+                const ProxyRow_t<T>& row = rows_[m];
+                futures.push_back(std::async([&othT, m, &row, &res] {
+                    for (size_t k = 0; k < othT.numRows_; ++k) {
+                        for (size_t n = 0; n < othT.numColumns_; ++n) {
+                            res[m][k] += row[n] * othT[k][n];
+                        }
+                    }
+                }));
+            }
+            for (auto& it : futures) {
+                it.get();
+            }
+            return res;
+        }
+
+
         std::vector<std::future<void>> futures;
         for (size_t m = 0; m < numRows_; ++m) {
-            futures.push_back(std::async([this, other, &res, m] {
+            const ProxyRow_t<T>& row = rows_[m];
+            futures.push_back(std::async([&row, &other, &res, m] {
                 for (size_t k = 0; k < other.numColumns_; ++k) {
                     for (size_t n = 0; n < other.numRows_; ++n) {
-                        res[m][k] = res[m][k] + rows_[m][n] * other[n][k];
+                        res[m][k] += row[n] * other[n][k];
+                        double tmp = res[m][k];
                     }
                 }
             }));
@@ -135,14 +177,12 @@ namespace mtrx {
 
     template<typename T>
     Matrix_t<T>::~Matrix_t() {
-        for (size_t i = 0; i < numRows_; ++i) {
-            rows_[i] = nullptr;
-        }
+        delete [] rows_;
         delete [] data_;
     }
 
     template<typename T>
-    T *Matrix_t<T>::operator[](const size_t index) {
+    ProxyRow_t<T>& Matrix_t<T>::operator[](const size_t index) {
         if (index >= numRows_) {
             std::cerr << "Sigm error Matrix!\n";
             exit(EXIT_FAILURE);
@@ -151,12 +191,38 @@ namespace mtrx {
     }
 
     template<typename T>
-    T *Matrix_t<T>::operator[](const size_t index) const {
+    const ProxyRow_t<T>& Matrix_t<T>::operator[](const size_t index) const {
         if (index >= numRows_) {
             std::cerr << "Sigm error Matrix!\n";
             exit(EXIT_FAILURE);
         }
         return rows_[index];
+    }
+
+    template<typename T>
+    Matrix_t<T> &Matrix_t<T>::operator+=(const Matrix_t<T> &rhs) {
+        if (rhs.numColumns_ != numColumns_ ||
+            rhs.numRows_ != numRows_) {
+            std::cerr << "Error matrix SUM!\n";
+            exit(EXIT_FAILURE);
+        }
+        for (size_t row = 0; row < numRows_; ++row) {
+            for (size_t column = 0; column < numColumns_; ++column) {
+                rows_[row][column] += rhs[row][column];
+            }
+        }
+        return *this;
+    }
+
+    template<typename T>
+    template<typename coefficientT>
+    Matrix_t<T> &Matrix_t<T>::operator*=(coefficientT coeff) {
+        for (size_t row = 0; row < numRows_; ++row) {
+            for (size_t column = 0; column < numColumns_; ++column) {
+                rows_[row][column] *= coeff;
+            }
+        }
+        return *this;
     }
 
 
@@ -228,4 +294,21 @@ namespace mtrx {
         }
     }
 
+    template<typename T>
+    const T &ProxyRow_t<T>::operator[](const size_t index) const {
+        if (index > len_) {
+            std::cerr << "Sigabrt error\n";
+            exit(EXIT_FAILURE);
+        }
+        return row_[index];
+    }
+
+    template<typename T>
+    T &ProxyRow_t<T>::operator[](const size_t index) {
+        if (index > len_) {
+            std::cerr << "Sigabrt error\n";
+            exit(EXIT_FAILURE);
+        }
+        return row_[index];
+    }
 }

@@ -29,6 +29,7 @@ TEST(Matrix, operator_plus) {
     mtrx::Matrix_t<double> res {{ {3.3, 3.3, 3.3},
                                   {3.3, 3.3, 3.3},
                                   {3.3, 3.3, 3.3}}};
+    ASSERT_EQ(res, matrix1 + matrix2);
 
 }
 
@@ -52,10 +53,37 @@ TEST(Matrix, Matrix_Mult) {
                                  {4, 5, 6},
                                  {7, 8, 9},
                                  {10, 11, 12}}};
+    //std::cout << matrix1 << matrix2;
     mtrx::Matrix_t<int> trueRes {{{70, 80, 90},
                               {158, 184, 210},
                               {246, 288, 330}}};
     mtrx::Matrix_t<int> res = matrix1.Matrix_Mult(matrix2);
-
+    //std::cout << res;
     ASSERT_EQ(res, trueRes);
+}
+
+TEST(Matrix, Operators) {
+    mtrx::Matrix_t<double>  matrix1 {{ {1.1, 1.1, 1.1},
+                                       {1.1, 1.1, 1.1},
+                                       {1.1, 1.1, 1.1} }};
+    mtrx::Matrix_t<double> matrix2 {{ {2.2, 2.2, 2.2},
+                                      {2.2, 2.2, 2.2},
+                                      {2.2, 2.2, 2.2} }};
+    mtrx::Matrix_t<double> matrix3 {{ {3.3, 3.3, 3.3},
+                                      {3.3, 3.3, 3.3},
+                                      {3.3, 3.3, 3.3}}};
+    matrix1 += matrix1;
+
+    ASSERT_EQ(matrix1, matrix2);
+
+    matrix2 *= 1.5;
+
+    ASSERT_EQ(matrix2, matrix3);
+}
+
+TEST(Matrix, Operator_SqBrace) {
+    mtrx::Matrix_t<double>  matrix {{ {1.1, 1.1, 1.1},
+                                       {1.1, 1.1, 1.1},
+                                       {1.1, 1.1, 1.1} }};
+    ASSERT_NEAR(1.1, matrix[1][1], mtrx::PRESISION);
 }
