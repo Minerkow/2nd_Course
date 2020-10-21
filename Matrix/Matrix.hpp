@@ -4,6 +4,7 @@
 #include <iostream>
 #include <future>
 #include <exception>
+#include <cmath>
 
 namespace mtrx {
 
@@ -102,7 +103,58 @@ namespace mtrx {
 
     template<typename T>
     double Matrix_t<T>::Determinant() {
-        //TODO
+        if (numColumns_ != numRows_) {
+            return 0;
+        }
+
+        Matrix_t<T>& matrix = *this;
+        if (matrix[0][0] == 0) {
+            return 0.0;
+        }
+    
+        size_t n = matrix.numRows_;
+        Matrix_t<double> LU_Matrix{n, n};
+        for (size_t j = 0; j < n; ++j) {
+            LU_Matrix[0][j] = static_cast<double>(matrix[0][j]);
+            if (j == 0) {
+                LU_Matrix[j][0] *= static_cast<double>(matrix[j][0]) / LU_Matrix[0][0];
+            } else {
+                LU_Matrix[j][0] = static_cast<double>(matrix[j][0]) / LU_Matrix[0][0];
+            }
+        }
+
+
+        for (size_t i = 1; i < n; ++i) {
+            for (size_t j = i; j < n; ++j) {
+                double sum = 0.0;
+                for (size_t k = 0; k <= i - 1; ++k) {
+                    sum += LU_Matrix[i][k] * LU_Matrix[k][j];
+                }
+
+
+                LU_Matrix[i][j] = static_cast<double>(matrix[i][j]) - sum;
+
+                sum = 0.0;
+                for (size_t k = 0; k <= i - 1; ++k) {
+                    sum += LU_Matrix[j][k] * LU_Matrix[k][i];
+                }
+
+                if (j == i) {
+                    LU_Matrix[j][i] *= 1 / LU_Matrix[i][i] * (static_cast<double>(matrix[j][i]) - sum);
+                } else {
+                    LU_Matrix[j][i] = 1 / LU_Matrix[i][i] * (static_cast<double>(matrix[j][i]) - sum);
+                }
+            }
+        }
+
+        double det = 1.0;
+        for (size_t i = 0; i < n; ++i){
+            det *= LU_Matrix[i][i];
+        }
+        if (std::isnan(det)) {
+            return 0;
+        }
+        return det;
     }
 
     template<typename T>

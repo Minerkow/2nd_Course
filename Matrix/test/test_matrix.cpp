@@ -87,3 +87,34 @@ TEST(Matrix, Operator_SqBrace) {
                                        {1.1, 1.1, 1.1} }};
     ASSERT_NEAR(1.1, matrix[1][1], mtrx::PRESISION);
 }
+
+TEST(Matrix, Determinant) {
+    mtrx::Matrix_t<int> matrix{{{1, 2, 3, 4, 5},
+                                {6, 7, 8, 9, 10},
+                                {11, 12, 13, 14, 15},
+                                {16, 17, 18, 19, 20},
+                                {21, 22, 23, 24, 25}}};
+
+    ASSERT_NEAR(matrix.Determinant(), 0, mtrx::PRESISION);
+
+    mtrx::Matrix_t<int> matrix1{{{1, 2},
+                                 {3, 4}}};
+
+    ASSERT_NEAR(matrix1.Determinant(), -2, mtrx::PRESISION);
+
+    mtrx::Matrix_t<int> matrix2{{{1, 2, 3},
+                                 {4, -2, 6},
+                                 {7, 8, 9}}};
+
+    ASSERT_NEAR(matrix2.Determinant(), 84, mtrx::PRESISION);
+
+    mtrx::Matrix_t<double> matrix3{{{1, 1.1, 1.1, 1.1, 1.1, 1.1, 1.1},
+                                    {1.1, 2, 1.1, 1.1, 1.1, 1.1, 1.1},
+                                    {1.1, 1.1, 3, 1.1, 1.1, 1.1, 1.1},
+                                    {1.1, 1.1, 1.1, 4, 1.1, 1.1, 1.1},
+                                    {1.1, 1.1, 1.1, 1.1, 5, 1.1, 1.1},
+                                    {1.1, 1.1, 1.1, 1.1, 1.1, 6, 1.1},
+                                    {1.1, 1.1, 1.1, 1.1, 1.1, 1.1, 7}}};
+
+    ASSERT_NEAR(matrix3.Determinant(), 398.46064, mtrx::PRESISION);
+}
