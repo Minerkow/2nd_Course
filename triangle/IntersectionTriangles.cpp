@@ -89,6 +89,9 @@ namespace trs {
 
     void Octree_t::Split_Cube(Node_t* top) {
         if (top->data_.size() <=  MIN_TRIANGLES_IN_CUBE) {
+            for (auto& it : top->data_) {
+                top->unassigned_.push_back(it);
+            }
             return;
         }
 
@@ -168,6 +171,7 @@ namespace trs {
                 }
             }
         }
+
     }
 
     Octree_t::~Octree_t() {
@@ -215,5 +219,28 @@ namespace trs {
                 }
             }
         }
+    }
+
+    bool Unordered_Set_Equal(std::unordered_set<size_t>& us1, std::unordered_set<size_t>& us2) {
+        if (us1.size() != us2.size()) {
+            return false;
+        }
+        std::set<size_t> s1, s2;
+        for (auto& it : us1) {
+            s1.emplace(it);
+        }
+        for (auto& it : us2) {
+            s2.emplace(it);
+        }
+        auto it1 = s1.begin();
+        auto it2 = s2.begin();
+        while (it1 != s1.end() || it2 != s2.end()) {
+            if (*it1 != *it2) {
+                return false;
+            }
+            it1 = std::next(it1);
+            it2 = std::next(it2);
+        }
+        return true;
     }
 }

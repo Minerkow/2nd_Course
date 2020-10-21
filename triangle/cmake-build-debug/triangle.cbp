@@ -8,38 +8,38 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug"/>
+				<Option working_dir="/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug"/>
+				<Option working_dir="/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug"/>
+				<Option working_dir="/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="testTriangle">
-				<Option output="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/testTriangle" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug"/>
+				<Option output="/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/testTriangle" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -53,15 +53,15 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 testTriangle"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 testTriangle"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="testTriangle/fast">
-				<Option output="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/testTriangle" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug"/>
+				<Option output="/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/testTriangle" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -75,15 +75,15 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 testTriangle/fast"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 testTriangle/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="triangle">
-				<Option output="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/triangle" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug"/>
+				<Option output="/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/triangle" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -97,15 +97,15 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 triangle"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 triangle"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="triangle/fast">
-				<Option output="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/triangle" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug"/>
+				<Option output="/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/triangle" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -119,43 +119,43 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 triangle/fast"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 triangle/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.cpp">
+		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/IntersectionTriangles.cpp">
 			<Option target="testTriangle"/>
 			<Option target="triangle"/>
 		</Unit>
-		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.h">
+		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/IntersectionTriangles.h">
 			<Option target="triangle"/>
 		</Unit>
-		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_generator.cpp">
+		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/Test/test_generator.cpp">
 			<Option target="testTriangle"/>
 		</Unit>
-		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_generator.h">
+		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/Test/test_generator.h">
 			<Option target="testTriangle"/>
 		</Unit>
-		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_intersection.cpp">
+		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/Test/test_intersection.cpp">
 			<Option target="testTriangle"/>
 		</Unit>
-		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_triangle.cpp">
+		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/Test/test_triangle.cpp">
 			<Option target="testTriangle"/>
 		</Unit>
-		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.cpp">
+		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/Triangle.cpp">
 			<Option target="testTriangle"/>
 			<Option target="triangle"/>
 		</Unit>
-		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.h">
+		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/Triangle.h">
 			<Option target="triangle"/>
 		</Unit>
-		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/main.cpp">
+		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/main.cpp">
 			<Option target="triangle"/>
 		</Unit>
-		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/CMakeLists.txt">
+		<Unit filename="/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

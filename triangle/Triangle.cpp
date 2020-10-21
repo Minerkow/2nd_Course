@@ -63,7 +63,10 @@ namespace gmtr {
                                    b_.Y() - a_.Y(), c_.Y() - a_.Y());
 
         double D = -(A * a_.X() + B * a_.Y() + C * a_.Z());
-        return Plane_t{A, B, C, D};
+
+        double maxCoeff = std::max(std::max(std::abs(A), std::abs(B)), std::max(std::abs(C), std::abs(D)));
+
+        return Plane_t{A / maxCoeff, B / maxCoeff, C / maxCoeff, D / maxCoeff};
     }
 
 //------------------------------------------------------------------------------
@@ -119,16 +122,16 @@ namespace gmtr {
 //-----------------------------------------------------------------------------
 
     Line_t Plane_t::Planes_Intersection(Plane_t &other) {
-        double D1 = D_;
-        double D2 = other.D_;
+        double S1 = -D_;
+        double S2 = -other.D_;
         double denominator = n().Scalar_Mult(other.n()) * n().Scalar_Mult(other.n()) -
                              n().Scalar_Mult(n()) * other.n().Scalar_Mult(other.n());
         if (denominator == 0) {
             return Line_t{};
         }
-        double a = (D2 * n().Scalar_Mult(other.n()) - D1 * other.n().Scalar_Mult(other.n())) /
+        double a = (S2 * n().Scalar_Mult(other.n()) - S1 * other.n().Scalar_Mult(other.n())) /
                    denominator;
-        double b = (D1 * n().Scalar_Mult(other.n()) - D2 * other.n().Scalar_Mult(other.n())) /
+        double b = (S1 * n().Scalar_Mult(other.n()) - S2 * n().Scalar_Mult(n())) /
                    denominator;
 
         double r_x = a * n().X() + b * other.n().X();

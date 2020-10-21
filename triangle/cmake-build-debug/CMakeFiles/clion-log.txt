@@ -1,4 +1,4 @@
-/home/bibi/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/202.6948.80/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/bibi/Desktop/Programm/Semestr_2_C++/triangle
+/home/bibi/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/202.6948.80/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle
 -- Configuring done
 -- Generating done
--- Build files have been written to: /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug
+-- Build files have been written to: /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug

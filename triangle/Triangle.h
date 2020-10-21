@@ -65,6 +65,8 @@ namespace gmtr {
 
         Vector_t operator-(Vector_t& other) const;
         std::ostream& operator<<(std::ostream& os) const;
+
+        operator Point_t() const {return Point_t{x_, y_, z_};}
     private:
         double x_;
         double y_;

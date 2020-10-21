@@ -29,18 +29,14 @@ TEST(Vector, Scalar_Mult) {
 }
 
 TEST(Plane, Planes_Intersection) {
-    gmtr::Plane_t plane1{1, 0, 3, 7};
-    gmtr::Plane_t plane2{2, 3, 3, 2};
-    gmtr::Line_t resLine{gmtr::Point_t{double {2} / double {3}, -1, 3},
-                         gmtr::Vector_t{-9, 3, 3}};
+    gmtr::Triangle_t tr9{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+    gmtr::Triangle_t tr10({{5, 5, 5}, {0, 0, 0}, {5, 0, 0}});
+    gmtr::Plane_t plane4 = tr10.Triangle_Plane();
+    gmtr::Plane_t plane5 = tr9.Triangle_Plane();
+    gmtr::Line_t line1 = plane4.Planes_Intersection(plane5);
+    gmtr::Line_t line2 = plane5.Planes_Intersection(plane4);
 
-    ASSERT_TRUE(resLine.point() == plane1.Planes_Intersection(plane2).point());
-    ASSERT_TRUE(resLine.vector() == plane1.Planes_Intersection(plane2).vector());
-    ASSERT_TRUE(plane1.Planes_Intersection(plane2).IsValid());
-
-    gmtr::Plane_t plane3{1, 0, 3, 7};
-
-    ASSERT_FALSE(plane1.Planes_Intersection(plane3).IsValid());
+    ASSERT_TRUE(line1.point() == line2.point());
 }
 
 TEST(Point, Distance_to_Point) {
@@ -132,12 +128,6 @@ TEST(Triangle, Triangles_Intersection) {
     gmtr::Point_t p100{1, 0, 0};
     gmtr::Point_t p010{0, 1, 0};
 
-    gmtr::Triangle_t tr1{p000, p240, p400};
-    gmtr::Triangle_t tr2{p210, p230, p420};
-
-    gmtr::Triangle_t tr3{p000, p110, p112};
-    gmtr::Triangle_t tr4{p100, p010, p112};
-
     gmtr::Point_t pnt1{0, 0, 0};
     gmtr::Point_t pnt2{1, 0, 0};
     gmtr::Point_t pnt3{0, 1, 0};
@@ -146,41 +136,43 @@ TEST(Triangle, Triangles_Intersection) {
     gmtr::Point_t p2nt2{16, 31, 26};
     gmtr::Point_t p2nt3{16, 33, 25};
 
-    gmtr::Triangle_t tr5{pnt1, pnt2, pnt3};
-    gmtr::Triangle_t tr6{p2nt1, p2nt2, p2nt3};
-
     gmtr::Point_t p2_20{2, -2, 0},
                   p20_2{2, 0, -2},
                   p00_2{0, 0, -2},
                   p003{0, 0, 3};
-    gmtr::Triangle_t tr7{p000, p2_20, p210},
-                     tr8{p20_2, p00_2, p003};
+
+    gmtr::Triangle_t tr1{p000, p240, p400};
+    gmtr::Triangle_t tr2{p210, p230, p420};
 
     ASSERT_TRUE(tr1.Triangles_Intersection(tr2));
 
+    gmtr::Triangle_t tr3{p000, p110, p112};
+    gmtr::Triangle_t tr4{p100, p010, p112};
+
     ASSERT_TRUE(tr3.Triangles_Intersection(tr4));
+
+    gmtr::Triangle_t tr5{pnt1, pnt2, pnt3};
+    gmtr::Triangle_t tr6{p2nt1, p2nt2, p2nt3};
 
     ASSERT_FALSE(tr5.Triangles_Intersection(tr6));
 
+    gmtr::Triangle_t tr7{p000, p2_20, p210},
+                     tr8{p20_2, p00_2, p003};
+
     ASSERT_TRUE(tr7.Triangles_Intersection(tr8));
-
     ASSERT_TRUE(tr8.Triangles_Intersection(tr7));
+
+    gmtr::Triangle_t tr9{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
+    gmtr::Triangle_t tr10({{5, 5, 5}, {0, 0, 0}, {5, 0, 0}});
+
+    ASSERT_TRUE(tr9.Triangles_Intersection(tr10));
+
+    gmtr::Triangle_t tr11{{0, 0, 0}, {2, 0, 0}, {0, 2, 0}};
+    gmtr::Triangle_t tr12({{2, 0, 0}, {0, 0, 2}, {0, 1, 0}});
+
+    ASSERT_TRUE(tr11.Triangles_Intersection(tr12));
 }
 
-TEST(Triangle, Triangle_Plane) {
-    gmtr::Point_t p100{1, 0, 0};
-    gmtr::Point_t p010{0, 1, 0};
-    gmtr::Point_t p112{1, 1, 2};
-
-    gmtr::Triangle_t tr4{p100, p010, p112};
-    gmtr::Plane_t res = tr4.Triangle_Plane();
-    gmtr::Plane_t trueRes{2, 2, -1, -2};
-
-    ASSERT_EQ(res.A(), trueRes.A());
-    ASSERT_EQ(res.B(), trueRes.B());
-    ASSERT_EQ(res.C(), trueRes.C());
-    ASSERT_EQ(res.D(), trueRes.D());
-}
 
 TEST(Line, Intersection_with_triangle) {
     gmtr::Point_t p20_2{2, 0, -2},

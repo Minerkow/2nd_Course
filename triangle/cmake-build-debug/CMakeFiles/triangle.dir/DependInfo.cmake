@@ -4,9 +4,9 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.cpp" "/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles/triangle.dir/IntersectionTriangles.cpp.o"
-  "/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.cpp" "/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles/triangle.dir/Triangle.cpp.o"
-  "/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/main.cpp" "/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles/triangle.dir/main.cpp.o"
+  "/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/IntersectionTriangles.cpp" "/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/CMakeFiles/triangle.dir/IntersectionTriangles.cpp.o"
+  "/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/Triangle.cpp" "/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/CMakeFiles/triangle.dir/Triangle.cpp.o"
+  "/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/main.cpp" "/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/CMakeFiles/triangle.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

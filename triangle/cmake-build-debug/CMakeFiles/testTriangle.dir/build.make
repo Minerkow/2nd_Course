@@ -63,10 +63,10 @@ RM = /home/bibi/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/202.6948.80/bin/c
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/bibi/Desktop/Programm/Semestr_2_C++/triangle
+CMAKE_SOURCE_DIR = /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug
+CMAKE_BINARY_DIR = /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug
 
 # Include any dependencies generated for this target.
 include CMakeFiles/testTriangle.dir/depend.make
@@ -79,68 +79,68 @@ include CMakeFiles/testTriangle.dir/flags.make
 
 CMakeFiles/testTriangle.dir/Test/test_triangle.cpp.o: CMakeFiles/testTriangle.dir/flags.make
 CMakeFiles/testTriangle.dir/Test/test_triangle.cpp.o: ../Test/test_triangle.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/testTriangle.dir/Test/test_triangle.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/testTriangle.dir/Test/test_triangle.cpp.o -c /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_triangle.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/testTriangle.dir/Test/test_triangle.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/testTriangle.dir/Test/test_triangle.cpp.o -c /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/Test/test_triangle.cpp
 
 CMakeFiles/testTriangle.dir/Test/test_triangle.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/testTriangle.dir/Test/test_triangle.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_triangle.cpp > CMakeFiles/testTriangle.dir/Test/test_triangle.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/Test/test_triangle.cpp > CMakeFiles/testTriangle.dir/Test/test_triangle.cpp.i
 
 CMakeFiles/testTriangle.dir/Test/test_triangle.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/testTriangle.dir/Test/test_triangle.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_triangle.cpp -o CMakeFiles/testTriangle.dir/Test/test_triangle.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/Test/test_triangle.cpp -o CMakeFiles/testTriangle.dir/Test/test_triangle.cpp.s
 
 CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.o: CMakeFiles/testTriangle.dir/flags.make
 CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.o: ../Test/test_intersection.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.o -c /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_intersection.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.o -c /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/Test/test_intersection.cpp
 
 CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_intersection.cpp > CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/Test/test_intersection.cpp > CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.i
 
 CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_intersection.cpp -o CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/Test/test_intersection.cpp -o CMakeFiles/testTriangle.dir/Test/test_intersection.cpp.s
 
 CMakeFiles/testTriangle.dir/Triangle.cpp.o: CMakeFiles/testTriangle.dir/flags.make
 CMakeFiles/testTriangle.dir/Triangle.cpp.o: ../Triangle.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/testTriangle.dir/Triangle.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/testTriangle.dir/Triangle.cpp.o -c /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/testTriangle.dir/Triangle.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/testTriangle.dir/Triangle.cpp.o -c /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/Triangle.cpp
 
 CMakeFiles/testTriangle.dir/Triangle.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/testTriangle.dir/Triangle.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.cpp > CMakeFiles/testTriangle.dir/Triangle.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/Triangle.cpp > CMakeFiles/testTriangle.dir/Triangle.cpp.i
 
 CMakeFiles/testTriangle.dir/Triangle.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/testTriangle.dir/Triangle.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Triangle.cpp -o CMakeFiles/testTriangle.dir/Triangle.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/Triangle.cpp -o CMakeFiles/testTriangle.dir/Triangle.cpp.s
 
 CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.o: CMakeFiles/testTriangle.dir/flags.make
 CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.o: ../IntersectionTriangles.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.o -c /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.o -c /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/IntersectionTriangles.cpp
 
 CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.cpp > CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/IntersectionTriangles.cpp > CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.i
 
 CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/IntersectionTriangles.cpp -o CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/IntersectionTriangles.cpp -o CMakeFiles/testTriangle.dir/IntersectionTriangles.cpp.s
 
 CMakeFiles/testTriangle.dir/Test/test_generator.cpp.o: CMakeFiles/testTriangle.dir/flags.make
 CMakeFiles/testTriangle.dir/Test/test_generator.cpp.o: ../Test/test_generator.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/testTriangle.dir/Test/test_generator.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/testTriangle.dir/Test/test_generator.cpp.o -c /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_generator.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/testTriangle.dir/Test/test_generator.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/testTriangle.dir/Test/test_generator.cpp.o -c /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/Test/test_generator.cpp
 
 CMakeFiles/testTriangle.dir/Test/test_generator.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/testTriangle.dir/Test/test_generator.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_generator.cpp > CMakeFiles/testTriangle.dir/Test/test_generator.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/Test/test_generator.cpp > CMakeFiles/testTriangle.dir/Test/test_generator.cpp.i
 
 CMakeFiles/testTriangle.dir/Test/test_generator.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/testTriangle.dir/Test/test_generator.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/Test/test_generator.cpp -o CMakeFiles/testTriangle.dir/Test/test_generator.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/Test/test_generator.cpp -o CMakeFiles/testTriangle.dir/Test/test_generator.cpp.s
 
 # Object files for target testTriangle
 testTriangle_OBJECTS = \
@@ -161,7 +161,7 @@ testTriangle: CMakeFiles/testTriangle.dir/Test/test_generator.cpp.o
 testTriangle: CMakeFiles/testTriangle.dir/build.make
 testTriangle: /usr/lib/x86_64-linux-gnu/libgtest.a
 testTriangle: CMakeFiles/testTriangle.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable testTriangle"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable testTriangle"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/testTriangle.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -174,6 +174,6 @@ CMakeFiles/testTriangle.dir/clean:
 .PHONY : CMakeFiles/testTriangle.dir/clean
 
 CMakeFiles/testTriangle.dir/depend:
-	cd /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/bibi/Desktop/Programm/Semestr_2_C++/triangle /home/bibi/Desktop/Programm/Semestr_2_C++/triangle /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug /home/bibi/Desktop/Programm/Semestr_2_C++/triangle/cmake-build-debug/CMakeFiles/testTriangle.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/CMakeFiles/testTriangle.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/testTriangle.dir/depend
 
