@@ -20,6 +20,10 @@ CMAKE_ADDR2LINE:FILEPATH=/usr/bin/addr2line
 //Path to a program.
 CMAKE_AR:FILEPATH=/usr/bin/ar
 
+//For backwards compatibility, what version of CMake commands and
+// syntax should this version of CMake try to support.
+CMAKE_BACKWARDS_COMPATIBILITY:STRING=2.4
+
 //Choose the type of build, options are: None Debug Release RelWithDebInfo
 // MinSizeRel ...
 CMAKE_BUILD_TYPE:STRING=Debug
@@ -220,6 +224,9 @@ CMAKE_STRIP:FILEPATH=/usr/bin/strip
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
+//Single output directory for building all executables.
+EXECUTABLE_OUTPUT_PATH:PATH=
+
 //Path to a file.
 GTEST_INCLUDE_DIR:PATH=/usr/include
 
@@ -234,6 +241,9 @@ GTEST_MAIN_LIBRARY:FILEPATH=/usr/lib/x86_64-linux-gnu/libgtest_main.a
 
 //Path to a library.
 GTEST_MAIN_LIBRARY_DEBUG:FILEPATH=GTEST_MAIN_LIBRARY_DEBUG-NOTFOUND
+
+//Single output directory for building all libraries.
+LIBRARY_OUTPUT_PATH:PATH=
 
 //Value Computed by CMake
 Matrix_BINARY_DIR:STATIC=/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/Matrix/cmake-build-debug

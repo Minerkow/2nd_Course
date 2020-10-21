@@ -6,21 +6,3 @@
 
 #IncludeRegexTransform: 
 
-/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/Matrix/Matrix.hpp
-vector
--
-iostream
--
-future
--
-exception
--
-cmath
--
-
-/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/Matrix/test/test_matrix.cpp
-../Matrix.hpp
-/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/Matrix/Matrix.hpp
-gtest/gtest.h
--
-
