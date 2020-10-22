@@ -3,6 +3,56 @@
 
 namespace gmtr {
     bool Triangle_t::Triangles_Intersection(Triangle_t &other) {
+
+        if (!IsNormal() && !other.IsNormal()) {
+            Point_t a1, b1;
+            if (a_ != b_) {
+                a1 = a_;
+                b1 = b_;
+            } else {
+                a1 = a_;
+                b1 = c_;
+            }
+            Interval_t interval1{a1, b1};
+            Point_t a2, b2;
+            if (other.a_ != other.b_) {
+                a2 = other.a_;
+                b2 = other.b_;
+            } else {
+                a2 = other.a_;
+                b2 = other.c_;
+            }
+            Interval_t interval2{a2, b2};
+            return interval1.Intersection_with_Interval(interval2);
+        }
+
+
+        if (!IsNormal()) {
+            Point_t a, b;
+            if (a_ != b_) {
+                a = a_;
+                b = b_;
+            } else {
+                a = a_;
+                b = c_;
+            }
+            Interval_t interval{a, b};
+            return interval.Intersection_with_Triangle(other);
+        }
+
+        if (!IsNormal()) {
+            Point_t a, b;
+            if (a_ != b_) {
+                a = other.a_;
+                b = other.b_;
+            } else {
+                a = other.a_;
+                b = other.c_;
+            }
+            Interval_t interval{a, b};
+            return interval.Intersection_with_Triangle(*this);
+        }
+
         Plane_t plane1 = other.Triangle_Plane();
 
         double DistA = a_.Distince_to_Plane(plane1);
@@ -111,6 +161,33 @@ namespace gmtr {
         return std::max(a_.Z(), std::max(b_.Z(), c_.Z()));
     }
 
+    bool Triangle_t::IsValid() {
+        return a_.IsValid() && b_.IsValid() && c_.IsValid();
+    }
+
+    bool Triangle_t::IsNormal() {
+        return Triangle_Plane().IsValid();
+    }
+
+    bool Triangle_t::IsInterval() {
+        if (IsPoint()) {
+            return false;
+        }
+        if (b_ == c_ || a_ == b_ || a_ == c_) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    bool Triangle_t::IsPoint() {
+        if (b_ == c_ && a_ == b_) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 //-----------------------------------------------------------------------------
 
     double Determinate_2x2(double a, double b, double c, double d) {
@@ -164,6 +241,11 @@ namespace gmtr {
             return false;
         }
     }
+
+    bool Plane_t::IsValid() {
+        return !std::isnan(A_*B_*C_*D_);
+    }
+
 
 //------------------------------------------------------------------------------------------------
 
@@ -333,7 +415,7 @@ namespace gmtr {
 //-------------------------------------------------------------------------------------------
 
     std::ostream &operator<<(std::ostream &os, Point_t point) {
-        os << "[" << point.X() << " " << point.Y() << " " << point.Z() << "]";
+        os << "(" << point.X() << ", " << point.Y() << ", " << point.Z() << ")";
         return os;
     }
 
@@ -375,6 +457,17 @@ namespace gmtr {
 //-------------------------------------------------------------------------------------------
 
     bool Interval_t::Intersection_with_Interval(Interval_t other) {
+        if (a_ == b_ && other.a_ == other.b_) {
+            return a_ == other.a_;
+        }
+        if (a_ == b_) {
+            return other.is_Interval_Point(a_);
+        }
+
+        if (other.a_ == other.b_) {
+            return is_Interval_Point(other.b_);
+        }
+
         Line_t line1{a_, b_};
         if (!line1.IsValid()) {
             exit(2);
@@ -415,6 +508,14 @@ namespace gmtr {
         }
     }
 
+    bool Interval_t::Intersection_with_Triangle(Triangle_t triangle) {
+        if (IsPoint()) {
+            return triangle.Is_Triangle_Point(a_);
+        }
+        Interval_t crossInterval = Line().Intersection_with_Triangle(triangle);
+        return Intersection_with_Interval(crossInterval);
+    }
+
 
 //---------------------------------------------------------------------------------------------
 
@@ -452,6 +553,22 @@ namespace gmtr {
             z = -z;
         }
         return centre_ + Point_t{x, y, z};
+    }
+
+    bool operator!=(Point_t const& lhs, Point_t const& rhs){
+        return !(lhs == rhs);
+    }
+
+    bool Triangle_t::Is_Triangle_Point(Point_t& point) {
+        Plane_t plane = Triangle_Plane();
+        if( point.Distince_to_Plane(plane) == 0 &&
+            point.X() <= MaxX() && point.X() >= MinX() &&
+            point.Y() <= MaxY() && point.Y() >= MinY() &&
+            point.Z() <= MaxZ() && point.Z() >= MinZ() ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 

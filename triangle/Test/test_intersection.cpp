@@ -6,7 +6,7 @@
 
 TEST(TrianglesGenerator, Constructor) {
     trgtest::TrianglesGenerator_t test;
-    //std::cout << test;
+//    std::cout << test;
     int start_time = clock();
     std::unordered_set<size_t> res;
     std::vector<trs::triangleIterator> data;
@@ -25,7 +25,7 @@ TEST(TrianglesGenerator, Constructor) {
     std::unordered_set<size_t> res2 = trs.Intersecting_Triangles();
     int end_time = clock();
 
-    std::cout << std::endl << "Time N^2:" << midl_time - start_time << " Time Octree:" << end_time - midl_time;
+    //std::cout << std::endl << "Time N^2:" << midl_time - start_time << " Time Octree:" << end_time - midl_time;
     ASSERT_TRUE(trs::Unordered_Set_Equal(res2, res));
 }
 
@@ -63,4 +63,42 @@ TEST(Triangle, Triangle_Intersections) {
     trueRes1.emplace(0);
     trueRes1.emplace(1);
     ASSERT_TRUE(trs::Unordered_Set_Equal(res1, trueRes1));
+
+    //CHECK IN GEOGEBRA
+
+    std::vector<gmtr::Triangle_t> trgs3;
+    trgs3.push_back({{-1.0914, 0.324276, 0.730663}, {-1.06508, -1.00475, -2.04093}, {-0.585957, -0.763759, -2.03131}, 0});
+    trgs3.push_back({{0.193952, 0.427089, 1.16151}, {-0.102549, 1.25552, -0.258662}, {-0.0019806, 0.597291, 1.11956}, 1});
+    trgs3.push_back({{0.0619925, -1.37186, 0.432083}, {-0.117892, -1.1863, 0.528783}, {0.264464, -0.580351, 0.636569}, 2});
+    trgs3.push_back({{-0.160506, 0.136387, -0.797714}, {0.438334, 0.736186, 2.69238}, {-1.20032, 0.071876, 1.43957}, 3});
+    trgs3.push_back({{0.797585, -0.732483, 0.0479923}, {1.09672, -0.81792, -0.088457}, {1.08979, -0.800348, -0.119569}, 4});
+
+    trs::Triangles_t trs3{trgs3};
+    std::unordered_set<size_t> res3 = trs3.Intersecting_Triangles();
+    std::unordered_set<size_t> trueRes3;
+    trueRes3.emplace(3);
+    trueRes3.emplace(1);
+    ASSERT_TRUE(trs::Unordered_Set_Equal(res3, trueRes3));
+
+
+/*    4
+    0 0 0 1 1 1 1 1 0
+    0 0 0 1 0 0 0 0 1
+    0.5 -0.5 0 0.5 0.5 0 0.5 0 1
+    2 3 4 5 6 7 8 9 10*/
+
+    std::vector<gmtr::Triangle_t> trgs4;
+    trgs4.push_back({{0, 0, 0}, {1, 1, 1}, {1, 1, 0}, 0});
+    trgs4.push_back({{0, 0, 0}, {1, 0, 0}, {0, 0, 1}, 1});
+    trgs4.push_back({{0.5, -0.5, 0}, {0.5, 0.5, 0}, {0.5, 0, 1}, 2});
+    trgs4.push_back({{2, 3, 4}, {5, 6, 7}, {8, 9, 10}, 3});
+
+    trs::Triangles_t trs4{trgs4};
+    std::unordered_set<size_t> res4 = trs4.Intersecting_Triangles();
+    //trs4.Output_Intersecting_Triangles();
+    std::unordered_set<size_t> trueRes4;
+    trueRes4.emplace(2);
+    trueRes4.emplace(1);
+    trueRes4.emplace(0);
+    ASSERT_TRUE(trs::Unordered_Set_Equal(res4, trueRes4));
 }

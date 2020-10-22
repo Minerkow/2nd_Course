@@ -171,6 +171,24 @@ TEST(Triangle, Triangles_Intersection) {
     gmtr::Triangle_t tr12({{2, 0, 0}, {0, 0, 2}, {0, 1, 0}});
 
     ASSERT_TRUE(tr11.Triangles_Intersection(tr12));
+
+    gmtr::Triangle_t tr13{{0, 0, 0}, {2, 0, 0}, {0, 2, 0}};
+    gmtr::Triangle_t tr14({{0, 0, 2}, {2, 0, 0}, {4, 0, 0}});
+
+    ASSERT_TRUE(tr13.Triangles_Intersection(tr14));
+
+    gmtr::Triangle_t tr15{{-3, 0, 0}, {-1, 0, 0}, {-2, 0, 0}};
+    gmtr::Triangle_t tr16{{0, -3, 0}, {0, 2, 0}, {-3, 0, 0}};
+
+    ASSERT_TRUE(tr15.Triangles_Intersection(tr16));
+
+    //0 0 0 1 0 0 0 0 1
+    //0.5 -0.5 0 0.5 0.5 0 0.5 0 1
+
+    gmtr::Triangle_t tr17{{0, 0, 0}, {1, 0, 0}, {0, 0, 1}};
+    gmtr::Triangle_t tr18{{0.5, -0.5, 0}, {0.5, 0.5, 0}, {0.5, 0, 1}};
+
+    ASSERT_TRUE(tr17.Triangles_Intersection(tr18));
 }
 
 

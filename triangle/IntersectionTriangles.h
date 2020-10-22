@@ -97,9 +97,9 @@ namespace trs {
 
     class Triangles_t {
     public:
-        Triangles_t(size_t numTriangles);
+        explicit Triangles_t(size_t numTriangles);
 
-        Triangles_t(std::vector<gmtr::Triangle_t> &data);
+        explicit Triangles_t(std::vector<gmtr::Triangle_t> &data);
 
         void Output_Intersecting_Triangles();
 
