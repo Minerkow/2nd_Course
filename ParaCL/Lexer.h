@@ -31,18 +31,6 @@ namespace lexer {
         KindLexem_t kindLexem_;
     };
 
-    class Lexer_t {
-    public:
-        Lexer_t(const std::string& code);
-
-        friend std::ostream& operator<<(std::ostream& os, Lexer_t& lexer);
-
-        ~Lexer_t();
-    private:
-        std::vector<Lexem_t*> lexArray_;
-        //std::unordered_map<std::string, int> variables_;
-    };
-
     class Number_t : public Lexem_t {
     public:
         Number_t( size_t line, int number) : number_{number}, Lexem_t{line, NUMBER}{}
@@ -63,6 +51,7 @@ namespace lexer {
         std::ostream& Print(std::ostream& os) override;
     private:
         Kind_t kind_;
+
     };
 
     class ComparSign_t : public Lexem_t {
@@ -83,6 +72,7 @@ namespace lexer {
 
         Brace_t(size_t line, char sym);
 
+        Kind_t Kind() {return kind_;}
         operator Lexem_t*() {return dynamic_cast<Lexem_t*>(this);}
         std::ostream& Print(std::ostream& os) override;
     private:
@@ -95,6 +85,7 @@ namespace lexer {
 
         Command_t(size_t line, char sym);
         Command_t(size_t line, std::string& command);
+        Kind_t Kind() {return kind_;}
 
         operator Lexem_t*() {return dynamic_cast<Lexem_t*>(this);}
         std::ostream& Print(std::ostream& os) override;
@@ -110,6 +101,26 @@ namespace lexer {
         std::ostream& Print(std::ostream& os) override;
     private:
         std::string name_;
+    };
+
+    struct LexArray_t {
+    public:
+
+        LexArray_t(const std::string& code);
+
+        size_t Size() const {return lexArray_.size();}
+
+        friend std::ostream& operator<<(std::ostream& os, LexArray_t& lexer);
+
+        Lexem_t* operator[](size_t& index) {return lexArray_[index];}
+
+        Brace_t::Kind_t FigurBrace(size_t index);
+        bool IsEndCommand(size_t index);
+        Command_t::Kind_t Command(size_t index);
+
+        ~LexArray_t();
+    private:
+        std::vector<Lexem_t*> lexArray_;
     };
 
     bool IsOperation(char sym);

@@ -4,12 +4,14 @@
 CMakeFiles/TestParaCl.dir/Lexer.cpp.o: ../Lexer.cpp
 CMakeFiles/TestParaCl.dir/Lexer.cpp.o: ../Lexer.h
 
+CMakeFiles/TestParaCl.dir/Parser.cpp.o: ../Lexer.h
 CMakeFiles/TestParaCl.dir/Parser.cpp.o: ../Parser.cpp
 CMakeFiles/TestParaCl.dir/Parser.cpp.o: ../Parser.h
 
 CMakeFiles/TestParaCl.dir/Test/test_lexer.cpp.o: ../Lexer.h
 CMakeFiles/TestParaCl.dir/Test/test_lexer.cpp.o: ../Test/test_lexer.cpp
 
+CMakeFiles/TestParaCl.dir/Test/test_parser.cpp.o: ../Lexer.h
 CMakeFiles/TestParaCl.dir/Test/test_parser.cpp.o: ../Parser.h
 CMakeFiles/TestParaCl.dir/Test/test_parser.cpp.o: ../Test/test_parser.cpp
 

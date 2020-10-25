@@ -1,7 +1,7 @@
 #include "Lexer.h"
 
 namespace lexer {
-    Lexer_t::Lexer_t(const std::string& code) {
+    LexArray_t::LexArray_t(const std::string& code) {
         size_t lineNum = 1;
 
         int i = 0;
@@ -275,6 +275,8 @@ namespace lexer {
         os << "VAR: " << name_ << " ";
         return os;
     }
+
+
 }
 
 namespace lexer {
@@ -298,7 +300,7 @@ namespace lexer {
         return word == "print" || word == "if" || word == "while";
     }
 
-    std::ostream& operator<<(std::ostream& os, Lexer_t& lexer) {
+    std::ostream& operator<<(std::ostream& os, LexArray_t& lexer) {
         for (auto& it : lexer.lexArray_) {
             switch (it->KindLexem()) {
                 case Lexem_t::NUMBER:
@@ -321,7 +323,7 @@ namespace lexer {
         return os;
     }
 
-    Lexer_t::~Lexer_t() {
+    LexArray_t::~LexArray_t() {
         for (auto& it : lexArray_) {
             switch (it->KindLexem()) {
                 case Lexem_t::NUMBER:
@@ -342,4 +344,39 @@ namespace lexer {
             }
         }
     }
+
+    Brace_t::Kind_t LexArray_t::FigurBrace(size_t index) {
+        Lexem_t* lex = lexArray_[index];
+        if (lex->KindLexem() == Lexem_t::BRACE)
+        {
+            Brace_t* brace = dynamic_cast<Brace_t*>(lex);
+            if (brace->Kind() == Brace_t::LFIGURBRAC ||
+                brace->Kind() == Brace_t::RFIGURBRAC) {
+                return brace->Kind();
+            }
+        }
+        return Brace_t::POISON;
+    }
+
+    bool LexArray_t::IsEndCommand(size_t index) {
+        Lexem_t *lex = lexArray_[index];
+        if (lex->KindLexem() == Lexem_t::COMMAND) {
+            Command_t *comm = dynamic_cast<Command_t *>(lex);
+            if (comm->Kind() == Command_t::END_COMMAND) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    Command_t::Kind_t LexArray_t::Command(size_t index) {
+        Lexem_t* lex = lexArray_[index];
+        if (lex->KindLexem() == Lexem_t::COMMAND) {
+            Command_t *comm = dynamic_cast<Command_t*>(lex);
+            return comm->Kind();
+        }
+        return Command_t::POISON;
+    }
+
+
 }
