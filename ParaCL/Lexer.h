@@ -43,9 +43,10 @@ namespace lexer {
 
     class Operation_t : public Lexem_t {
     public:
-        enum Kind_t { POISON,ADD, SUB, MUL, DIV};
+        enum Kind_t { POISON, ADD, SUB, MUL, DIV};
 
         Operation_t(size_t line, char sym);
+        Kind_t Kind() {return kind_};
 
         operator Lexem_t*() {return dynamic_cast<Lexem_t*>(this);}
         std::ostream& Print(std::ostream& os) override;
@@ -59,6 +60,7 @@ namespace lexer {
         enum Kind_t { POISON, NOT, EQUAL, NOT_EQUAL, GREATER, LESS, EQ_OR_GR, EQ_OR_LESS};
 
         ComparSign_t(size_t line, std::string &sign);
+        Kind_t Kind() {return kind_;}
 
         operator Lexem_t*() {return dynamic_cast<Lexem_t*>(this);}
         std::ostream& Print(std::ostream& os) override;
@@ -117,6 +119,15 @@ namespace lexer {
         Brace_t::Kind_t FigurBrace(size_t index);
         bool IsEndCommand(size_t index);
         Command_t::Kind_t Command(size_t index);
+        bool IsComparison(size_t index);
+        ComparSign_t::Kind_t ComparSign(size_t index);
+        bool IsAddSub(size_t index);
+        bool IsMulDiv(size_t index);
+        bool IsTerm(size_t index);
+        bool IsInput(size_t index);
+        bool IsNumber(size_t index);
+        bool IsVariable(size_t index);
+        Brace_t::Kind_t Brace(size_t index);
 
         ~LexArray_t();
     private:

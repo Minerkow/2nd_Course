@@ -378,5 +378,94 @@ namespace lexer {
         return Command_t::POISON;
     }
 
+    bool LexArray_t::IsComparison(size_t index) {
+        Lexem_t* lex = lexArray_[index];
+        if (lex->KindLexem() == Lexem_t::COMPAR_SIGN) {
+            return true;
+        }
+        return false;
+    }
+
+    ComparSign_t::Kind_t LexArray_t::ComparSign(size_t index) {
+        Lexem_t* lex = lexArray_[index];
+        if (lex->KindLexem() == Lexem_t::COMPAR_SIGN) {
+            ComparSign_t* cs = dynamic_cast<ComparSign_t*>(lex);
+            return cs->Kind();
+        }
+        return ComparSign_t::POISON;
+    }
+
+    bool LexArray_t::IsAddSub(size_t index) {
+        Lexem_t* lex = lexArray_[index];
+        if (lex->KindLexem() == Lexem_t::OPERATION) {
+            Operation_t* op = dynamic_cast<Operation_t*>(lex);
+            if (op->Kind() == Operation_t::ADD || op->Kind() == Operation_t::SUB) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool LexArray_t::IsMulDiv(size_t index) {
+        Lexem_t* lex = lexArray_[index];
+        if (lex->KindLexem() == Lexem_t::OPERATION) {
+            Operation_t* op = dynamic_cast<Operation_t*>(lex);
+            if (op->Kind() == Operation_t::MUL || op->Kind() == Operation_t::DIV) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool LexArray_t::IsTerm(size_t index) {
+        Lexem_t* lex = lexArray_[index];
+        if (lex->KindLexem() == Lexem_t::COMMAND) {
+            Command_t* cm = dynamic_cast<Command_t*>(lex);
+            if (cm->Kind() == Command_t::INPUT) {
+                return true;
+            }
+            return false;
+        }
+        if (lex->KindLexem() == Lexem_t::VARIABLE ||
+            lex->KindLexem() == Lexem_t::NUMBER) {
+            return true;
+        }
+        return false;
+    }
+
+    bool LexArray_t::IsInput(size_t index) {
+        Lexem_t* lex = lexArray_[index];
+        if (lex->KindLexem() == Lexem_t::COMMAND) {
+            Command_t *cm = dynamic_cast<Command_t *>(lex);
+            if (cm->Kind() == Command_t::INPUT) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool LexArray_t::IsNumber(size_t index) {
+        if (lexArray_[index]->KindLexem() == Lexem_t::NUMBER) {
+            return true;
+        }
+        return false;
+    }
+
+    bool LexArray_t::IsVariable(size_t index) {
+        if (lexArray_[index]->KindLexem() == Lexem_t::VARIABLE) {
+            return true;
+        }
+        return false;
+    }
+
+    Brace_t::Kind_t LexArray_t::Brace(size_t index) {
+        Lexem_t* lex = lexArray_[index];
+        if (lex->KindLexem() == Lexem_t::BRACE) {
+            Brace_t* br = dynamic_cast<Brace_t*>(lex);
+            return br->Kind();
+        }
+        return Brace_t::POISON;
+    }
+
 
 }

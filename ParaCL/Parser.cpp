@@ -81,7 +81,122 @@ namespace parser {
     }
 
     Node_t *Parser_t::Insert_Comparison(size_t &index) {
-        
+        Node_t* node = nullptr;
+        Node_t* comp_left = Insert_Expression(index);
+        if (lexArray_.IsEndCommand(index)) {
+            return comp_left;
+        }
+        while (lexArray_.IsComparison(index)) {
+            if (lexArray_.IsEndCommand(index)) {
+                return comp_left;
+            }
+            node = new ComparisonN_t{lexArray_[index]};
+            if(lexArray_.ComparSign(index) == lexer::ComparSign_t::NOT) {
+                index++;
+                node->left_ = Insert_Expression(index);
+                node->right_ = nullptr;
+                comp_left = node;
+            } else {
+                index++;
+                node->left_ = comp_left;
+                if (node->left_ == nullptr) {
+                    std::cerr << "Waiting expresion , line -" << lexArray_[index]->Line();
+                    exit(EXIT_FAILURE);
+                }
+                node->right_ == Insert_Expression(index);
+                if (node->right_ == nullptr) {
+                    std::cerr << "Waiting expresion , line -" << lexArray_[index]->Line();
+                    exit(EXIT_FAILURE);
+                }
+                comp_left = node;
+            }
+        }
+        return comp_left;
+    }
+
+    Node_t *Parser_t::Insert_Expression(size_t &index) {
+        Node_t* node = nullptr;
+        Node_t* expr_left = Insert_Multiplication(index);
+        if (lexArray_.IsEndCommand(index)) {
+            return expr_left;
+        }
+
+        while(lexArray_.IsAddSub(index)) {
+            if (lexArray_.IsEndCommand(index)) {
+                return expr_left;
+            }
+            node = new OperationN_t{lexArray_[index]};
+            index++;
+            if (lexArray_[index]->KindLexem() != lexer::Lexem_t::NUMBER ||
+                lexArray_[index]->KindLexem() != lexer::Lexem_t::BRACE ||
+                lexArray_[index]->KindLexem() != lexer::Lexem_t::VARIABLE)
+            {
+                std::cerr << "Expected expression, line -" << lexArray_[index]->Line();
+                exit(EXIT_FAILURE);
+            }
+            node->left_ = expr_left;
+            node->right_ = Insert_Multiplication(index);
+            expr_left = node;
+        }
+        return node;
+    }
+
+    Node_t *Parser_t::Insert_Multiplication(size_t &index) {
+        Node_t* node = nullptr;
+        Node_t* mult_left = Insert_Term(index);
+
+        while (lexArray_.IsMulDiv(index)) {
+            node = new OperationN_t{lexArray_[index]};
+            index++;
+            if (lexArray_[index]->KindLexem() != lexer::Lexem_t::NUMBER ||
+                lexArray_[index]->KindLexem() != lexer::Lexem_t::BRACE ||
+                lexArray_[index]->KindLexem() != lexer::Lexem_t::VARIABLE)
+            {
+                std::cerr << "Expected expression, line -" << lexArray_[index]->Line();
+                exit(EXIT_FAILURE);
+            }
+            node->left_ = mult_left;
+            node->right_ = Insert_Term(index);
+            mult_left = node;
+        }
+        return mult_left;
+    }
+
+    Node_t *Parser_t::Insert_Term(size_t &index) {
+        Node_t* node = nullptr;
+        if (lexArray_.IsTerm(index)) {
+            if (lexArray_.IsInput(index)) {
+                node = new CommandN_t{lexArray_[index]};
+            }
+            if (lexArray_.IsNumber(index)) {
+                node = new NumberN_t{lexArray_[index]};
+            }
+            if (lexArray_.IsVariable(index)) {
+                node = new NumberN_t(lexArray_[index]);
+            }
+
+            if (lexArray_.IsNumber(index + 1)) {
+                std::cerr << "Two numbers in a row, line -" << lexArray_[index]->Line();
+            }
+            index++;
+            return node;
+        }
+
+        if (lexArray_.Brace(index) == lexer::Brace_t::LBRAC) {
+            index++;
+            if (lexArray_.Brace(index) == lexer::Brace_t::RBRAC) {
+                std::cerr << "Extra brace, line -" << lexArray_[index]->Line();
+                exit(EXIT_FAILURE);
+            }
+            node = Insert_Comparison(index);
+            if (lexArray_.Brace(index) != lexer::Brace_t::RBRAC) {
+                std::cerr << "Expected brace, line -" << lexArray_[index]->Line();
+                exit(EXIT_FAILURE);
+            }
+            index++;
+            return node;
+        }
+
     }
 
 
