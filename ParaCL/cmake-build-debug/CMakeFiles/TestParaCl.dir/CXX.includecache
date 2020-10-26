@@ -6,10 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/ParaCL/Lexer.cpp
-Lexer.h
-/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/ParaCL/Lexer.h
-
 /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/ParaCL/Lexer.h
 vector
 -
@@ -22,23 +18,15 @@ unordered_map
 cmath
 -
 
-/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/ParaCL/Parser.cpp
-Parser.h
-/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/ParaCL/Parser.h
-
 /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/ParaCL/Parser.h
 Lexer.h
 /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/ParaCL/Lexer.h
 
-/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/ParaCL/Test/test_lexer.cpp
-../Lexer.h
-/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/ParaCL/Lexer.h
-gtest/gtest.h
--
-
 /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/ParaCL/Test/test_parser.cpp
 ../Parser.h
 /home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/ParaCL/Parser.h
+../Lexer.h
+/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/ParaCL/Lexer.h
 gtest/gtest.h
 -
 

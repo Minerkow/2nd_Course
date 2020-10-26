@@ -28,4 +28,18 @@ TEST(Lexer, compar_signs) {
     std::ostringstream str3;
     str3 << lexer3;
     ASSERT_EQ(str3.str(), res3);
+
+    std::string code4{"a = 5;"};
+    lexer::LexArray_t lexer4{code4};
+    std::string res4 = "VAR: a ASSIGN NUM: 5 END_COMMAND ";
+    std::ostringstream str4;
+    str4 << lexer4;
+    ASSERT_EQ(res4, str4.str());
+
+    std::string code5 = "{ b = 5;}";
+    lexer::LexArray_t lexer5(code5);
+    std::string res5{"LFIGURBRAC VAR: b ASSIGN NUM: 5 END_COMMAND RFIGURBRAC "};
+    std::ostringstream str5;
+    str5 << lexer5;
+    ASSERT_EQ(str5.str(), res5);
 }

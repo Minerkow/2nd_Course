@@ -4,68 +4,71 @@ namespace lexer {
     LexArray_t::LexArray_t(const std::string& code) {
         size_t lineNum = 1;
 
-        int i = 0;
-        while (code[i]) {
+        auto it = code.begin();
+        while (it != code.end()) {
             //READ SPACE
 
-            if (isspace(code[i])) {
-                if (code[i] == '\n') {
+            if (isspace(*it)) {
+                if (*it == '\n') {
                     lineNum++;
                 }
-                i++;
+                it++;
                 continue;
             }
 
             //READ NUMBERS
 
-            if (isdigit(code[i])) {
+            if (isdigit(*it)) {
                 int num = 0;
-                while (isdigit(code[i])) {
-                    num = num * 10 + code[i] - '0';
-                    i++;
+                while (isdigit(*it)) {
+                    num = num * 10 + *it - '0';
+                    it++;
                 }
                 lexArray_.push_back(new Number_t{ lineNum, num});
-                i++;
                 continue;
             }
 
             //READ OPERATION
 
-            if (IsOperation(code[i])) {
-                lexArray_.push_back(new Operation_t{ lineNum, code[i]});
-                i++;
+            if (IsOperation(*it)) {
+                lexArray_.push_back(new Operation_t{ lineNum, *it});
+                it++;
                 continue;
             }
 
             //READ COMPAR SIGNS
 
-            if (IsComparSign(code[i])) {
-                std::string sign{code[i]};
-                if (IsComparSign(code[i + 1])) {
-                    sign.push_back(code[i+1]);
+            if (IsComparSign(*it)) {
+                std::string sign{*it};
+                if (std::next(it) == code.end()) {
+                    std::cerr << "Expected command completion, line -" << lineNum;
+                    exit(EXIT_FAILURE);
+                }
+                if (IsComparSign(*std::next(it))) {
+                    sign.push_back(*std::next(it));
                 }
                 if (sign != "=") {
                     lexArray_.push_back(new ComparSign_t{lineNum, sign});
-                    i += sign.size();
+                    it += sign.size();
                     continue;
                 }
             }
 
             //READ BRACE
 
-            if (IsBrace(code[i])) {
-                lexArray_.push_back(new Brace_t{lineNum, code[i]});
-                i++;
+            if (IsBrace(*it)) {
+                lexArray_.push_back(new Brace_t{lineNum, *it});
+                it++;
                 continue;
             }
 
             //READ VARIABLES AND COMMAND
 
-            if (isalpha(code[i])) {
+            if (isalpha(*it)) {
                 std::string word;
-                while (isalpha(code[i]) || isdigit(code[i])) {
-                    word.push_back(code[i]);
-                    i++;
+                while (isalpha(*it) || isdigit(*it)) {
+                    word.push_back(*it);
+                    it++;
                 }
                 if (IsCommand(word)) {
                     lexArray_.push_back(new Command_t{lineNum, word});
@@ -77,9 +80,9 @@ namespace lexer {
 
             //READ SPECIAL CHARACTERS
 
-            if (IsSpecialCharacters(code[i])) {
-                lexArray_.push_back(new Command_t{lineNum, code[i]});
-                i++;
+            if (IsSpecialCharacters(*it)) {
+                lexArray_.push_back(new Command_t{lineNum, *it});
+                it++;
                 continue;
             }
             std::cerr << "Unknown symbol" << std::endl;
@@ -289,7 +292,8 @@ namespace lexer {
     }
 
     bool IsBrace(char sym) {
-        return sym == '(' || sym == ')';
+        return sym == '(' || sym == ')' ||
+               sym == '{' || sym == '}';
     }
 
     bool IsSpecialCharacters(char sym) {
@@ -300,7 +304,7 @@ namespace lexer {
         return word == "print" || word == "if" || word == "while";
     }
 
-    std::ostream& operator<<(std::ostream& os, LexArray_t& lexer) {
+    std::ostream& operator<<(std::ostream& os, const LexArray_t& lexer) {
         for (auto& it : lexer.lexArray_) {
             switch (it->KindLexem()) {
                 case Lexem_t::NUMBER:
@@ -327,17 +331,17 @@ namespace lexer {
         for (auto& it : lexArray_) {
             switch (it->KindLexem()) {
                 case Lexem_t::NUMBER:
-                    delete dynamic_cast<Number_t*>(it); break;
+                    delete static_cast<Number_t*>(it); break;
                 case Lexem_t::OPERATION:
-                    delete dynamic_cast<Operation_t*>(it); break;
+                    delete static_cast<Operation_t*>(it); break;
                 case Lexem_t::COMPAR_SIGN:
-                    delete dynamic_cast<ComparSign_t*>(it); break;
+                    delete static_cast<ComparSign_t*>(it); break;
                 case Lexem_t::BRACE:
-                    delete dynamic_cast<Brace_t*>(it); break;
+                    delete static_cast<Brace_t*>(it); break;
                 case Lexem_t::COMMAND:
-                    delete dynamic_cast<Command_t*>(it); break;
+                    delete static_cast<Command_t*>(it); break;
                 case Lexem_t::VARIABLE:
-                    delete dynamic_cast<Variable_t*>(it); break;
+                    delete static_cast<Variable_t*>(it); break;
                 default:
                     std::cerr << "Delete ERROR\n";
                     exit(EXIT_FAILURE);

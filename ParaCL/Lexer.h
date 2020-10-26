@@ -46,7 +46,7 @@ namespace lexer {
         enum Kind_t { POISON, ADD, SUB, MUL, DIV};
 
         Operation_t(size_t line, char sym);
-        Kind_t Kind() {return kind_};
+        Kind_t Kind() {return kind_;};
 
         operator Lexem_t*() {return dynamic_cast<Lexem_t*>(this);}
         std::ostream& Print(std::ostream& os) override;
@@ -109,10 +109,12 @@ namespace lexer {
     public:
 
         LexArray_t(const std::string& code);
+        LexArray_t(const LexArray_t&) = delete;
+        LexArray_t& operator=(const LexArray_t&) = delete;
 
         size_t Size() const {return lexArray_.size();}
 
-        friend std::ostream& operator<<(std::ostream& os, LexArray_t& lexer);
+        friend std::ostream& operator<<(std::ostream& os, const LexArray_t& lexer);
 
         Lexem_t* operator[](size_t& index) {return lexArray_[index];}
 
