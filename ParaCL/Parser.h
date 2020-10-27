@@ -3,10 +3,15 @@
 #include "Lexer.h"
 
 namespace parser {
+
+    enum {MAX_CYCLE_LEN = 10000};
+
     class Node_t {
     public:
         virtual void Print (std::ostream& os) = 0;
         virtual ~Node_t() = default;
+        virtual int Evaluate() = 0;
+        virtual lexer::Lexem_t::KindLexem_t Kind_Lexem() = 0;
     public:
         Node_t* left_{};
         Node_t* right_{};
@@ -16,6 +21,8 @@ namespace parser {
     public:
         SentenceN_t(size_t sNum) : sentNum_(sNum) {}
         void Print (std::ostream& os) override;
+        int Evaluate() override;
+        lexer::Lexem_t::KindLexem_t Kind_Lexem() override {return lexer::Lexem_t::POISON;}
 
         ~SentenceN_t() override {}
     private:
@@ -26,6 +33,8 @@ namespace parser {
     public:
         CommandN_t(lexer::Lexem_t* command) : comm_{static_cast<lexer::Command_t*>(command)} {}
         void Print (std::ostream& os) override {comm_->Print(os);}
+        int Evaluate() override;
+        lexer::Lexem_t::KindLexem_t Kind_Lexem() override {return lexer::Lexem_t::COMMAND;}
 
         ~CommandN_t() override {comm_ = nullptr;}
     private:
@@ -36,6 +45,8 @@ namespace parser {
     public:
         NumberN_t(lexer::Lexem_t* num) : num_{static_cast<lexer::Number_t*>(num)} {}
         void Print (std::ostream& os) override {num_->Print(os);}
+        lexer::Lexem_t::KindLexem_t Kind_Lexem() override {return lexer::Lexem_t::NUMBER;}
+        int Evaluate() override;
 
         ~NumberN_t() override {num_ = nullptr;}
     private:
@@ -44,18 +55,25 @@ namespace parser {
 
     class VariableN_t final : public Node_t {
     public:
-        VariableN_t (lexer::Lexem_t* var) : var_(static_cast<lexer::Variable_t*>(var)) {}
+        VariableN_t (lexer::Lexem_t* var, std::unordered_map<std::string, int>& varTable) :
+                        var_(static_cast<lexer::Variable_t*>(var)), varTable_(varTable) {}
         void Print (std::ostream& os) override {var_->Print(os);}
+        lexer::Lexem_t::KindLexem_t Kind_Lexem() override {return lexer::Lexem_t::VARIABLE;}
+        void Add_Value(int value);
+        int Evaluate() override;
 
         ~VariableN_t() override {var_ = nullptr;}
     private:
         lexer::Variable_t* var_;
+        std::unordered_map<std::string, int>& varTable_;
     };
 
     class OperationN_t final : public Node_t {
     public:
         OperationN_t(lexer::Lexem_t* op) : op_{static_cast<lexer::Operation_t*>(op)} {}
         void Print (std::ostream& os) override {op_->Print(os);}
+        lexer::Lexem_t::KindLexem_t Kind_Lexem() override {return lexer::Lexem_t::OPERATION;}
+        int Evaluate() override;
 
         ~OperationN_t() override {op_ = nullptr;}
     private:
@@ -66,6 +84,9 @@ namespace parser {
     public:
         ComparisonN_t(lexer::Lexem_t* cs) : cs_{static_cast<lexer::ComparSign_t*>(cs)} {}
         void Print (std::ostream& os) override { cs_->Print(os);}
+        lexer::Lexem_t::KindLexem_t Kind_Lexem() override {return lexer::Lexem_t::COMPAR_SIGN;}
+
+        int Evaluate() override;
 
         ~ComparisonN_t() override {cs_ = nullptr;}
     private:
@@ -81,7 +102,7 @@ namespace parser {
         void Print_Syntax_Tree(std::ostream& os, Node_t* top);
         void Print_Syntax_Tree(std::ostream& os) {Print_Syntax_Tree(os, top_);}
 
-        void Run(); //TODO::
+        void Run();
 
         ~Parser_t();
     private:
@@ -97,6 +118,7 @@ namespace parser {
     private:
         Node_t* top_;
         lexer::LexArray_t lexArray_;
+        std::unordered_map<std::string, int> varTable_;
     };
 
 }

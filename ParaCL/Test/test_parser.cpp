@@ -23,5 +23,11 @@ TEST(Parser, Syntax_Tree) {
     std::string res3 = "SENTENCE #0 ASSIGN SENTENCE #1 ASSIGN VAR: a ADD ADD SUB MUL SUB VAR: b NUM: 8 MUL VAR: c NUM: 23 ";
     pars3.Print_Syntax_Tree(str3);
     ASSERT_EQ(res3, str3.str());
+}
 
+TEST(Parser, Evulate) {
+    std::string code1 = "a = 5 * 7; print a;";
+    parser::Parser_t pars1{code1};
+    pars1.Print_Syntax_Tree(std::cout);
+    pars1.Run();
 }

@@ -37,6 +37,7 @@ namespace lexer {
 
         operator Lexem_t*() {return dynamic_cast<Lexem_t*>(this);}
         std::ostream& Print(std::ostream& os) override;
+        int Value() const {return number_;}
     private:
         int number_;
     };
@@ -101,6 +102,7 @@ namespace lexer {
                                                   Lexem_t(line, VARIABLE){}
         operator Lexem_t*() {return dynamic_cast<Lexem_t*>(this);}
         std::ostream& Print(std::ostream& os) override;
+        const std::string& Name() const {return name_;}
     private:
         std::string name_;
     };

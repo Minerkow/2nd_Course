@@ -169,7 +169,7 @@ namespace parser {
                 node = new NumberN_t{lexArray_[index]};
             }
             if (lexArray_.IsVariable(index)) {
-                node = new VariableN_t(lexArray_[index]);
+                node = new VariableN_t{lexArray_[index], varTable_};
             }
 
             if (lexArray_.IsNumber(index + 1)) {
@@ -229,6 +229,66 @@ namespace parser {
         os << "SENTENCE #" << sentNum_ << " ";
     }
 
+    int SentenceN_t::Evaluate() {
+        if (left_ == nullptr) {
+            return 0;
+        }
+        left_->Evaluate();
+        if (right_ == nullptr) {
+            return 0;
+        }
+        right_->Evaluate();
+        return 0;
+    }
+
+
+    int CommandN_t::Evaluate() {
+
+        switch (comm_->Kind()) {
+            case lexer::Command_t::PRINT:
+                std::cout << left_->Evaluate();
+                return 0;
+            case lexer::Command_t::ASSIGN: {
+                if (left_->Kind_Lexem() != lexer::Lexem_t::VARIABLE) {
+                    std::cerr << "Assign ERROR, line -" << comm_->Line();
+                    exit(EXIT_FAILURE);
+                }
+                VariableN_t *var = static_cast<VariableN_t *>(left_);
+                var->Add_Value(right_->Evaluate());
+                return 0;
+            }
+            case lexer::Command_t::IF: {
+                if (left_->Evaluate()) {
+                    right_->Evaluate();
+                }
+                return 0;
+            }
+            case lexer::Command_t::WHILE: {
+                int i = 0;
+                while (left_->Evaluate()) {
+                    i++;
+                    right_->Evaluate();
+                    if (i == MAX_CYCLE_LEN) {
+                        std::cerr << "Infinity cycle, line - " << comm_->Line() << std::endl;
+                        exit(EXIT_FAILURE);
+                    }
+                }
+                return 0;
+            }
+            case lexer::Command_t::INPUT: {
+                int res;
+                std::cin >> res;
+                return res;
+            }
+            default: {
+                std::cerr << "Unknown command, line -" << comm_->Line() << std::endl;
+                exit(EXIT_FAILURE);
+            }
+        }
+    }
+
+
+
     Parser_t::~Parser_t() {
         Delete_Node(top_);
     }
@@ -239,5 +299,72 @@ namespace parser {
         Delete_Node(node->left_);
         Delete_Node(node->right_);
         delete node;
+    }
+
+    void Parser_t::Run() {
+        top_->Evaluate();
+    }
+
+    void VariableN_t::Add_Value(int value) {
+        varTable_[var_->Name()] = value;
+    }
+
+    int VariableN_t::Evaluate() {
+        if (varTable_.count(var_->Name()) == 0) {
+            std::cerr << "Expected initialization '" << var_->Name()
+                      << "' , line-" << var_->Line();
+        }
+        return varTable_[var_->Name()];
+    }
+
+    int NumberN_t::Evaluate() {
+        return num_->Value();
+    }
+
+    int OperationN_t::Evaluate() {
+        int leftVal = left_->Evaluate();
+        int rightVal = right_->Evaluate();
+        switch (op_->Kind()){
+            case lexer::Operation_t::ADD:
+                return leftVal + rightVal;
+            case lexer::Operation_t::SUB:
+                return leftVal - rightVal;
+            case lexer::Operation_t::MUL:
+                return leftVal * rightVal;
+            case lexer::Operation_t::DIV:
+                if (rightVal == 0){
+                    std::cerr << "Division by zero, line -" << op_->Line();
+                    exit(EXIT_FAILURE);
+                }
+                return leftVal / rightVal;
+            default:
+                std::cerr << "Error operation, line -" << op_->Line();
+                exit(EXIT_FAILURE);
+        }
+    }
+
+    int ComparisonN_t::Evaluate() {
+        int leftVal = left_->Evaluate();
+        int rightVal = right_->Evaluate();
+        switch (cs_->Kind()) {
+            case lexer::ComparSign_t::EQUAL:
+                return (leftVal == rightVal);
+            case lexer::ComparSign_t::NOT_EQUAL:
+                return (leftVal != rightVal);
+            case lexer::ComparSign_t::GREATER:
+                return (leftVal > rightVal);
+            case lexer::ComparSign_t::LESS:
+                return (leftVal < rightVal);
+            case lexer::ComparSign_t::EQ_OR_GR:
+                return (leftVal >= rightVal);
+            case lexer::ComparSign_t::EQ_OR_LESS:
+                return (leftVal <= rightVal);
+            case lexer::ComparSign_t::NOT:
+                return (!leftVal);
+            default: {
+                std::cerr << "Unknown compar signs, line-" << cs_->Line();
+                exit(EXIT_FAILURE);
+            }
+        }
     }
 }
