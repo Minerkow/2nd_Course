@@ -1,1 +1,0 @@
-/usr/bin/c++  -g  -rdynamic CMakeFiles/TestParaCl.dir/Parser.cpp.o CMakeFiles/TestParaCl.dir/Lexer.cpp.o CMakeFiles/TestParaCl.dir/Test/test_lexer.cpp.o CMakeFiles/TestParaCl.dir/Test/test_parser.cpp.o  -o TestParaCl  -Wl,-Bstatic -lgtest -Wl,-Bdynamic -lpthread 
