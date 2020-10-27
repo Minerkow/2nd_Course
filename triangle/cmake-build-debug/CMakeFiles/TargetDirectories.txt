@@ -1,4 +1,0 @@
-/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/CMakeFiles/testTriangle.dir
-/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/triangle/cmake-build-debug/CMakeFiles/triangle.dir
