@@ -24,9 +24,10 @@ namespace trgtest {
 
     std::ostream &operator<<(std::ostream &os, TrianglesGenerator_t& trg) {
         for (auto& it : trg.triangles_) {
-            os << "{id :" << it.Id() << " A:" << it.A()
-               << ", B:" << it.B() << ", c:" << it.C() << "}\n";
+            os << " " << it.A()
+               << " " << it.B() << " " << it.C() << "\n";
         }
+        return os;
     }
 
 }

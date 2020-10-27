@@ -97,7 +97,8 @@ namespace trs {
 
     class Triangles_t {
     public:
-        explicit Triangles_t(size_t numTriangles);
+        Triangles_t(size_t numTriangles, std::istream& is);
+        Triangles_t(size_t numTriangles){ Triangles_t{numTriangles, std::cin};}
 
         explicit Triangles_t(std::vector<gmtr::Triangle_t> &data);
 

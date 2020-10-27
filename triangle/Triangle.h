@@ -8,6 +8,8 @@
 #include "Triangle.h"
 
 namespace gmtr {
+    const double PRESISION = 0.00001;
+
     class Plane_t;
     class Triangle_t;
     class Vector_t;
@@ -23,8 +25,6 @@ namespace gmtr {
     int DoubleSign(double number);
     bool DoubleEqual(double rhs, double lhs);
     std::ostream &operator<<(std::ostream &os, Point_t point);
-
-    const double PRESISION = 0.0001;
 
     class Point_t {
     public:
@@ -120,10 +120,10 @@ namespace gmtr {
                                                           C_(C), D_(D) {}
 
         Line_t Planes_Intersection(Plane_t& other);
-        const Vector_t n();
+        Vector_t n() const;
         bool IsCollinear(Plane_t other);
 
-        bool IsValid();
+        bool IsValid() const;
 
         bool operator==(Plane_t& rhs) const;
 
@@ -187,6 +187,7 @@ namespace gmtr {
         bool is_Interval_Point(Point_t point);
 
         bool IsPoint() {return a_ == b_;}
+        bool IsValid() {return a_.IsValid() && b_.IsValid();}
 
         Line_t Line() {return {a_, b_};}
     private:

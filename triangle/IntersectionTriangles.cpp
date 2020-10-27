@@ -2,19 +2,19 @@
 
 namespace trs {
 
-    Triangles_t::Triangles_t(size_t numTriangles) {
+    Triangles_t::Triangles_t(size_t numTriangles, std::istream& is) {
 
         double minX = std::numeric_limits<double>::max() ,
-               minY = minX,
-               minZ = minX;
+                minY = minX,
+                minZ = minX;
         double maxX = std::numeric_limits<double>::min(),
-               maxY = maxX,
-               maxZ = maxX;
+                maxY = maxX,
+                maxZ = maxX;
         std::vector<triangleIterator> triangles;
         data_.reserve(numTriangles);
         for (size_t i = 0; i < numTriangles; ++i) {
             gmtr::Point_t a, b, c;
-            std::cin >> a >> b >> c;
+            is >> a >> b >> c;
             gmtr::Triangle_t tr{a, b, c, i};
             data_.push_back(tr);
             triangles.push_back(std::prev(data_.end()));
@@ -146,7 +146,7 @@ namespace trs {
     }
 
     void Octree_t::Post_Order(Node_t *top, std::unordered_set<size_t>& res) {
-        if (top == nullptr || top->unassigned_.empty()) {
+        if (top == nullptr) {
             return;
         }
         for (int i = 0; i < 8; ++i) {
@@ -163,10 +163,10 @@ namespace trs {
                 }
                 if (itUn->Triangles_Intersection(*itData)) {
                     if (res.count(itUn->Id()) == 0) {
-                        res.insert(itUn->Id());
+                        res.emplace(itUn->Id());
                     }
                     if (res.count(itData->Id()) == 0) {
-                        res.insert(itData->Id());
+                        res.emplace(itData->Id());
                     }
                 }
             }

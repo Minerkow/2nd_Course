@@ -15,6 +15,7 @@ int main() {
         data.push_back({{ax, ay, az}, {bx, by, bz}, {cx, cy, cz}, i});
     }
     trs::Triangles_t trgs{data};
+    //std::unordered_set<size_t> res = trgs.Intersecting_Triangles();
     trgs.Output_Intersecting_Triangles();
     return 0;
 }

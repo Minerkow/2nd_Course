@@ -107,16 +107,27 @@ namespace gmtr {
 
         double A = Determinate_2x2(b_.Y() - a_.Y(), c_.Y() - a_.Y(),
                                    b_.Z() - a_.Z(), c_.Z() - a_.Z());
+        if (DoubleEqual(A, 0)) {
+            A = 0;
+        }
         double B = -Determinate_2x2(b_.X() - a_.X(), c_.X() - a_.X(),
                                    b_.Z() - a_.Z(), c_.Z() - a_.Z());
+        if (DoubleEqual(B, 0)) {
+            B = 0;
+        }
         double C = Determinate_2x2(b_.X() - a_.X(), c_.X() - a_.X(),
                                    b_.Y() - a_.Y(), c_.Y() - a_.Y());
-
+        if (DoubleEqual(C, 0)) {
+            C = 0;
+        }
         double D = -(A * a_.X() + B * a_.Y() + C * a_.Z());
+        if (DoubleEqual(D, 0)) {
+            D = 0;
+        }
 
         double maxCoeff = std::max(std::max(std::abs(A), std::abs(B)), std::max(std::abs(C), std::abs(D)));
 
-        return Plane_t{A / maxCoeff, B / maxCoeff, C / maxCoeff, D / maxCoeff};
+        return Plane_t{A/maxCoeff , B/maxCoeff, C/maxCoeff, D/maxCoeff};
     }
 
 //------------------------------------------------------------------------------
@@ -221,7 +232,7 @@ namespace gmtr {
 
 //----------------------------------------------------------------------------------------------
 
-    const Vector_t Plane_t::n() {
+    Vector_t Plane_t::n() const {
         return Vector_t{A_, B_, C_};
     }
 
@@ -242,7 +253,7 @@ namespace gmtr {
         }
     }
 
-    bool Plane_t::IsValid() {
+    bool Plane_t::IsValid() const {
         return !std::isnan(A_*B_*C_*D_);
     }
 
@@ -267,7 +278,7 @@ namespace gmtr {
 //-----------------------------------------------------------------------------------------------
 
     bool Vector_t::IsValid() const {
-        return !(std::isnan(x_) || std::isnan(y_) || std::isnan(z_));;
+        return !(std::isnan(x_) || std::isnan(y_) || std::isnan(z_));
     }
 
 //------------------------------------------------------------------------------------------------
@@ -375,7 +386,10 @@ namespace gmtr {
             return {p3, p3};
         }
 
-        assert(true && "Interscetion with triangle oooops");
+        if (!p1.IsValid() && !p2.IsValid() && !p3.IsValid()) {
+            return {p1, p1};
+        }
+        assert(false && "Interscetion with triangle oooops");
     }
 
 
@@ -415,7 +429,7 @@ namespace gmtr {
 //-------------------------------------------------------------------------------------------
 
     std::ostream &operator<<(std::ostream &os, Point_t point) {
-        os << "(" << point.X() << ", " << point.Y() << ", " << point.Z() << ")";
+        os  << point.X() << " " << point.Y() << " " << point.Z() << " ";
         return os;
     }
 
@@ -437,15 +451,17 @@ namespace gmtr {
 //-------------------------------------------------------------------------------------------
 
     bool operator==(Vector_t const &lhs, Vector_t const &rhs) {
-        return (lhs.X() <= rhs.X() + PRESISION && lhs.X() >= rhs.X() - PRESISION) &&
-               (lhs.Y() <= rhs.Y() + PRESISION && lhs.Y() >= rhs.Y() - PRESISION) &&
-               (lhs.Z() <= rhs.Z() + PRESISION && lhs.Z() >= rhs.Z() - PRESISION);
+
+        return DoubleEqual(lhs.X(), rhs.X())  &&
+               DoubleEqual(lhs.Y(), rhs.Y()) &&
+               DoubleEqual(lhs.Z(), rhs.Z());
     }
 
     bool operator==(Point_t const &lhs, Point_t const &rhs) {
-        return (lhs.X() <= rhs.X() + PRESISION && lhs.X() >= rhs.X() - PRESISION) &&
-               (lhs.Y() <= rhs.Y() + PRESISION && lhs.Y() >= rhs.Y() - PRESISION) &&
-               (lhs.Z() <= rhs.Z() + PRESISION && lhs.Z() >= rhs.Z() - PRESISION);
+
+        return DoubleEqual(lhs.X(), rhs.X())  &&
+               DoubleEqual(lhs.Y(), rhs.Y()) &&
+               DoubleEqual(lhs.Z(), rhs.Z());
     }
 
     bool operator==(Interval_t const &lhs, Interval_t const &rhs) {
@@ -457,6 +473,10 @@ namespace gmtr {
 //-------------------------------------------------------------------------------------------
 
     bool Interval_t::Intersection_with_Interval(Interval_t other) {
+        if (!IsValid() || !other.IsValid()) {
+            return false;
+        }
+
         if (a_ == b_ && other.a_ == other.b_) {
             return a_ == other.a_;
         }
@@ -513,6 +533,9 @@ namespace gmtr {
             return triangle.Is_Triangle_Point(a_);
         }
         Interval_t crossInterval = Line().Intersection_with_Triangle(triangle);
+        if (!crossInterval.IsValid()) {
+            return false;
+        }
         return Intersection_with_Interval(crossInterval);
     }
 
