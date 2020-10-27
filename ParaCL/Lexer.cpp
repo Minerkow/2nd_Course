@@ -100,7 +100,7 @@ namespace lexer {
             case '*':
                 kind_ = MUL; break;
             case '/':
-                kind_ = DIV;
+                kind_ = DIV; break;
             default:
                 std::cerr << "Unknown symbol, line - " << line << std::endl;
                 exit(EXIT_FAILURE);
@@ -205,7 +205,7 @@ namespace lexer {
             case MUL:
                 os << "MUL "; break;
             case DIV:
-                os << "DIV ";
+                os << "DIV "; break;
             default:
                 std::cerr << "Unknown Operation, line - " << line_ << std::endl;
                 exit(EXIT_FAILURE);
