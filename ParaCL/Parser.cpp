@@ -246,7 +246,7 @@ namespace parser {
 
         switch (comm_->Kind()) {
             case lexer::Command_t::PRINT:
-                std::cout << left_->Evaluate();
+                std::cout << left_->Evaluate() << std::endl;
                 return 0;
             case lexer::Command_t::ASSIGN: {
                 if (left_->Kind_Lexem() != lexer::Lexem_t::VARIABLE) {

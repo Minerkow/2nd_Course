@@ -28,6 +28,5 @@ TEST(Parser, Syntax_Tree) {
 TEST(Parser, Evulate) {
     std::string code1 = "a = 5 * 7; print a;";
     parser::Parser_t pars1{code1};
-    pars1.Print_Syntax_Tree(std::cout);
     pars1.Run();
 }

@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/ParaCL/Lexer.h
+vector
+-
+string
+-
+iostream
+-
+unordered_map
+-
+cmath
+-
+
+/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/ParaCL/Parser.cpp
+Parser.h
+/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/ParaCL/Parser.h
+
+/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/ParaCL/Parser.h
+Lexer.h
+/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/ParaCL/Lexer.h
+

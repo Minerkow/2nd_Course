@@ -1,6 +1,20 @@
 #include <iostream>
+#include <fstream>
+#include "Lexer.h"
+#include "Parser.h"
 
-int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
+int main(int argc, char** argv) {
+    std::ifstream file;
+    file.open("/home/bibi/Desktop/Programm/Semestr_2_C++/2nd_Course/ParaCL/Test/FileTests/test1.cl");
+    std::string code, line;
+    if (file.is_open())
+    {
+        while (getline(file, line))
+        {
+            code += line + '\n';
+        }
+    }
+    //std::cout << code;
+    parser::Parser_t pars{code};
+    pars.Run();
 }
