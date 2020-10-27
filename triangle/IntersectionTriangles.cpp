@@ -152,7 +152,7 @@ namespace trs {
         for (int i = 0; i < 8; ++i) {
             Post_Order(top->children_[i], res);
         }
-        if (top->level_ == LEVELS) {
+        if (top->level_ == LEVELS || top->unassigned_.empty()) {
             Triangles_IntersectionN2(top->data_, res);
             return;
         }
