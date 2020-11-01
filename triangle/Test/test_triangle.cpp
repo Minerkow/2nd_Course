@@ -205,3 +205,34 @@ TEST(Line, Intersection_with_triangle) {
                          (trueRes.A() == res.B() && trueRes.B() == res.A()));
 }
 
+TEST( Triangle, Triangle_Intesection2) {
+    gmtr::Triangle_t tr1{{1, 1, 0}, {1, 2 , 3}, { 5, 4, 8}};
+    gmtr::Triangle_t tr2{{ 1, 1, 0}, {3, 1, 0}, {1, 3, 0}};
+
+    ASSERT_TRUE(tr2.Triangles_Intersection(tr1));
+    ASSERT_TRUE(tr1.Triangles_Intersection(tr2));
+}
+
+TEST( Triangle, Triangle_Intesection3) {
+    gmtr::Triangle_t tr1{{81.9589, 6.52009, 49.2611}, {72.4774, -5.17581, 4.8547},  {67.4174, -32.2985, 51.3611}};
+    gmtr::Triangle_t tr2{ {90.5719, 6.49289, 127.243},  {62.678, -18.4037, -50.2514},  {54.8061, -41.8008, -40.0074}};
+
+    ASSERT_FALSE(tr2.Triangles_Intersection(tr1));
+    ASSERT_FALSE(tr1.Triangles_Intersection(tr2));
+}
+
+TEST(Triangle, Triangle_Intersection4) {
+    gmtr::Triangle_t tr1{{43.5664, 244.222, 105.83}, {1.23644, 215.836, -25.0299},  { 52.3174, 241.505, 105.388}};
+    gmtr::Triangle_t tr2{ {173.485, 201.461, 97.8861},  {145.336, 211.758, 87.1047},  {195.226, 226.65, -6.50206}};
+
+    ASSERT_FALSE(tr2.Triangles_Intersection(tr1));
+    ASSERT_FALSE(tr1.Triangles_Intersection(tr2));
+}
+
+TEST(Triangle, Triangle_Intersection5) {
+    gmtr::Triangle_t tr1{{213.151, 85.2705, 215.426}, {173.066, 117.913, 25.8474},  { 127.446, 155.34, 171.712}};
+    gmtr::Triangle_t tr2{ {152.114, 139.092, 20.8334},  {114.902, 173.412, -14.8781},  { 57.384, 128.393, 117.213}};
+
+    ASSERT_FALSE(tr2.Triangles_Intersection(tr1));
+    ASSERT_FALSE(tr1.Triangles_Intersection(tr2));
+}

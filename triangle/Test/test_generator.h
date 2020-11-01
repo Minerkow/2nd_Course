@@ -9,13 +9,13 @@ namespace trgtest {
     const double MINY = 0;
     const double MINZ = 0;
 
-    const double MAXX = 5000;
-    const double MAXY = 5000;
-    const double MAXZ = 5000;
+    const double MAXX = 2000;
+    const double MAXY = 2000;
+    const double MAXZ = 2000;
 
-    const double MAX_RADIUS = 1.0;
+    const double MAX_RADIUS = 100.0;
 
-    const unsigned NUM_TRIANGLES = 100;
+    const unsigned NUM_TRIANGLES = 10000;
 
     class TrianglesGenerator_t {
     public:
