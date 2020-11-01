@@ -65,6 +65,16 @@ namespace gmtr {
         }
 
         Plane_t plane0 = Triangle_Plane();
+
+        DistA = other.a_.Distince_to_Plane(plane0);
+        DistB = other.b_.Distince_to_Plane(plane0);
+        DistC = other.c_.Distince_to_Plane(plane0);
+
+        if (DoubleSign(DistA) == DoubleSign(DistB) &&
+            DoubleSign(DistA) == DoubleSign(DistC) && DoubleSign(DistA) != 0) {
+            return false;
+        }
+
         if (plane0.IsCollinear(plane1)) {
             if (std::abs(plane0.D() - plane1.D()) <= PRESISION) {
                 Interval_t i1{a_, b_};
@@ -77,15 +87,6 @@ namespace gmtr {
             } else {
                 return false;
             }
-        }
-
-        DistA = other.a_.Distince_to_Plane(plane0);
-        DistB = other.b_.Distince_to_Plane(plane0);
-        DistC = other.c_.Distince_to_Plane(plane0);
-
-        if (DoubleSign(DistA) == DoubleSign(DistB) &&
-            DoubleSign(DistA) == DoubleSign(DistC) && DoubleSign(DistA) != 0) {
-            return false;
         }
 
         Line_t interLine = plane1.Planes_Intersection(plane0);
@@ -225,8 +226,16 @@ namespace gmtr {
         double r_x = a * n().X() + b * other.n().X();
         double r_y = a * n().Y() + b * other.n().Y();
         double r_z = a * n().Z() + b * other.n().Z();
+        if (DoubleEqual(r_x, 0.0)) {
+            r_x = 0.0;
+        }
+        if (DoubleEqual(r_y, 0.0)) {
+            r_y = 0.0;
+        }
+        if (DoubleEqual(r_z, 0.0)) {
+            r_z = 0.0;
+        }
         Point_t point{r_x, r_y, r_z};
-
         return Line_t{point, n().Vector_Mult(other.n())};
     }
 
@@ -246,11 +255,14 @@ namespace gmtr {
     }
 
     bool Plane_t::IsCollinear(Plane_t other) {
-        if (other.n().Vector_Mult(n()) == Vector_t{0, 0, 0}) {
-            return true;
-        } else {
-            return false;
+        if ((std::abs(A()) < 1 || std::abs(B()) < 1 || std::abs(C()) < 1) &&
+            (std::abs(other.A()) < 1 || std::abs(other.B()) < 1 || std::abs(other.C()) < 1)) {
+            Vector_t n1{1000*A(), 1000*B(), 1000*C()};
+            Vector_t n2{1000*other.A(), 1000*other.B(), 1000*other.C()};
+            return n1.Vector_Mult(n2) == Vector_t{0, 0, 0};
         }
+
+        return other.n().Vector_Mult(n()) == Vector_t{0, 0, 0};
     }
 
     bool Plane_t::IsValid() const {
@@ -272,6 +284,9 @@ namespace gmtr {
 
     double Vector_t::Scalar_Mult(const Vector_t &other) const {
         double res = x_ * other.x_ + y_ * other.y_ + z_ * other.z_;
+        if (DoubleEqual(res, 0.0)) {
+            res = 0.0;
+        }
         return res;
     }
 

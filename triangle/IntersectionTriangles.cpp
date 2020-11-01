@@ -75,9 +75,13 @@ namespace trs {
 
     void Triangles_t::Output_Intersecting_Triangles() {
         std::unordered_set<size_t> res;
+        std::set<size_t> resSet;
         octree_.Post_Order(res);
         for (auto& it : res) {
-            std::cout << it << " ";
+            resSet.emplace(it);
+        }
+        for (auto& it : resSet) {
+            std::cout << it << "\n";
         }
     }
 
