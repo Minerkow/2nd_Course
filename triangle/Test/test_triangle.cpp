@@ -236,3 +236,20 @@ TEST(Triangle, Triangle_Intersection5) {
     ASSERT_FALSE(tr2.Triangles_Intersection(tr1));
     ASSERT_FALSE(tr1.Triangles_Intersection(tr2));
 }
+
+TEST(Triangle, Triangle_Intersection6) {
+
+//    -267.7 267.7 0
+//    -227.215 267.7 0
+//    -267.7 361.065 0
+//
+//    0 0 0
+//    40.4847 0 0
+//    0 93.3652 0
+
+    gmtr::Triangle_t tr1{{-267.7, 267.7, 0}, {-227.215, 267.7, 0},  { -267.7, 361.065, 0}};
+    gmtr::Triangle_t tr2{ {0, 0, 0},  {40.4847, 0, 0},  { 0, 93.3652, 0}};
+
+    ASSERT_FALSE(tr2.Triangles_Intersection(tr1));
+    ASSERT_FALSE(tr1.Triangles_Intersection(tr2));
+}

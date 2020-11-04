@@ -6,7 +6,7 @@
 
 
 TEST(TrianglesGenerator, Constructor) {
-    for (int i = 0; i < 1; ++i) {
+    for (int i = 0; i < 0; ++i) {
         trgtest::TrianglesGenerator_t test;
         std::unordered_set<size_t> res;
         std::vector<trs::triangleIterator> data;
