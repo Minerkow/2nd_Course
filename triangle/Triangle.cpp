@@ -77,13 +77,23 @@ namespace gmtr {
 
         if (plane0.IsCollinear(plane1)) {
             if (std::abs(plane0.D() - plane1.D()) <= PRESISION) {
-                Interval_t i1{a_, b_};
-                Interval_t i2{a_, c_};
-                Interval_t i3{b_, c_};
+                std::array<Interval_t, 3> intervals;
+                intervals[0] = {a_, b_};
+                intervals[1] = {a_, c_};
+                intervals[2] = {b_, c_};
 
-                return i1.Intersection_with_Interval(i2) &&
-                       i1.Intersection_with_Interval(i3) &&
-                       i2.Intersection_with_Interval(i3);
+                std::array<Interval_t, 3> otherIntervals;
+                otherIntervals[0] = {other.a_, other.b_};
+                otherIntervals[1] = {other.a_, other.c_};
+                otherIntervals[2] = {other.b_, other.c_};
+
+                for (auto& it1 : intervals) {
+                    for (auto& it2 : otherIntervals) {
+                        if (it1.Intersection_with_Interval(it2)) {
+                            return true;
+                        }
+                    }
+                }
             } else {
                 return false;
             }
@@ -100,7 +110,7 @@ namespace gmtr {
 
 //-----------------------------------------------------------------------------
 
-    Plane_t Triangle_t::Triangle_Plane() {
+    Plane_t Triangle_t::Triangle_Plane() const{
 
         // x - ax  bx - ax  cx - ax //
         // y - ay  by - ay  cy - ay //  =  0
@@ -173,15 +183,15 @@ namespace gmtr {
         return std::max(a_.Z(), std::max(b_.Z(), c_.Z()));
     }
 
-    bool Triangle_t::IsValid() {
+    bool Triangle_t::IsValid() const {
         return a_.IsValid() && b_.IsValid() && c_.IsValid();
     }
 
-    bool Triangle_t::IsNormal() {
+    bool Triangle_t::IsNormal() const {
         return Triangle_Plane().IsValid();
     }
 
-    bool Triangle_t::IsInterval() {
+    bool Triangle_t::IsInterval() const {
         if (IsPoint()) {
             return false;
         }
@@ -192,7 +202,7 @@ namespace gmtr {
         }
     }
 
-    bool Triangle_t::IsPoint() {
+    bool Triangle_t::IsPoint() const {
         if (b_ == c_ && a_ == b_) {
             return true;
         } else {
@@ -257,8 +267,9 @@ namespace gmtr {
     bool Plane_t::IsCollinear(Plane_t other) {
         if ((std::abs(A()) < 1 || std::abs(B()) < 1 || std::abs(C()) < 1) &&
             (std::abs(other.A()) < 1 || std::abs(other.B()) < 1 || std::abs(other.C()) < 1)) {
-            Vector_t n1{1000*A(), 1000*B(), 1000*C()};
-            Vector_t n2{1000*other.A(), 1000*other.B(), 1000*other.C()};
+            Vector_t n1{A(), B(), C()};
+            const double INCREAS_PRESISION = 1000.0;
+            Vector_t n2{INCREAS_PRESISION*other.A(), INCREAS_PRESISION*other.B(), INCREAS_PRESISION*other.C()};
             return n1.Vector_Mult(n2) == Vector_t{0, 0, 0};
         }
 
@@ -325,7 +336,7 @@ namespace gmtr {
 
 //----------------------------------------------------------------------------------------------
 
-    bool Line_t::IsValid() {
+    bool Line_t::IsValid() const {
         return point_.IsValid() && vector_.IsValid();
     }
 

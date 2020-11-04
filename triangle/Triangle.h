@@ -98,7 +98,7 @@ namespace gmtr {
         Interval_t Intersection_with_Triangle(Triangle_t triangle);
         Point_t Intersection_with_Interval(Interval_t interval);
 
-        bool IsValid();
+        bool IsValid() const;
 
 
     private:
@@ -158,12 +158,12 @@ namespace gmtr {
         bool IsDegenerate();
         bool Is_Triangle_Point(Point_t& point);
 
-        bool IsValid();
-        bool IsNormal();
-        bool IsInterval();
-        bool IsPoint();
+        bool IsValid() const;
+        bool IsNormal() const;
+        bool IsInterval() const;
+        bool IsPoint() const;
 
-        Plane_t Triangle_Plane();
+        Plane_t Triangle_Plane() const;
         friend std::istream& operator>>(std::istream& is, Triangle_t triangle);
 
     private:
@@ -186,8 +186,8 @@ namespace gmtr {
         bool Intersection_with_Triangle(Triangle_t triangle);
         bool is_Interval_Point(Point_t point);
 
-        bool IsPoint() {return a_ == b_;}
-        bool IsValid() {return a_.IsValid() && b_.IsValid();}
+        bool IsPoint() const {return a_ == b_;}
+        bool IsValid() const {return a_.IsValid() && b_.IsValid();}
 
         Line_t Line() {return {a_, b_};}
     private:
