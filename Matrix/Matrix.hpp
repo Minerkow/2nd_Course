@@ -5,6 +5,7 @@
 #include <future>
 #include <exception>
 #include <cmath>
+#include <cassert>
 
 namespace mtrx {
 
@@ -18,6 +19,7 @@ namespace mtrx {
         size_t len_;
         const T& operator[](const size_t index) const;
         T& operator[](const size_t index);
+        T* operator*() {return row_;}
     };
 
     template<typename T>
@@ -28,7 +30,14 @@ namespace mtrx {
         Matrix_t() : data_(nullptr), rows_(nullptr),
                      numRows_(0), numColumns_(0) {}
         Matrix_t(size_t numRows, size_t numColumns);
+
+        template<typename T2>
+        Matrix_t(const Matrix_t<T2>& matrix);
+
         Matrix_t(const Matrix_t<T>& matrix);
+
+
+        Matrix_t(size_t size) : Matrix_t{size, size} {}
         explicit Matrix_t(const std::vector<rows_t>& rows);
 
         size_t Num_Rows() const {return numRows_;}
@@ -37,10 +46,13 @@ namespace mtrx {
         Matrix_t<T> Transposition();
 
         double Determinant();
+        double Determinant2();
 
         Matrix_t<T> Matrix_Mult(Matrix_t<T>& other);
 
-        Matrix_t<T>& operator=(const Matrix_t<T>& rhs) = default;
+        void Swap_Rows(size_t rowNum1, size_t rowNum2);
+
+        Matrix_t<T>& operator=(const Matrix_t<T>& rhs) ;
         Matrix_t<T>& operator+=(const Matrix_t<T>& rhs);
 
         template<typename coefficientT>
@@ -70,7 +82,10 @@ namespace mtrx {
     Matrix_t<T> operator+(Matrix_t<T>& lhs, Matrix_t<T>& rhs);
 
     bool Double_Equal(double rhs, double lhs);
-}
+
+    template <typename T>
+    Matrix_t<T> IdentityMatrix(size_t size);
+    }
 
 //--------------------------------------------------------------------------------------------------------------------
 
@@ -102,24 +117,25 @@ namespace mtrx {
     }
 
     template<typename T>
-    double Matrix_t<T>::Determinant() {
+    double Matrix_t<T>::Determinant2() {
         if (numColumns_ != numRows_) {
             return 0;
         }
 
-        Matrix_t<T>& matrix = *this;
-        if (matrix[0][0] == 0) {
+        double det = 1.0;
+
+        if (rows_[0][0] == 0) {
             return 0.0;
         }
-    
-        size_t n = matrix.numRows_;
+
+        size_t n = numRows_;
         Matrix_t<double> LU_Matrix{n, n};
         for (size_t j = 0; j < n; ++j) {
-            LU_Matrix[0][j] = static_cast<double>(matrix[0][j]);
+            LU_Matrix[0][j] = static_cast<double>(rows_[0][j]);
             if (j == 0) {
-                LU_Matrix[j][0] *= static_cast<double>(matrix[j][0]) / LU_Matrix[0][0];
+                LU_Matrix[j][0] *= static_cast<double>(rows_[j][0]) / LU_Matrix[0][0];
             } else {
-                LU_Matrix[j][0] = static_cast<double>(matrix[j][0]) / LU_Matrix[0][0];
+                LU_Matrix[j][0] = static_cast<double>(rows_[j][0]) / LU_Matrix[0][0];
             }
         }
 
@@ -132,7 +148,7 @@ namespace mtrx {
                 }
 
 
-                LU_Matrix[i][j] = static_cast<double>(matrix[i][j]) - sum;
+                LU_Matrix[i][j] = static_cast<double>(rows_[i][j]) - sum;
 
                 sum = 0.0;
                 for (size_t k = 0; k <= i - 1; ++k) {
@@ -140,19 +156,74 @@ namespace mtrx {
                 }
 
                 if (j == i) {
-                    LU_Matrix[j][i] *= 1 / LU_Matrix[i][i] * (static_cast<double>(matrix[j][i]) - sum);
+                    LU_Matrix[j][i] *= 1 / LU_Matrix[i][i] * (static_cast<double>(rows_[j][i]) - sum);
                 } else {
-                    LU_Matrix[j][i] = 1 / LU_Matrix[i][i] * (static_cast<double>(matrix[j][i]) - sum);
+                    LU_Matrix[j][i] = 1 / LU_Matrix[i][i] * (static_cast<double>(rows_[j][i]) - sum);
                 }
             }
         }
 
-        double det = 1.0;
+        std::cout << "LU:" << LU_Matrix << std::endl;
+
         for (size_t i = 0; i < n; ++i){
             det *= LU_Matrix[i][i];
         }
         if (std::isnan(det)) {
             return 0;
+        }
+        return det;
+    }
+
+    template <typename T>
+    double Matrix_t<T>::Determinant() {
+        if (numRows_ != numColumns_) {
+            return 0.0;
+        }
+        double det = 1.0;
+        const size_t n = numRows_;
+        Matrix_t<double> C(*this);
+
+        std::vector<size_t> P;
+        for (size_t i = 0; i < n; ++i) {
+            P.push_back(i);
+        }
+
+        for( size_t i = 0; i < n; i++ ) {
+            double pivotValue = 0.0;
+            int pivot = -1;
+            for( size_t row = i; row < n; ++row ) {
+                if( fabs(C[row][i]) > pivotValue ) {
+                    pivotValue = fabs(C[row][i]);
+                    pivot = row;
+                }
+            }
+
+
+
+            if(pivot != i && !Double_Equal(pivotValue, 0.0)) {
+                size_t  tmp = P[i];
+                P[i] = P[pivot];
+                P[pivot] = tmp;
+                det *= -1;
+
+                C.Swap_Rows(i, pivot);
+                P[n]++;
+            }
+
+            for(int j = i + 1; j < n; ++j) {
+                C[j][i] /= C[i][i];
+
+                for (int k = i + 1; k < n; ++k) {
+                    C[j][k] -= C[j][i] * C[i][k];
+                }
+            }
+        }
+
+        for (size_t i = 0; i < n; ++i) {
+            det *= C[i][i];
+        }
+        if (std::isnan(det)) {
+            return 0.0;
         }
         return det;
     }
@@ -167,50 +238,16 @@ namespace mtrx {
         /* [m*n] * [n*k] = [m*k] */
 
         Matrix_t<T> res{numRows_, other.numColumns_};
-        if (other.numColumns_*other.numRows_ <= NUM_ELEM_SMALL_MATRIX) {
             Matrix_t<T> othT = other.Transposition();
-            std::vector<std::future<void>> futures;
             for (size_t m = 0; m < numRows_; ++m) {
                 const ProxyRow_t<T>& row = rows_[m];
-                futures.push_back(std::async([&othT, m, &row, &res] {
-                    for (size_t k = 0; k < othT.numRows_; ++k) {
-                        for (size_t n = 0; n < othT.numColumns_; ++n) {
-                            res[m][k] += row[n] * othT[k][n];
-                        }
-                    }
-                }));
-            }
-            for (auto& it : futures) {
-                it.get();
-            }
-            return res;
-        }
-
-
-        std::vector<std::future<void>> futures;
-        for (size_t m = 0; m < numRows_; ++m) {
-            const ProxyRow_t<T>& row = rows_[m];
-            futures.push_back(std::async([&row, &other, &res, m] {
-                for (size_t k = 0; k < other.numColumns_; ++k) {
-                    for (size_t n = 0; n < other.numRows_; ++n) {
-                        res[m][k] += row[n] * other[n][k];
-                        double tmp = res[m][k];
+                for (size_t k = 0; k < othT.numRows_; ++k) {
+                    for (size_t n = 0; n < othT.numColumns_; ++n) {
+                        res[m][k] += row[n] * othT[k][n];
                     }
                 }
-            }));
-        }
-        for (auto& it : futures) {
-            it.get();
-        }
-        return res;
-    }
-
-    template<typename T>
-    Matrix_t<T>::Matrix_t(const Matrix_t<T> &matrix) : Matrix_t{matrix.numRows_, matrix.numColumns_}
-    {
-        for (int i = 0; i < numColumns_*numRows_; ++i) {
-            data_[i] = matrix.data_[i];
-        }
+            }
+            return res;
     }
 
     template<typename T>
@@ -277,6 +314,56 @@ namespace mtrx {
         return *this;
     }
 
+    template<typename T>
+    Matrix_t<T> &Matrix_t<T>::operator=(const Matrix_t<T> &rhs) {
+        if (&rhs == this) {
+            return *this;
+        }
+
+        delete [] data_;
+        delete [] rows_;
+        numRows_ = rhs.numRows_;
+        numColumns_ = rhs.numColumns_;
+        data_ = new T[numRows_ * numColumns_]{};
+        T* beginRow = data_;
+        rows_ = new ProxyRow_t<T>[numRows_];
+        for (int i = 0; i < numRows_; ++i) {
+            rows_[i].row_ = beginRow;
+            rows_[i].len_ = numColumns_;
+            beginRow += numColumns_;
+        }
+        for (size_t i = 0; i < numColumns_*numRows_; ++i) {
+            data_[i] = rhs.data_[i];
+        }
+        return *this;
+    }
+
+    template<typename T>
+    void Matrix_t<T>::Swap_Rows(size_t rowNum1, size_t rowNum2) {
+        T* tmp = rows_[rowNum1].row_;
+        rows_[rowNum1].row_ = rows_[rowNum2].row_;
+        rows_[rowNum2].row_ = tmp;
+    }
+
+    template<typename T>
+    template<typename T2>
+    Matrix_t<T>::Matrix_t(const Matrix_t<T2> &matrix) : Matrix_t{matrix.Num_Rows(), matrix.Num_Columns()} {
+            for (size_t i = 0; i < numRows_; ++i) {
+                for (size_t j = 0; j < numColumns_; ++j) {
+                    rows_[i][j] = static_cast<T>(matrix[i][j]);
+                }
+            }
+    }
+
+    template<typename T>
+    Matrix_t<T>::Matrix_t(const Matrix_t<T> &matrix) : Matrix_t{matrix.Num_Rows(), matrix.Num_Columns()} {
+        for (size_t i = 0; i < numRows_; ++i) {
+            for (size_t j = 0; j < numColumns_; ++j) {
+                rows_[i][j] = static_cast<T>(matrix[i][j]);
+            }
+        }
+    }
+
 
     template <typename T>
     bool operator==(const Matrix_t<T>& lhs, const Matrix_t<T>& rhs)  {
@@ -308,11 +395,11 @@ namespace mtrx {
     template <typename T>
     std::ostream& operator<<(std::ostream& os, Matrix_t<T>& matrix) {
         for (size_t row = 0; row < matrix.Num_Rows(); ++row) {
-            os << "( ";
+            //os << "( ";
             for (size_t column = 0; column < matrix.Num_Columns(); ++column) {
                 os << matrix[row][column] << " ";
             }
-            os << ")\n";
+            os << "\n";
         }
         return os;
     }
@@ -363,4 +450,15 @@ namespace mtrx {
         }
         return row_[index];
     }
+
+    template <typename T>
+    Matrix_t<T> IdentityMatrix(size_t size) {
+        Matrix_t<T> res{size};
+
+        for (size_t i = 0; i < size; ++i) {
+            res[i][i] = 1;
+        }
+        return res;
+    }
+
 }
