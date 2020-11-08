@@ -16,6 +16,7 @@ add_executable(Matrix
 
 add_executable(test_matrix
                ./test/test_matrix.cpp
+               test/test_generator.hpp
                Matrix.hpp)
 
 target_link_libraries(
