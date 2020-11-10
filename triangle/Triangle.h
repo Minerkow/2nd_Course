@@ -10,11 +10,11 @@
 namespace gmtr {
     const double PRESISION = 0.00001;
 
-    class Plane_t;
-    class Triangle_t;
-    class Vector_t;
-    class Interval_t;
-    class Point_t;
+    struct Plane_t;
+    struct Triangle_t;
+    struct Vector_t;
+    struct Interval_t;
+    struct Point_t;
 
 
     double Determinate_2x2 (double a, double b, double c, double d);
@@ -26,7 +26,7 @@ namespace gmtr {
     bool DoubleEqual(double rhs, double lhs);
     std::ostream &operator<<(std::ostream &os, Point_t point);
 
-    class Point_t {
+    struct Point_t {
     public:
         double X() const {return x_;};
         double Y() const {return y_;};
@@ -48,7 +48,7 @@ namespace gmtr {
 
         friend std::istream& operator>>(std::istream& is, Point_t point);
 
-    private:
+    public:
         double x_;
         double y_;
         double z_;
@@ -56,7 +56,7 @@ namespace gmtr {
 
 //---------------------------------------------------------------------------------------------------------
 
-    class Vector_t {
+    struct Vector_t {
     public:
         double X() const {return x_;};
         double Y() const {return y_;};
@@ -77,7 +77,8 @@ namespace gmtr {
         std::ostream& operator<<(std::ostream& os) const;
 
         operator Point_t() const {return Point_t{x_, y_, z_};}
-    private:
+
+    public:
         double x_;
         double y_;
         double z_;
@@ -85,7 +86,7 @@ namespace gmtr {
 
 //---------------------------------------------------------------------------------------------------------
 
-    class Line_t {
+    struct Line_t {
     public:
         Point_t point() const {return point_;}
         Vector_t vector() const {return vector_;}
@@ -101,14 +102,14 @@ namespace gmtr {
         bool IsValid() const;
 
 
-    private:
+    public:
         Point_t point_;
         Vector_t vector_;
     };
 
 //---------------------------------------------------------------------------------------------------------
 
-    class Plane_t {
+    struct Plane_t {
     public:
         double A() const {return A_;}
         double B() const {return B_;}
@@ -127,7 +128,7 @@ namespace gmtr {
 
         bool operator==(Plane_t& rhs) const;
 
-    private:
+    public:
         double A_;
         double B_;
         double C_;
@@ -136,7 +137,7 @@ namespace gmtr {
 
 //---------------------------------------------------------------------------------------------------------
 
-    class Triangle_t {
+    struct Triangle_t {
     public:
         Point_t A() const {return a_;}
         Point_t B() const {return b_;}
@@ -166,7 +167,7 @@ namespace gmtr {
         Plane_t Triangle_Plane() const;
         friend std::istream& operator>>(std::istream& is, Triangle_t triangle);
 
-    private:
+    public:
         Point_t b_;
         Point_t c_;
         Point_t a_;
@@ -175,7 +176,7 @@ namespace gmtr {
 
 //----------------------------------------------------------------------------------
 
-    class Interval_t {
+    struct Interval_t {
     public:
         Point_t A() const {return a_;}
         Point_t B() const {return b_;}
@@ -190,20 +191,22 @@ namespace gmtr {
         bool IsValid() const {return a_.IsValid() && b_.IsValid();}
 
         Line_t Line() {return {a_, b_};}
-    private:
+
+    public:
         Point_t a_;
         Point_t b_;
     };
 
 //--------------------------------------------------------------------------------------------------------------
 
-    class Sphere_t {
+    struct Sphere_t {
     public:
         Sphere_t() : radius_{NAN}, centre_{} {}
         Sphere_t(double radius, Point_t centre)
                                 :radius_{radius}, centre_{centre} {}
         Point_t Random_Point();
-    private:
+
+    public:
         double radius_;
         Point_t centre_;
     };
