@@ -292,3 +292,11 @@ TEST(Triangle, Triangle_Intersection10) {
     ASSERT_TRUE(tr2.Triangles_Intersection(tr1));
 
 }
+
+TEST(Triangle, Triangle_Intersection11) {
+    gmtr::Triangle_t tr1{{0, 0, 0}, {1, 1, 1}, {1, -1, -1}};
+    gmtr::Triangle_t tr2{{0, 0.01, 0}, {5, 0, -0.09}, {5, -0.09, 0}};
+
+    ASSERT_TRUE(tr1.Triangles_Intersection(tr2));
+    ASSERT_TRUE(tr2.Triangles_Intersection(tr1));
+}
