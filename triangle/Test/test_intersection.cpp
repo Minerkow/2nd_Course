@@ -6,7 +6,7 @@
 
 
 TEST(TrianglesGenerator, Constructor) {
-    for (int i = 0; i < 0; ++i) {
+    for (int i = 0; i < 1; ++i) {
         trgtest::TrianglesGenerator_t test;
         std::unordered_set<size_t> res;
         std::vector<trs::triangleIterator> data;
@@ -19,18 +19,18 @@ TEST(TrianglesGenerator, Constructor) {
             resSet.emplace(it);
         }
         trs::Triangles_t trs{test.triangles_};
-        //std::unordered_set<size_t> res2 = trs.Intersecting_Triangles();
-        //trs.Output_Intersecting_Triangles();
-        //if (!trs::Unordered_Set_Equal(res2, res)) {
+        std::unordered_set<size_t> res2 = trs.Intersecting_Triangles();
+//        trs.Output_Intersecting_Triangles();
+        if (!trs::Unordered_Set_Equal(res2, res)) {
             std::cout << "\n";
-            std::cout << test;
+            //std::cout << test;
             for (auto &it : resSet) {
                 std::cout << it << " ";
             }
             std::cout << std::endl;
             trs.Output_Intersecting_Triangles();
             return;
-        //}
+        }
     }
     //std::cout << std::endl << "Time N^2:" << midl_time - start_time << " Time Octree:" << end_time - midl_time;
     //ASSERT_TRUE(trs::Unordered_Set_Equal(res2, res));

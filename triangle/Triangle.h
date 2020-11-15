@@ -27,7 +27,6 @@ namespace gmtr {
     std::ostream &operator<<(std::ostream &os, Point_t point);
 
     struct Point_t {
-    public:
         double X() const {return x_;};
         double Y() const {return y_;};
         double Z() const {return z_;};
@@ -48,7 +47,6 @@ namespace gmtr {
 
         friend std::istream& operator>>(std::istream& is, Point_t point);
 
-    public:
         double x_;
         double y_;
         double z_;
@@ -57,7 +55,6 @@ namespace gmtr {
 //---------------------------------------------------------------------------------------------------------
 
     struct Vector_t {
-    public:
         double X() const {return x_;};
         double Y() const {return y_;};
         double Z() const {return z_;};
@@ -78,7 +75,6 @@ namespace gmtr {
 
         operator Point_t() const {return Point_t{x_, y_, z_};}
 
-    public:
         double x_;
         double y_;
         double z_;
@@ -87,7 +83,6 @@ namespace gmtr {
 //---------------------------------------------------------------------------------------------------------
 
     struct Line_t {
-    public:
         Point_t point() const {return point_;}
         Vector_t vector() const {return vector_;}
 
@@ -102,7 +97,6 @@ namespace gmtr {
         bool IsValid() const;
 
 
-    public:
         Point_t point_;
         Vector_t vector_;
     };
@@ -110,7 +104,6 @@ namespace gmtr {
 //---------------------------------------------------------------------------------------------------------
 
     struct Plane_t {
-    public:
         double A() const {return A_;}
         double B() const {return B_;}
         double C() const {return C_;}
@@ -128,7 +121,6 @@ namespace gmtr {
 
         bool operator==(Plane_t& rhs) const;
 
-    public:
         double A_;
         double B_;
         double C_;
@@ -138,7 +130,6 @@ namespace gmtr {
 //---------------------------------------------------------------------------------------------------------
 
     struct Triangle_t {
-    public:
         Point_t A() const {return a_;}
         Point_t B() const {return b_;}
         Point_t C() const {return c_;}
@@ -167,7 +158,6 @@ namespace gmtr {
         Plane_t Triangle_Plane() const;
         friend std::istream& operator>>(std::istream& is, Triangle_t triangle);
 
-    public:
         Point_t b_;
         Point_t c_;
         Point_t a_;
@@ -192,7 +182,6 @@ namespace gmtr {
 
         Line_t Line() {return {a_, b_};}
 
-    public:
         Point_t a_;
         Point_t b_;
     };
@@ -200,13 +189,11 @@ namespace gmtr {
 //--------------------------------------------------------------------------------------------------------------
 
     struct Sphere_t {
-    public:
         Sphere_t() : radius_{NAN}, centre_{} {}
         Sphere_t(double radius, Point_t centre)
                                 :radius_{radius}, centre_{centre} {}
         Point_t Random_Point();
 
-    public:
         double radius_;
         Point_t centre_;
     };

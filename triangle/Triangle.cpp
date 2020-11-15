@@ -6,20 +6,39 @@ namespace gmtr {
 
         if (!IsNormal() && !other.IsNormal()) {
             Point_t a1, b1;
-            if (a_ != b_) {
+            double distAB1 = a_.Distance_to_Point(b_);
+            double distAC1 = a_.Distance_to_Point(c_);
+            double distBC1 = b_.Distance_to_Point(c_);
+            double maxDist1 = std::max(distAB1, std::max(distAC1, distBC1));
+            if (maxDist1 == distAB1) {
                 a1 = a_;
                 b1 = b_;
-            } else {
+            }
+            if (maxDist1 == distAC1) {
                 a1 = a_;
+                b1 = b_;
+            }
+            if (maxDist1 == distBC1) {
+                a1 = b_;
                 b1 = c_;
             }
             Interval_t interval1{a1, b1};
+
             Point_t a2, b2;
-            if (other.a_ != other.b_) {
+            double distAB2 = other.a_.Distance_to_Point(other.b_);
+            double distAC2 = other.a_.Distance_to_Point(other.c_);
+            double distBC2 = other.b_.Distance_to_Point(other.c_);
+            double maxDist2 = std::max(distAB2, std::max(distAC2, distBC2));
+            if (maxDist2 == distAB2) {
                 a2 = other.a_;
                 b2 = other.b_;
-            } else {
+            }
+            if (maxDist2 == distAC2) {
                 a2 = other.a_;
+                b2 = other.b_;
+            }
+            if (maxDist2 == distBC2) {
+                a2 = other.b_;
                 b2 = other.c_;
             }
             Interval_t interval2{a2, b2};
@@ -28,29 +47,37 @@ namespace gmtr {
 
 
         if (!IsNormal()) {
-            Point_t a, b;
-            if (a_ != b_) {
-                a = a_;
-                b = b_;
-            } else {
-                a = a_;
-                b = c_;
+            double distAB = a_.Distance_to_Point(b_);
+            double distAC = a_.Distance_to_Point(c_);
+            double distBC = b_.Distance_to_Point(c_);
+            double maxDist = std::max(distAB, std::max(distAC, distBC));
+            if (maxDist == distAB) {
+                return Interval_t{a_, b_}.Intersection_with_Triangle(other);
             }
-            Interval_t interval{a, b};
-            return interval.Intersection_with_Triangle(other);
+            if (maxDist == distAC) {
+                return Interval_t{a_, c_}.Intersection_with_Triangle(other);
+            }
+            if (maxDist == distBC) {
+                return Interval_t{b_, c_}.Intersection_with_Triangle(other);
+            }
+            assert(true && "ooops");
         }
 
-        if (!IsNormal()) {
-            Point_t a, b;
-            if (a_ != b_) {
-                a = other.a_;
-                b = other.b_;
-            } else {
-                a = other.a_;
-                b = other.c_;
+        if (!other.IsNormal()) {
+            double distAB = other.a_.Distance_to_Point(other.b_);
+            double distAC = other.a_.Distance_to_Point(other.c_);
+            double distBC = other.b_.Distance_to_Point(other.c_);
+            double maxDist = std::max(distAB, std::max(distAC, distBC));
+            if (maxDist == distAB) {
+                return Interval_t{other.a_, other.b_}.Intersection_with_Triangle(*this);
             }
-            Interval_t interval{a, b};
-            return interval.Intersection_with_Triangle(*this);
+            if (maxDist == distAC) {
+                return Interval_t{other.a_, other.c_}.Intersection_with_Triangle(*this);
+            }
+            if (maxDist == distBC) {
+                return Interval_t{other.b_, other.c_}.Intersection_with_Triangle(*this);
+            }
+            assert(true && "ooops");
         }
 
         Plane_t plane1 = other.Triangle_Plane();
@@ -380,6 +407,9 @@ namespace gmtr {
         if (point.IsValid() && interval.is_Interval_Point(point)) {
             return point;
         }
+        if (DoubleEqual(point.x_, 0) && DoubleEqual(point.y_, 0) && std::isnan(point.z_)) {
+            return Point_t{0, 0, NAN};
+        }
         return Point_t{};
     }
 
@@ -388,34 +418,55 @@ namespace gmtr {
         Point_t p2 = Intersection_with_Interval({triangle.A(), triangle.C()});
         Point_t p3 = Intersection_with_Interval({triangle.B(), triangle.C()});
 
-        if (p1.IsValid() && p2.IsValid()) {
-            return {p1, p2};
+        Point_t interPoint1{};
+        Point_t interPoint2{};
+
+        if (p1 == p2 && p1 != p3) {
+            interPoint1 = p1;
+            interPoint2 = p3;
         }
 
-        if (p1.IsValid() && p3.IsValid()) {
-            return {p1, p3};
+        if (p1 == p3 && p1 != p2) {
+            interPoint1 = p1;
+            interPoint2 = p2;
         }
 
-        if (p2.IsValid() && p3.IsValid()) {
-            return {p2, p3};
+        if (p2 == p3 && p2 != p1) {
+            interPoint1 = p2;
+            interPoint2 = p1;
         }
 
-        if (p1.IsValid() && !p2.IsValid() && !p3.IsValid()) {
+        if (p1 == p3 && p3 == p2) {
             return {p1, p1};
         }
 
-        if (p2.IsValid() && !p1.IsValid() && !p3.IsValid()) {
-            return {p2, p2};
+        if (!p1.IsValid()) {
+            interPoint1 = p2;
+            interPoint2 = p3;
         }
 
-        if (p3.IsValid() && !p1.IsValid() && !p2.IsValid()) {
-            return {p3, p3};
+        if (!p2.IsValid()) {
+            interPoint1 = p1;
+            interPoint2 = p3;
         }
 
-        if (!p1.IsValid() && !p2.IsValid() && !p3.IsValid()) {
-            return {p1, p1};
+        if (!p3.IsValid()) {
+            interPoint1 = p1;
+            interPoint2 = p2;
         }
-        assert(false && "Interscetion with triangle oooops");
+
+        if (interPoint1.IsValid() && interPoint2.IsValid()) {
+            return {interPoint1, interPoint2};
+        }
+
+        if (interPoint1.IsValid() && !interPoint2.IsValid()) {
+            return {interPoint1, interPoint1};
+        }
+
+        if (interPoint2.IsValid() && !interPoint1.IsValid()) {
+            return {interPoint2, interPoint2};
+        }
+        return Interval_t{};
     }
 
 

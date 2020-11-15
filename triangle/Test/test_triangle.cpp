@@ -177,11 +177,6 @@ TEST(Triangle, Triangles_Intersection) {
 
     ASSERT_TRUE(tr13.Triangles_Intersection(tr14));
 
-    gmtr::Triangle_t tr15{{-3, 0, 0}, {-1, 0, 0}, {-2, 0, 0}};
-    gmtr::Triangle_t tr16{{0, -3, 0}, {0, 2, 0}, {-3, 0, 0}};
-
-    ASSERT_TRUE(tr15.Triangles_Intersection(tr16));
-
     //0 0 0 1 0 0 0 0 1
     //0.5 -0.5 0 0.5 0.5 0 0.5 0 1
 
@@ -252,4 +247,48 @@ TEST(Triangle, Triangle_Intersection6) {
 
     ASSERT_FALSE(tr2.Triangles_Intersection(tr1));
     ASSERT_FALSE(tr1.Triangles_Intersection(tr2));
+}
+
+TEST(Triangle, Triangle_INtersection7) {
+//    2
+//    0 0 0 1 0 0 0 1 0
+//    0 0 0.01 5 5 0.01 5 5 -0.09
+
+    gmtr::Triangle_t tr1{{0, 0, 0},
+                         {1, 0, 0},
+                         {0, 1, 0}};
+    gmtr::Triangle_t tr2{{0, 0, 0.01},
+                         {5, 5, 0.01},
+                         {5, 5, -0.09}};
+    ASSERT_TRUE(tr2.Triangles_Intersection(tr1));
+    ASSERT_TRUE(tr1.Triangles_Intersection(tr2));
+}
+
+TEST(Triangle, Triangle_Intersection8) {
+    gmtr::Triangle_t tr15{{-3, 0, 0}, {-1, 0, 0}, {-2, 0, 0}};
+    gmtr::Triangle_t tr16{{0, -3, 0}, {0, 2, 0}, {-3, 0, 0}};
+
+    ASSERT_TRUE(tr15.Triangles_Intersection(tr16));
+    ASSERT_TRUE(tr16.Triangles_Intersection(tr15));
+}
+
+TEST(Tiangle, Triangle_Intersection9) {
+    gmtr::Triangle_t tr1{{-1, 0, 0}, {-2, 0, 0}, {-3, 0, 0}};
+    gmtr::Triangle_t tr2{{-2, -1, 0}, {-2, 1, 0}, {-2, 0, 0}};
+
+    ASSERT_TRUE(tr1.Triangles_Intersection(tr2));
+    ASSERT_TRUE(tr2.Triangles_Intersection(tr1));
+}
+
+TEST(Triangle, Triangle_Intersection10) {
+//    2
+//    1 1 0 3 1 0 1 3 0
+//    1 1 0 1 2 3 5 4 8
+
+    gmtr::Triangle_t tr1{{1, 1, 0}, {3, 1, 0}, {1, 3, 0}};
+    gmtr::Triangle_t tr2{{1, 1, 0}, {1, 2, 3}, {5, 4, 8}};
+
+    ASSERT_TRUE(tr1.Triangles_Intersection(tr2));
+    ASSERT_TRUE(tr2.Triangles_Intersection(tr1));
+
 }

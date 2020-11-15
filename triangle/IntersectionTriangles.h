@@ -25,8 +25,6 @@ namespace trs {
 
     class Triangles_t;
 
-    struct Node_t;
-
     class Square_t;
 
 
@@ -48,34 +46,37 @@ namespace trs {
         double lenEdge_;
     };
 
-//------------------------------------------------------------------------------------------------------
-
-    struct Node_t {
-    public:
-        Node_t(Cube_t cube, std::vector<triangleIterator> data, unsigned level)
-                : cube_(cube), data_(std::move(data)),
-                  level_(level), unassigned_(), children_{} {}
-
-        Node_t() : cube_{}, data_{}, level_{}, children_() {}
-
-        Node_t(Cube_t cube, unsigned level) : cube_(cube), data_{0},
-                                              level_(level), unassigned_(0),
-                                              children_{} {}
-
-        Cube_t cube_;
-        std::vector<triangleIterator> data_;
-        std::array<Node_t *, 8> children_;
-        unsigned level_;
-        std::vector<triangleIterator> unassigned_;
-    };
 
 //---------------------------------------------------------------------------------------
 
     class Octree_t {
+    private:
+        struct Node_t {
+        public:
+            Node_t(Cube_t cube, std::vector<triangleIterator> data, unsigned level)
+                    : cube_(cube), data_(std::move(data)),
+                      level_(level), unassigned_(), children_{} {}
+
+            Node_t() : cube_{}, data_{}, level_{}, children_() {}
+
+            Node_t(Cube_t cube, unsigned level) : cube_(cube), data_{0},
+                                                  level_(level), unassigned_(0),
+                                                  children_{} {}
+
+            Cube_t cube_;
+            std::vector<triangleIterator> data_;
+            std::array<Node_t *, 8> children_;
+            unsigned level_;
+            std::vector<triangleIterator> unassigned_;
+        };
+        Node_t top_;
+
     public:
         Octree_t() : top_{} {}
 
         Octree_t(Node_t top) : top_(top) {}
+        Octree_t(Cube_t cube, std::vector<triangleIterator> trgs, unsigned level) :
+            top_{cube, trgs, level} {}
 
         void Split_Cube(Node_t *top);
 
@@ -88,9 +89,6 @@ namespace trs {
         void Delete_Node(Node_t *top);
 
         ~Octree_t();
-
-    private:
-        Node_t top_;
     };
 
 //------------------------------------------------------------------------------------------------------
@@ -100,7 +98,7 @@ namespace trs {
         Triangles_t(size_t numTriangles, std::istream& is);
         Triangles_t(size_t numTriangles){ Triangles_t{numTriangles, std::cin};}
 
-        explicit Triangles_t(std::vector<gmtr::Triangle_t> &data);
+        Triangles_t(std::vector<gmtr::Triangle_t> &data);
 
         void Output_Intersecting_Triangles();
 

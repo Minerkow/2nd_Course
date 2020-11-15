@@ -31,9 +31,8 @@ namespace trs {
         double lenEdge = std::max(maxX - minX,
                                   std::max(maxY - minY, maxZ - minZ));
         Cube_t mainCube = Cube_t{{minX, minY, minZ}, lenEdge};
-        Node_t topNode{mainCube, triangles, 0};
 
-        octree_ = Octree_t{topNode};
+        octree_ = Octree_t{mainCube, triangles, 0};
 
         octree_.Split_Cube();
     }
@@ -66,9 +65,8 @@ namespace trs {
         double lenEdge = std::max(maxX - minX,
                                   std::max(maxY - minY, maxZ - minZ));
         Cube_t mainCube = Cube_t{gmtr::Point_t{minX, minY, minZ}, lenEdge};
-        Node_t topNode{mainCube, triangles, 0};
 
-        octree_ = Octree_t{topNode};
+        octree_ = Octree_t{mainCube, triangles, 0};
 
         octree_.Split_Cube();
     }
