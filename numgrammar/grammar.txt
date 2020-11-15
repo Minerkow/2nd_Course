@@ -1,0 +1,6 @@
+//sent ::= comm {;} sent | comm
+//comm ::= comp {input, print, assign, if, while} comm | comp
+//comp ::= expr { ==, <=, >=, !, !=, >, <} comp | expr
+//expr ::= mult {+, -} expr | mult
+//mult ::= term {*, /} mult | term
+//term ::= ( expr ) | number | variable
