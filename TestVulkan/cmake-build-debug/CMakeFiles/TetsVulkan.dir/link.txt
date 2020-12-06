@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/TetsVulkan.dir/main.cpp.o  -o TetsVulkan   -L/usr/lib/x86_64-linux-gnu/libvulkan.so 

@@ -1,0 +1,60 @@
+Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
+Change Dir: /home/bibi/Desktop/Programm/TetsVulkan/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_49ccb/fast && /usr/bin/make  -f CMakeFiles/cmTC_49ccb.dir/build.make CMakeFiles/cmTC_49ccb.dir/build
+make[1]: Entering directory '/home/bibi/Desktop/Programm/TetsVulkan/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_49ccb.dir/src.c.o
+/usr/bin/cc   -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_49ccb.dir/src.c.o   -c /home/bibi/Desktop/Programm/TetsVulkan/cmake-build-debug/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_49ccb
+/home/bibi/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/202.6948.80/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_49ccb.dir/link.txt --verbose=1
+/usr/bin/cc  -DCMAKE_HAVE_LIBC_PTHREAD    CMakeFiles/cmTC_49ccb.dir/src.c.o  -o cmTC_49ccb 
+/usr/bin/ld: CMakeFiles/cmTC_49ccb.dir/src.c.o: in function `main':
+src.c:(.text+0x46): undefined reference to `pthread_create'
+/usr/bin/ld: src.c:(.text+0x52): undefined reference to `pthread_detach'
+/usr/bin/ld: src.c:(.text+0x5e): undefined reference to `pthread_cancel'
+/usr/bin/ld: src.c:(.text+0x6f): undefined reference to `pthread_join'
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_49ccb.dir/build.make:107: cmTC_49ccb] Error 1
+make[1]: Leaving directory '/home/bibi/Desktop/Programm/TetsVulkan/cmake-build-debug/CMakeFiles/CMakeTmp'
+make: *** [Makefile:141: cmTC_49ccb/fast] Error 2
+
+
+Source file was:
+#include <pthread.h>
+
+void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_cancel(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/bibi/Desktop/Programm/TetsVulkan/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_ffba4/fast && /usr/bin/make  -f CMakeFiles/cmTC_ffba4.dir/build.make CMakeFiles/cmTC_ffba4.dir/build
+make[1]: Entering directory '/home/bibi/Desktop/Programm/TetsVulkan/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_ffba4.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_ffba4.dir/CheckFunctionExists.c.o   -c /home/bibi/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/202.6948.80/bin/cmake/linux/share/cmake-3.17/Modules/CheckFunctionExists.c
+Linking C executable cmTC_ffba4
+/home/bibi/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/202.6948.80/bin/cmake/linux/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ffba4.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_ffba4.dir/CheckFunctionExists.c.o  -o cmTC_ffba4  -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_ffba4.dir/build.make:107: cmTC_ffba4] Error 1
+make[1]: Leaving directory '/home/bibi/Desktop/Programm/TetsVulkan/cmake-build-debug/CMakeFiles/CMakeTmp'
+make: *** [Makefile:141: cmTC_ffba4/fast] Error 2
+
+
+
