@@ -12,10 +12,12 @@ include_directories(
 
 add_executable(Matrix
                main.cpp
-               Matrix.hpp)
+               Matrix.hpp
+        Graph.hpp)
 
 add_executable(test_matrix
                ./test/test_matrix.cpp
+               ./test/test_graph.cpp
                test/test_generator.hpp
                Matrix.hpp)
 

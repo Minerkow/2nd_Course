@@ -1,0 +1,4 @@
+/home/bibi/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/202.8194.17/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/bibi/Desktop/2nd_Course/Matrix
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/bibi/Desktop/2nd_Course/Matrix/cmake-build-debug

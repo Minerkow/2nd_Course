@@ -61,6 +61,8 @@ namespace mtrx {
         ProxyRow_t<T>& operator[](const size_t index);
         const ProxyRow_t<T>& operator[](const size_t index) const;
 
+        bool empty();
+
         ~Matrix_t();
     private:
         T* data_;
@@ -77,6 +79,9 @@ namespace mtrx {
 
     template <typename T>
     std::ostream& operator<<(std::ostream& os, Matrix_t<T>& matrix);
+
+    template<typename first, typename second>
+    std::ostream& operator<<(std::ostream& os, std::pair<first, second> pair);
 
     template<typename T>
     Matrix_t<T> operator+(Matrix_t<T>& lhs, Matrix_t<T>& rhs);
@@ -356,6 +361,11 @@ namespace mtrx {
     }
 
     template<typename T>
+    bool Matrix_t<T>::empty() {
+        return numColumns_ == 0 && numRows_ == 0;
+    }
+
+    template<typename T>
     Matrix_t<T>::Matrix_t(const Matrix_t<T> &matrix) : Matrix_t{matrix.Num_Rows(), matrix.Num_Columns()} {
         for (size_t i = 0; i < numRows_; ++i) {
             for (size_t j = 0; j < numColumns_; ++j) {
@@ -459,6 +469,12 @@ namespace mtrx {
             res[i][i] = 1;
         }
         return res;
+    }
+
+    template<typename first, typename second>
+    std::ostream& operator<<(std::ostream& os, std::pair<first, second> pair) {
+        os << "[ " << pair.first << " " << pair.second << " ]";
+        return os;
     }
 
 }
