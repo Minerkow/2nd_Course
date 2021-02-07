@@ -83,6 +83,9 @@ namespace mtrx {
     template<typename first, typename second>
     std::ostream& operator<<(std::ostream& os, std::pair<first, second> pair);
 
+    template <typename first, typename second>
+    std::ostream& operator<<(std::ostream& os, std::vector<std::pair<first, second>> vec);
+
     template<typename T>
     Matrix_t<T> operator+(Matrix_t<T>& lhs, Matrix_t<T>& rhs);
 
@@ -477,4 +480,13 @@ namespace mtrx {
         return os;
     }
 
+    template <typename first, typename second>
+    std::ostream& operator<<(std::ostream& os, std::vector<std::pair<first, second>> vec) {
+        os << "{ ";
+        for (auto& it : vec) {
+            os << it << " ";
+        }
+        os << "}";
+        return os;
+    }
 }

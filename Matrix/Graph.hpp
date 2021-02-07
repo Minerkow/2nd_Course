@@ -9,36 +9,39 @@ namespace grph {
     public:
         RTGraph_t(std::istream& is);
         std::vector<double> Calculate_Potential();
+        size_t Num_Nodes();
+        size_t Num_Edges();
+
     private:
         using MatrCoord_t = std::pair<size_t, size_t>;
-        using GraphInfo_t = std::pair<double, double>;
+        using EdgeInfo_t = std::pair<double, double>;
 
-        size_t sequential_elim(mtrx::Matrix_t<double>& mtrx);
-        std::vector<double> reverse_sub(mtrx::Matrix_t<double> &mtrx);
-        std::vector<double> Gaussian_Method(mtrx::Matrix_t<double> mtrx);
-
-        mtrx::Matrix_t<GraphInfo_t> matr_;
-        size_t numNode;
+        mtrx::Matrix_t<std::vector<EdgeInfo_t>> matr_;
     };
+
+
+    std::vector<double> Gaussian_Method(mtrx::Matrix_t<double> mtrx);
+    size_t sequential_elim(mtrx::Matrix_t<double> &mtrx);
+    std::vector<double> reverse_sub(mtrx::Matrix_t<double> &mtrx);
 }
 
 grph::RTGraph_t::RTGraph_t(std::istream &is) {
     std::string line;
     std::cmatch result;
     size_t maxNumNode = 0;
-    std::vector<std::pair<MatrCoord_t, GraphInfo_t>> matrInfo{};
+    std::vector<std::pair<MatrCoord_t, EdgeInfo_t>> matrInfo{};
     const std::regex regular("(\\d+)"
                              "(\\s*\\-\\-\\s*)"
                              "(\\d+)"
                              "(\\s*[,]\\s*)"
                              "(\\d+[.]?\\d*)"
                              "(\\s*[;]\\s*)"
-                             "((\\-?\\d+[.]\\d)"
+                             "((\\-?\\d+([.]\\d)?)"
                              "([V]))?"
                        );
     while (getline(is, line, '\n')) {
         size_t grNode1, grNode2;
-        std::pair<double, double> rv;
+        EdgeInfo_t rv;
         if (std::regex_search(line.c_str(), result, regular)) {
             grNode1 = std::atoi(result[1].str().c_str());
             grNode2 = std::atoi(result[3].str().c_str());
@@ -57,12 +60,11 @@ grph::RTGraph_t::RTGraph_t(std::istream &is) {
         }
     }
 
-    matr_ = mtrx::Matrix_t<GraphInfo_t>{maxNumNode};
-    numNode = maxNumNode;
-
-    for (auto& it : matrInfo) {
-        matr_[it.first.first - 1][it.first.second - 1] = it.second;
-        matr_[it.first.second - 1][it.first.first - 1] = {it.second.first, -it.second.second};
+    matr_ = mtrx::Matrix_t<std::vector<EdgeInfo_t>>{maxNumNode, matrInfo.size()};
+    for (size_t i = 0; i < matrInfo.size(); ++i) {
+        matr_[matrInfo[i].first.first - 1][i].push_back(matrInfo[i].second);
+        matr_[matrInfo[i].first.second - 1][i].emplace_back(matrInfo[i].second.first,
+                                                          matrInfo[i].second.second);
     }
     std::cout << matr_ << std::endl;
 }
@@ -70,30 +72,11 @@ grph::RTGraph_t::RTGraph_t(std::istream &is) {
 std::vector<double> grph::RTGraph_t::Calculate_Potential() {
     if (matr_.empty())
         return std::vector<double>{};
-    mtrx::Matrix_t<double> sysLinEq{numNode, numNode + 1};
-    for (size_t i = 0; i < numNode; ++i) {
-        for (size_t j = 0; j < numNode; j++) {
-            if (i == j) {
-                double resist = 0.0;
-                for (size_t k = 0; k < numNode; ++k) {
-                    if (matr_[i][k].first != 0) {
-                        resist += 1 / matr_[i][k].first;
-                    }
-                }
-                sysLinEq[i][j] = resist;
-            } else {
-                if (matr_[i][j].first != 0)
-                    sysLinEq[i][j] = - 1 / matr_[i][j].first;
-            }
-            if (matr_[i][j].first != 0) {
-                sysLinEq[i][numNode + 1] += matr_[i][j].second * (1 / matr_[i][j].first);
-                std::cout << "_" << sysLinEq[i][numNode+1] << "_";
-            }
-        }
-    }
+    mtrx::Matrix_t<double> sysLinEq{Num_Nodes(), Num_Nodes() + 1};
+
     std::cout << sysLinEq << std::endl;
 
-    std::vector<double> res = Gaussian_Method(sysLinEq);
+    std::vector<double> res = grph::Gaussian_Method(sysLinEq);
 
     for (auto& it : res) {
         std::cout << it << " ";
@@ -102,13 +85,21 @@ std::vector<double> grph::RTGraph_t::Calculate_Potential() {
     return std::vector<double>{};
 }
 
-std::vector<double> grph::RTGraph_t::Gaussian_Method(mtrx::Matrix_t<double> mtrx) {
+size_t grph::RTGraph_t::Num_Nodes() {
+    return matr_.Num_Rows();
+}
+
+size_t grph::RTGraph_t::Num_Edges() {
+    return matr_.Num_Columns();
+}
+
+std::vector<double> grph::Gaussian_Method(mtrx::Matrix_t<double> mtrx) {
     if (mtrx.Num_Rows() + 1 != mtrx.Num_Columns()) {
         //have not solution
         //TODO::
     }
     size_t n = mtrx.Num_Rows();
-    int singularFlag = sequential_elim(mtrx);
+    int singularFlag = grph::sequential_elim(mtrx);
 
     if (singularFlag != -1)
     {
@@ -123,10 +114,10 @@ std::vector<double> grph::RTGraph_t::Gaussian_Method(mtrx::Matrix_t<double> mtrx
         //TODO
     }
 
-    return reverse_sub(mtrx);
+    return grph::reverse_sub(mtrx);
 }
 
-std::vector<double> grph::RTGraph_t::reverse_sub(mtrx::Matrix_t<double> &mtrx) {
+std::vector<double> grph::reverse_sub(mtrx::Matrix_t<double> &mtrx) {
     std::vector<double> result(mtrx.Num_Rows());
     for (int i = mtrx.Num_Rows() - 1; i >= 0; --i)
     {
@@ -142,18 +133,18 @@ std::vector<double> grph::RTGraph_t::reverse_sub(mtrx::Matrix_t<double> &mtrx) {
     return result;
 }
 
-size_t grph::RTGraph_t::sequential_elim(mtrx::Matrix_t<double> &mtrx) {
+size_t grph::sequential_elim(mtrx::Matrix_t<double> &mtrx) {
     for (int k = 0; k < mtrx.Num_Rows(); ++k)
     {
         int iMax = k;
         int vMax = mtrx[iMax][k];
 
-        for (int i = k + 1; i < mtrx.Num_Rows(); ++i)
-            if (std::abs(mtrx[i][k]) > vMax)
-                vMax = mtrx[i][k], iMax = i;
-
-        if (mtrx[k][iMax] != 0.0)
-            return k; // Matrix is singular
+        for (int i = k + 1; i < mtrx.Num_Rows(); ++i) {
+            if (std::abs(mtrx[i][k]) > vMax) {
+                vMax = mtrx[i][k];
+                iMax = i;
+            }
+        }
 
         if (iMax != k)
             mtrx.Swap_Rows(k, iMax);
@@ -171,5 +162,13 @@ size_t grph::RTGraph_t::sequential_elim(mtrx::Matrix_t<double> &mtrx) {
     return -1;
 }
 
-
+template <typename T>
+std::ostream& operator<<(std::ostream& os, std::vector<T>& vec) {
+    os << " {";
+    for (auto& it : vec) {
+        os << it << " ";
+    }
+    os << "}";
+    return os;
+}
 

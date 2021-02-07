@@ -76,17 +76,6 @@ CMAKE_BINARY_DIR = /home/bibi/Desktop/2nd_Course/Matrix/cmake-build-debug
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/home/bibi/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/202.8194.17/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -97,6 +86,17 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/home/bibi/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/202.8194.17/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -131,6 +131,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named Matrix
+
+# Build rule for target.
+Matrix: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Matrix
+.PHONY : Matrix
+
+# fast build rule for target.
+Matrix/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Matrix.dir/build.make CMakeFiles/Matrix.dir/build
+.PHONY : Matrix/fast
+
+#=============================================================================
 # Target rules for targets named test_matrix
 
 # Build rule for target.
@@ -144,17 +157,17 @@ test_matrix/fast:
 .PHONY : test_matrix/fast
 
 #=============================================================================
-# Target rules for targets named Matrix
+# Target rules for targets named test_graph
 
 # Build rule for target.
-Matrix: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Matrix
-.PHONY : Matrix
+test_graph: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_graph
+.PHONY : test_graph
 
 # fast build rule for target.
-Matrix/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Matrix.dir/build.make CMakeFiles/Matrix.dir/build
-.PHONY : Matrix/fast
+test_graph/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_graph.dir/build.make CMakeFiles/test_graph.dir/build
+.PHONY : test_graph/fast
 
 main.o: main.cpp.o
 
@@ -189,7 +202,7 @@ test/test_graph.o: test/test_graph.cpp.o
 
 # target to build an object file
 test/test_graph.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_matrix.dir/build.make CMakeFiles/test_matrix.dir/test/test_graph.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_graph.dir/build.make CMakeFiles/test_graph.dir/test/test_graph.cpp.o
 .PHONY : test/test_graph.cpp.o
 
 test/test_graph.i: test/test_graph.cpp.i
@@ -198,7 +211,7 @@ test/test_graph.i: test/test_graph.cpp.i
 
 # target to preprocess a source file
 test/test_graph.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_matrix.dir/build.make CMakeFiles/test_matrix.dir/test/test_graph.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_graph.dir/build.make CMakeFiles/test_graph.dir/test/test_graph.cpp.i
 .PHONY : test/test_graph.cpp.i
 
 test/test_graph.s: test/test_graph.cpp.s
@@ -207,7 +220,7 @@ test/test_graph.s: test/test_graph.cpp.s
 
 # target to generate assembly for a file
 test/test_graph.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_matrix.dir/build.make CMakeFiles/test_matrix.dir/test/test_graph.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_graph.dir/build.make CMakeFiles/test_graph.dir/test/test_graph.cpp.s
 .PHONY : test/test_graph.cpp.s
 
 test/test_matrix.o: test/test_matrix.cpp.o
@@ -246,6 +259,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... Matrix"
+	@echo "... test_graph"
 	@echo "... test_matrix"
 	@echo "... main.o"
 	@echo "... main.i"

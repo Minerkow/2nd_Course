@@ -13,14 +13,23 @@ include_directories(
 add_executable(Matrix
                main.cpp
                Matrix.hpp
-        Graph.hpp)
+               Graph.hpp)
 
 add_executable(test_matrix
                ./test/test_matrix.cpp
-               ./test/test_graph.cpp
                test/test_generator.hpp
-               Matrix.hpp)
+               Matrix.hpp
+        )
+
+add_executable(test_graph
+        ./test/test_graph.cpp
+        Graph.hpp
+        )
 
 target_link_libraries(
         test_matrix ${GTEST_LIBRARIES} Threads::Threads
+)
+
+target_link_libraries(
+        test_graph ${GTEST_LIBRARIES} Threads::Threads
 )

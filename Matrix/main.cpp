@@ -5,7 +5,7 @@
 int main() {
     try {
         grph::RTGraph_t gr(std::cin);
-        gr.Calculate_Potential();
+        //gr.Calculate_Potential();
     } catch (std::exception) {
         std::cerr << "Incorrect input";
     }
