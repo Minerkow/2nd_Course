@@ -54,6 +54,7 @@ namespace mtrx {
 
         Matrix_t<T>& operator=(const Matrix_t<T>& rhs) ;
         Matrix_t<T>& operator+=(const Matrix_t<T>& rhs);
+        Matrix_t<T> operator-();
 
         template<typename coefficientT>
         Matrix_t<T>& operator*=(coefficientT coeff);
@@ -62,6 +63,8 @@ namespace mtrx {
         const ProxyRow_t<T>& operator[](const size_t index) const;
 
         bool empty();
+
+        Matrix_t<T> Add_Column(Matrix_t<T>& column);
 
         ~Matrix_t();
     private:
@@ -366,6 +369,35 @@ namespace mtrx {
     template<typename T>
     bool Matrix_t<T>::empty() {
         return numColumns_ == 0 && numRows_ == 0;
+    }
+
+    template<typename T>
+    Matrix_t<T> Matrix_t<T>::Add_Column(Matrix_t<T> &column) {
+        if (numRows_ != column.numRows_ && !column.empty()) {
+            //TODO::error
+        }
+        Matrix_t<T> res{numRows_, numColumns_ + column.numColumns_};
+
+        for (size_t i = 0; i < res.Num_Rows(); ++i) {
+            for (size_t j = 0; j < numColumns_; ++j) {
+                res[i][j] = rows_[i][j];
+            }
+            for (size_t j = 0; j < column.Num_Columns(); ++j) {
+                res[i][numColumns_ + j] = column[i][j];
+            }
+        }
+        return res;
+    }
+
+    template<typename T>
+    Matrix_t<T> Matrix_t<T>::operator-() {
+        Matrix_t<T> res(*this);
+        for (size_t i = 0; i < res.Num_Rows(); ++i) {
+            for(size_t j = 0; j < res.Num_Columns(); ++j) {
+                res[i][j] *= -1;
+            }
+        }
+        return res;
     }
 
     template<typename T>

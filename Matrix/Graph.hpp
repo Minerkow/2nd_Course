@@ -16,7 +16,9 @@ namespace grph {
         using MatrCoord_t = std::pair<size_t, size_t>;
         using EdgeInfo_t = std::pair<double, double>;
 
-        mtrx::Matrix_t<std::vector<EdgeInfo_t>> matr_;
+        mtrx::Matrix_t<double> incMtrx_;
+        mtrx::Matrix_t<double> conductMtrx_;
+        mtrx::Matrix_t<double> emfMtrx_;
     };
 
 
@@ -60,50 +62,46 @@ grph::RTGraph_t::RTGraph_t(std::istream &is) {
         }
     }
 
-    matr_ = mtrx::Matrix_t<std::vector<EdgeInfo_t>>{maxNumNode, matrInfo.size()};
+    incMtrx_ = mtrx::Matrix_t<int>{maxNumNode, matrInfo.size()};
+    conductMtrx_ = mtrx::Matrix_t<double>{matrInfo.size()};
+    emfMtrx_ = mtrx::Matrix_t<double>{matrInfo.size(), 1};
+
     for (size_t i = 0; i < matrInfo.size(); ++i) {
-        matr_[matrInfo[i].first.first - 1][i].push_back(matrInfo[i].second);
-        matr_[matrInfo[i].first.second - 1][i].emplace_back(matrInfo[i].second.first,
-                                                          matrInfo[i].second.second);
+
+        incMtrx_[matrInfo[i].first.first - 1][i] = 1;
+        incMtrx_[matrInfo[i].first.second - 1][i] = -1;
+
+        if (matrInfo[i].first.first == matrInfo[i].first.second)
+            incMtrx_[matrInfo[i].first.first - 1][i] = 2;
+
+        if (matrInfo[i].second.first != 0) {
+            conductMtrx_[i][i] = 1 / matrInfo[i].second.first;
+        }
+        emfMtrx_[i][0] = matrInfo[i].second.second;
     }
-    std::cout << matr_ << std::endl;
+
+    std::cout << incMtrx_ << std::endl
+              << conductMtrx_ << std::endl
+              << emfMtrx_ << std::endl;
 }
 
 std::vector<double> grph::RTGraph_t::Calculate_Potential() {
-    if (matr_.empty())
-        return std::vector<double>{};
-    mtrx::Matrix_t<double> sysLinEq{Num_Nodes(), Num_Nodes() + 1};
-    std::vector<double> res(Num_Nodes());
+    mtrx::Matrix_t<double> incMtrxT = incMtrx_.Transposition();
+    mtrx::Matrix_t<double> systEq = incMtrx_.Matrix_Mult(conductMtrx_).Matrix_Mult(incMtrxT);
 
-    for (size_t i = 0; i < sysLinEq.Num_Rows(); ++i) {
-        for (size_t j = 0; j < sysLinEq.Num_Rows(); ++j) {
-            if (i == j) {
-                continue;
-            }
-            double conductivity = 0;
-            for (auto& it : matr_[i][j]) {
-                conductivity += 1 / it.first;
-            }
-        }
-    }
+    mtrx::Matrix_t<double> freeColumn = -incMtrx_.Matrix_Mult(conductMtrx_).Matrix_Mult(emfMtrx_);
 
-    std::cout << sysLinEq << std::endl;
-
-    std::vector<double> res = grph::Gaussian_Method(sysLinEq);
-
-    for (auto& it : res) {
-        std::cout << it << " ";
-    }
-
-    return std::vector<double>{};
+    std::cout << systEq << std::endl << freeColumn << std::endl;
+    std::vector<double> res = Gaussian_Method(systEq.Add_Column(freeColumn));
+    return res;
 }
 
 size_t grph::RTGraph_t::Num_Nodes() {
-    return matr_.Num_Rows();
+    return incMtrx_.Num_Rows() + 1;
 }
 
 size_t grph::RTGraph_t::Num_Edges() {
-    return matr_.Num_Columns();
+    return emfMtrx_.Num_Rows();
 }
 
 std::vector<double> grph::Gaussian_Method(mtrx::Matrix_t<double> mtrx) {
