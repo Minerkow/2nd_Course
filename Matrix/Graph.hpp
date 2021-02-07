@@ -73,6 +73,19 @@ std::vector<double> grph::RTGraph_t::Calculate_Potential() {
     if (matr_.empty())
         return std::vector<double>{};
     mtrx::Matrix_t<double> sysLinEq{Num_Nodes(), Num_Nodes() + 1};
+    std::vector<double> res(Num_Nodes());
+
+    for (size_t i = 0; i < sysLinEq.Num_Rows(); ++i) {
+        for (size_t j = 0; j < sysLinEq.Num_Rows(); ++j) {
+            if (i == j) {
+                continue;
+            }
+            double conductivity = 0;
+            for (auto& it : matr_[i][j]) {
+                conductivity += 1 / it.first;
+            }
+        }
+    }
 
     std::cout << sysLinEq << std::endl;
 
