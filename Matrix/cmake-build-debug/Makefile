@@ -169,86 +169,50 @@ test_graph/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_graph.dir/build.make CMakeFiles/test_graph.dir/build
 .PHONY : test_graph/fast
 
-main.o: main.cpp.o
-
+# target to build an object file
+main.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Matrix.dir/build.make CMakeFiles/Matrix.dir/main.o
 .PHONY : main.o
 
-# target to build an object file
-main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Matrix.dir/build.make CMakeFiles/Matrix.dir/main.cpp.o
-.PHONY : main.cpp.o
-
-main.i: main.cpp.i
-
+# target to preprocess a source file
+main.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Matrix.dir/build.make CMakeFiles/Matrix.dir/main.i
 .PHONY : main.i
 
-# target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Matrix.dir/build.make CMakeFiles/Matrix.dir/main.cpp.i
-.PHONY : main.cpp.i
-
-main.s: main.cpp.s
-
+# target to generate assembly for a file
+main.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Matrix.dir/build.make CMakeFiles/Matrix.dir/main.s
 .PHONY : main.s
 
-# target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Matrix.dir/build.make CMakeFiles/Matrix.dir/main.cpp.s
-.PHONY : main.cpp.s
-
-test/test_graph.o: test/test_graph.cpp.o
-
+# target to build an object file
+test/test_graph.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_graph.dir/build.make CMakeFiles/test_graph.dir/test/test_graph.o
 .PHONY : test/test_graph.o
 
-# target to build an object file
-test/test_graph.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_graph.dir/build.make CMakeFiles/test_graph.dir/test/test_graph.cpp.o
-.PHONY : test/test_graph.cpp.o
-
-test/test_graph.i: test/test_graph.cpp.i
-
+# target to preprocess a source file
+test/test_graph.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_graph.dir/build.make CMakeFiles/test_graph.dir/test/test_graph.i
 .PHONY : test/test_graph.i
 
-# target to preprocess a source file
-test/test_graph.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_graph.dir/build.make CMakeFiles/test_graph.dir/test/test_graph.cpp.i
-.PHONY : test/test_graph.cpp.i
-
-test/test_graph.s: test/test_graph.cpp.s
-
+# target to generate assembly for a file
+test/test_graph.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_graph.dir/build.make CMakeFiles/test_graph.dir/test/test_graph.s
 .PHONY : test/test_graph.s
 
-# target to generate assembly for a file
-test/test_graph.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_graph.dir/build.make CMakeFiles/test_graph.dir/test/test_graph.cpp.s
-.PHONY : test/test_graph.cpp.s
-
-test/test_matrix.o: test/test_matrix.cpp.o
-
+# target to build an object file
+test/test_matrix.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_matrix.dir/build.make CMakeFiles/test_matrix.dir/test/test_matrix.o
 .PHONY : test/test_matrix.o
 
-# target to build an object file
-test/test_matrix.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_matrix.dir/build.make CMakeFiles/test_matrix.dir/test/test_matrix.cpp.o
-.PHONY : test/test_matrix.cpp.o
-
-test/test_matrix.i: test/test_matrix.cpp.i
-
+# target to preprocess a source file
+test/test_matrix.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_matrix.dir/build.make CMakeFiles/test_matrix.dir/test/test_matrix.i
 .PHONY : test/test_matrix.i
 
-# target to preprocess a source file
-test/test_matrix.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_matrix.dir/build.make CMakeFiles/test_matrix.dir/test/test_matrix.cpp.i
-.PHONY : test/test_matrix.cpp.i
-
-test/test_matrix.s: test/test_matrix.cpp.s
-
-.PHONY : test/test_matrix.s
-
 # target to generate assembly for a file
-test/test_matrix.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_matrix.dir/build.make CMakeFiles/test_matrix.dir/test/test_matrix.cpp.s
-.PHONY : test/test_matrix.cpp.s
+test/test_matrix.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_matrix.dir/build.make CMakeFiles/test_matrix.dir/test/test_matrix.s
+.PHONY : test/test_matrix.s
 
 # Help Target
 help:

@@ -77,27 +77,27 @@ include CMakeFiles/Matrix.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/Matrix.dir/flags.make
 
-CMakeFiles/Matrix.dir/main.cpp.o: CMakeFiles/Matrix.dir/flags.make
-CMakeFiles/Matrix.dir/main.cpp.o: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bibi/Desktop/2nd_Course/Matrix/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Matrix.dir/main.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Matrix.dir/main.cpp.o -c /home/bibi/Desktop/2nd_Course/Matrix/main.cpp
+CMakeFiles/Matrix.dir/main.o: CMakeFiles/Matrix.dir/flags.make
+CMakeFiles/Matrix.dir/main.o: ../main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bibi/Desktop/2nd_Course/Matrix/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Matrix.dir/main.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Matrix.dir/main.o -c /home/bibi/Desktop/2nd_Course/Matrix/main.cpp
 
-CMakeFiles/Matrix.dir/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Matrix.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/bibi/Desktop/2nd_Course/Matrix/main.cpp > CMakeFiles/Matrix.dir/main.cpp.i
+CMakeFiles/Matrix.dir/main.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Matrix.dir/main.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/bibi/Desktop/2nd_Course/Matrix/main.cpp > CMakeFiles/Matrix.dir/main.i
 
-CMakeFiles/Matrix.dir/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Matrix.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bibi/Desktop/2nd_Course/Matrix/main.cpp -o CMakeFiles/Matrix.dir/main.cpp.s
+CMakeFiles/Matrix.dir/main.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Matrix.dir/main.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bibi/Desktop/2nd_Course/Matrix/main.cpp -o CMakeFiles/Matrix.dir/main.s
 
 # Object files for target Matrix
 Matrix_OBJECTS = \
-"CMakeFiles/Matrix.dir/main.cpp.o"
+"CMakeFiles/Matrix.dir/main.o"
 
 # External object files for target Matrix
 Matrix_EXTERNAL_OBJECTS =
 
-Matrix: CMakeFiles/Matrix.dir/main.cpp.o
+Matrix: CMakeFiles/Matrix.dir/main.o
 Matrix: CMakeFiles/Matrix.dir/build.make
 Matrix: CMakeFiles/Matrix.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/bibi/Desktop/2nd_Course/Matrix/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable Matrix"

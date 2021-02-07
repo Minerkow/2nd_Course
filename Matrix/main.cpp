@@ -9,6 +9,8 @@ int main() {
         for (auto& it : res) {
             std:: cout << it << " ";
         }
+        std::cout << std::endl;
+        gr.Calculate_Amperage();
     } catch (std::exception) {
         std::cerr << "Incorrect input";
     }

@@ -77,27 +77,27 @@ include CMakeFiles/test_matrix.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/test_matrix.dir/flags.make
 
-CMakeFiles/test_matrix.dir/test/test_matrix.cpp.o: CMakeFiles/test_matrix.dir/flags.make
-CMakeFiles/test_matrix.dir/test/test_matrix.cpp.o: ../test/test_matrix.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bibi/Desktop/2nd_Course/Matrix/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/test_matrix.dir/test/test_matrix.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/test_matrix.dir/test/test_matrix.cpp.o -c /home/bibi/Desktop/2nd_Course/Matrix/test/test_matrix.cpp
+CMakeFiles/test_matrix.dir/test/test_matrix.o: CMakeFiles/test_matrix.dir/flags.make
+CMakeFiles/test_matrix.dir/test/test_matrix.o: ../test/test_matrix.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bibi/Desktop/2nd_Course/Matrix/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/test_matrix.dir/test/test_matrix.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/test_matrix.dir/test/test_matrix.o -c /home/bibi/Desktop/2nd_Course/Matrix/test/test_matrix.cpp
 
-CMakeFiles/test_matrix.dir/test/test_matrix.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test_matrix.dir/test/test_matrix.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/bibi/Desktop/2nd_Course/Matrix/test/test_matrix.cpp > CMakeFiles/test_matrix.dir/test/test_matrix.cpp.i
+CMakeFiles/test_matrix.dir/test/test_matrix.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test_matrix.dir/test/test_matrix.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/bibi/Desktop/2nd_Course/Matrix/test/test_matrix.cpp > CMakeFiles/test_matrix.dir/test/test_matrix.i
 
-CMakeFiles/test_matrix.dir/test/test_matrix.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test_matrix.dir/test/test_matrix.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bibi/Desktop/2nd_Course/Matrix/test/test_matrix.cpp -o CMakeFiles/test_matrix.dir/test/test_matrix.cpp.s
+CMakeFiles/test_matrix.dir/test/test_matrix.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test_matrix.dir/test/test_matrix.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bibi/Desktop/2nd_Course/Matrix/test/test_matrix.cpp -o CMakeFiles/test_matrix.dir/test/test_matrix.s
 
 # Object files for target test_matrix
 test_matrix_OBJECTS = \
-"CMakeFiles/test_matrix.dir/test/test_matrix.cpp.o"
+"CMakeFiles/test_matrix.dir/test/test_matrix.o"
 
 # External object files for target test_matrix
 test_matrix_EXTERNAL_OBJECTS =
 
-test_matrix: CMakeFiles/test_matrix.dir/test/test_matrix.cpp.o
+test_matrix: CMakeFiles/test_matrix.dir/test/test_matrix.o
 test_matrix: CMakeFiles/test_matrix.dir/build.make
 test_matrix: /usr/lib/x86_64-linux-gnu/libgtest.a
 test_matrix: CMakeFiles/test_matrix.dir/link.txt

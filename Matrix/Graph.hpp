@@ -9,6 +9,7 @@ namespace grph {
     public:
         RTGraph_t(std::istream& is);
         std::vector<double> Calculate_Potential();
+        void Calculate_Amperage();
         size_t Num_Nodes();
         size_t Num_Edges();
 
@@ -62,15 +63,17 @@ grph::RTGraph_t::RTGraph_t(std::istream &is) {
         }
     }
 
-    incMtrx_ = mtrx::Matrix_t<int>{maxNumNode, matrInfo.size()};
+    incMtrx_ = mtrx::Matrix_t<int>{maxNumNode - 1, matrInfo.size()};
     conductMtrx_ = mtrx::Matrix_t<double>{matrInfo.size()};
     emfMtrx_ = mtrx::Matrix_t<double>{matrInfo.size(), 1};
 
     for (size_t i = 0; i < matrInfo.size(); ++i) {
-
-        incMtrx_[matrInfo[i].first.first - 1][i] = 1;
-        incMtrx_[matrInfo[i].first.second - 1][i] = -1;
-
+        if (matrInfo[i].first.first != maxNumNode) {
+            incMtrx_[matrInfo[i].first.first - 1][i] = 1;
+        }
+        if (matrInfo[i].first.second != maxNumNode) {
+            incMtrx_[matrInfo[i].first.second - 1][i] = -1;
+        }
         if (matrInfo[i].first.first == matrInfo[i].first.second)
             incMtrx_[matrInfo[i].first.first - 1][i] = 2;
 
@@ -89,7 +92,7 @@ std::vector<double> grph::RTGraph_t::Calculate_Potential() {
     mtrx::Matrix_t<double> incMtrxT = incMtrx_.Transposition();
     mtrx::Matrix_t<double> systEq = incMtrx_.Matrix_Mult(conductMtrx_).Matrix_Mult(incMtrxT);
 
-    mtrx::Matrix_t<double> freeColumn = -incMtrx_.Matrix_Mult(conductMtrx_).Matrix_Mult(emfMtrx_);
+    mtrx::Matrix_t<double> freeColumn = - incMtrx_.Matrix_Mult(conductMtrx_).Matrix_Mult(emfMtrx_);
 
     std::cout << systEq << std::endl << freeColumn << std::endl;
     std::vector<double> res = Gaussian_Method(systEq.Add_Column(freeColumn));
@@ -102,6 +105,34 @@ size_t grph::RTGraph_t::Num_Nodes() {
 
 size_t grph::RTGraph_t::Num_Edges() {
     return emfMtrx_.Num_Rows();
+}
+
+void grph::RTGraph_t::Calculate_Amperage() {
+    std::vector<double> pot = Calculate_Potential();
+    for (size_t i = 0; i < Num_Edges(); ++i) {
+        size_t gNode1 = 0;
+        size_t gNode2 = 0;
+        for (size_t j = 0; j < Num_Nodes() - 1; ++j) {
+            if (mtrx::Double_Equal(incMtrx_[j][i], 1)) {
+                gNode1 = j + 1;
+            }
+            if (mtrx::Double_Equal(incMtrx_[j][i], -1)) {
+                gNode2 = j + 1;
+            }
+        }
+        if (gNode1 == 0) {
+            gNode1 = Num_Nodes();
+        }
+        if (gNode2 == 0) {
+            gNode2 = Num_Nodes();
+        }
+
+        double voltage = pot[gNode1 - 1] - pot[gNode2 - 1] + emfMtrx_[i][0];
+        double amperage = voltage * conductMtrx_[i][i];
+
+        std::cout << gNode1 << " -- " << gNode2 << ": "
+                  << amperage << " A" << std::endl;
+    }
 }
 
 std::vector<double> grph::Gaussian_Method(mtrx::Matrix_t<double> mtrx) {
@@ -129,7 +160,7 @@ std::vector<double> grph::Gaussian_Method(mtrx::Matrix_t<double> mtrx) {
 }
 
 std::vector<double> grph::reverse_sub(mtrx::Matrix_t<double> &mtrx) {
-    std::vector<double> result(mtrx.Num_Rows());
+    std::vector<double> result(mtrx.Num_Rows() + 1);
     for (int i = mtrx.Num_Rows() - 1; i >= 0; --i)
     {
         result[i] = mtrx[i][mtrx.Num_Rows()];

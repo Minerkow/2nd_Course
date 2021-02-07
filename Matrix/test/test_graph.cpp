@@ -12,10 +12,9 @@ TEST(Graph, GaussTest1) {
                                     {1, 2, -1, 9} }};
     std::vector<double> res =
             grph::Gaussian_Method(mtrx1);
-    std::cout << std::endl;
-    for (auto& it : res) {
-        std::cout << it << " ";
-    }
+    ASSERT_TRUE(mtrx::Double_Equal(res[0], 3) &&
+                mtrx::Double_Equal(res[1], 5) &&
+                mtrx::Double_Equal(res[2], 4));
 }
 
 TEST(Graph, GaussTest2) {
@@ -23,8 +22,17 @@ TEST(Graph, GaussTest2) {
                                     {5, 3, -2, 2},
                                     {3, 2, -3, 0} }};
     std::vector<double> res = grph::Gaussian_Method(mtrx1);
-    std::cout << std::endl;
-    for (auto& it : res) {
-        std::cout << it << " ";
-    }
+    ASSERT_TRUE(mtrx::Double_Equal(res[0], -1) &&
+                mtrx::Double_Equal(res[1], 3) &&
+                mtrx::Double_Equal(res[2], 1));
 }
+
+TEST(Graph, Find_Potential1) {
+    std::string str = "1 -- 2, 1.0; 1.0V\n"
+                     "2 -- 1, 1.0;";
+    std::stringstream is{str};
+    grph::RTGraph_t rtGraph{is};
+    std::vector<double> res = rtGraph.Calculate_Potential();
+    ASSERT_TRUE(mtrx::Double_Equal(res[0], -0.5));
+}
+

@@ -77,27 +77,27 @@ include CMakeFiles/test_graph.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/test_graph.dir/flags.make
 
-CMakeFiles/test_graph.dir/test/test_graph.cpp.o: CMakeFiles/test_graph.dir/flags.make
-CMakeFiles/test_graph.dir/test/test_graph.cpp.o: ../test/test_graph.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bibi/Desktop/2nd_Course/Matrix/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/test_graph.dir/test/test_graph.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/test_graph.dir/test/test_graph.cpp.o -c /home/bibi/Desktop/2nd_Course/Matrix/test/test_graph.cpp
+CMakeFiles/test_graph.dir/test/test_graph.o: CMakeFiles/test_graph.dir/flags.make
+CMakeFiles/test_graph.dir/test/test_graph.o: ../test/test_graph.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/bibi/Desktop/2nd_Course/Matrix/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/test_graph.dir/test/test_graph.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/test_graph.dir/test/test_graph.o -c /home/bibi/Desktop/2nd_Course/Matrix/test/test_graph.cpp
 
-CMakeFiles/test_graph.dir/test/test_graph.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test_graph.dir/test/test_graph.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/bibi/Desktop/2nd_Course/Matrix/test/test_graph.cpp > CMakeFiles/test_graph.dir/test/test_graph.cpp.i
+CMakeFiles/test_graph.dir/test/test_graph.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test_graph.dir/test/test_graph.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/bibi/Desktop/2nd_Course/Matrix/test/test_graph.cpp > CMakeFiles/test_graph.dir/test/test_graph.i
 
-CMakeFiles/test_graph.dir/test/test_graph.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test_graph.dir/test/test_graph.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bibi/Desktop/2nd_Course/Matrix/test/test_graph.cpp -o CMakeFiles/test_graph.dir/test/test_graph.cpp.s
+CMakeFiles/test_graph.dir/test/test_graph.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test_graph.dir/test/test_graph.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bibi/Desktop/2nd_Course/Matrix/test/test_graph.cpp -o CMakeFiles/test_graph.dir/test/test_graph.s
 
 # Object files for target test_graph
 test_graph_OBJECTS = \
-"CMakeFiles/test_graph.dir/test/test_graph.cpp.o"
+"CMakeFiles/test_graph.dir/test/test_graph.o"
 
 # External object files for target test_graph
 test_graph_EXTERNAL_OBJECTS =
 
-test_graph: CMakeFiles/test_graph.dir/test/test_graph.cpp.o
+test_graph: CMakeFiles/test_graph.dir/test/test_graph.o
 test_graph: CMakeFiles/test_graph.dir/build.make
 test_graph: /usr/lib/x86_64-linux-gnu/libgtest.a
 test_graph: CMakeFiles/test_graph.dir/link.txt
