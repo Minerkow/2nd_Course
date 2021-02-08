@@ -9,7 +9,7 @@ namespace grph {
     public:
         RTGraph_t(std::istream& is);
         std::vector<double> Calculate_Potential();
-        void Calculate_Amperage();
+        void Calculate_Print_Amperage(std::ostream& os);
         size_t Num_Nodes();
         size_t Num_Edges();
 
@@ -40,7 +40,7 @@ grph::RTGraph_t::RTGraph_t(std::istream &is) {
                              "(\\d+[.]?\\d*)"
                              "(\\s*[;]\\s*)"
                              "((\\-?\\d+([.]\\d)?)"
-                             "([V]))?"
+                             "([V]?))?"
                        );
     while (getline(is, line, '\n')) {
         size_t grNode1, grNode2;
@@ -82,10 +82,11 @@ grph::RTGraph_t::RTGraph_t(std::istream &is) {
         }
         emfMtrx_[i][0] = matrInfo[i].second.second;
     }
-
+#ifdef DEBUG
     std::cout << incMtrx_ << std::endl
               << conductMtrx_ << std::endl
               << emfMtrx_ << std::endl;
+#endif
 }
 
 std::vector<double> grph::RTGraph_t::Calculate_Potential() {
@@ -93,8 +94,9 @@ std::vector<double> grph::RTGraph_t::Calculate_Potential() {
     mtrx::Matrix_t<double> systEq = incMtrx_.Matrix_Mult(conductMtrx_).Matrix_Mult(incMtrxT);
 
     mtrx::Matrix_t<double> freeColumn = - incMtrx_.Matrix_Mult(conductMtrx_).Matrix_Mult(emfMtrx_);
-
+#ifdef DEBUG
     std::cout << systEq << std::endl << freeColumn << std::endl;
+#endif
     std::vector<double> res = Gaussian_Method(systEq.Add_Column(freeColumn));
     return res;
 }
@@ -107,7 +109,7 @@ size_t grph::RTGraph_t::Num_Edges() {
     return emfMtrx_.Num_Rows();
 }
 
-void grph::RTGraph_t::Calculate_Amperage() {
+void grph::RTGraph_t::Calculate_Print_Amperage(std::ostream& os) {
     std::vector<double> pot = Calculate_Potential();
     for (size_t i = 0; i < Num_Edges(); ++i) {
         size_t gNode1 = 0;
@@ -130,7 +132,7 @@ void grph::RTGraph_t::Calculate_Amperage() {
         double voltage = pot[gNode1 - 1] - pot[gNode2 - 1] + emfMtrx_[i][0];
         double amperage = voltage * conductMtrx_[i][i];
 
-        std::cout << gNode1 << " -- " << gNode2 << ": "
+        os << gNode1 << " -- " << gNode2 << ": "
                   << amperage << " A" << std::endl;
     }
 }

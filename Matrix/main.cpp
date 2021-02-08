@@ -6,11 +6,7 @@ int main() {
     try {
         grph::RTGraph_t gr(std::cin);
         std::vector<double> res = gr.Calculate_Potential();
-        for (auto& it : res) {
-            std:: cout << it << " ";
-        }
-        std::cout << std::endl;
-        gr.Calculate_Amperage();
+        gr.Calculate_Print_Amperage(std::cout);
     } catch (std::exception) {
         std::cerr << "Incorrect input";
     }

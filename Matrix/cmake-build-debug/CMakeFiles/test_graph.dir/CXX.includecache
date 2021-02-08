@@ -6,3 +6,31 @@
 
 #IncludeRegexTransform: 
 
+/home/bibi/Desktop/2nd_Course/Matrix/Graph.hpp
+Matrix.hpp
+/home/bibi/Desktop/2nd_Course/Matrix/Matrix.hpp
+regex
+-
+
+/home/bibi/Desktop/2nd_Course/Matrix/Matrix.hpp
+vector
+-
+iostream
+-
+future
+-
+exception
+-
+cmath
+-
+cassert
+-
+
+/home/bibi/Desktop/2nd_Course/Matrix/test/test_graph.cpp
+../Graph.hpp
+/home/bibi/Desktop/2nd_Course/Matrix/Graph.hpp
+gtest/gtest.h
+-
+fstream
+-
+
