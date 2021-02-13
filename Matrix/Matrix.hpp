@@ -28,7 +28,8 @@ namespace mtrx {
         using rows_t = std::vector<T>;
 
         Matrix_t() : data_(nullptr), rows_(nullptr),
-                     numRows_(0), numColumns_(0) {}
+                     numRows_(0), numColumns_(0),
+                     availableNumColumns_(0), availableNumRows_(0) {}
         Matrix_t(size_t numRows, size_t numColumns);
 
         template<typename T2>
@@ -44,6 +45,7 @@ namespace mtrx {
         size_t Num_Columns() const {return numColumns_;}
 
         Matrix_t<T> Transposition();
+        void Add_Row(mtrx::Matrix_t<T>& row);
 
         double Determinant();
         double Determinant2();
@@ -64,15 +66,22 @@ namespace mtrx {
 
         bool empty();
 
-        Matrix_t<T> Add_Column(Matrix_t<T>& column);
+        Matrix_t<T> Connect_Column(Matrix_t<T>& column);
 
         ~Matrix_t();
     private:
+        Matrix_t(size_t numColumns, size_t numRows, size_t availableNumRows, size_t availableNumColumns);
+
         T* data_;
         ProxyRow_t<T>* rows_;
         size_t numRows_;
+        size_t availableNumRows_;
         size_t numColumns_;
+        size_t availableNumColumns_;
     };
+
+    template <typename T>
+    Matrix_t<T> ConvertDiagMtrx(std::vector<T>& vec);
 
     template <typename T>
     bool operator==(const Matrix_t<T>& lhs, const Matrix_t<T>& rhs);
@@ -103,7 +112,9 @@ namespace mtrx {
 namespace mtrx {
     template<typename T>
     Matrix_t<T>::Matrix_t(size_t numRows, size_t numColumns) : numColumns_(numColumns),
-                                                               numRows_(numRows)
+                                                               numRows_(numRows),
+                                                               availableNumRows_(numRows),
+                                                               availableNumColumns_(numColumns)
     {
         data_ = new T[numRows * numColumns]{};
         T* beginRow = data_;
@@ -334,14 +345,16 @@ namespace mtrx {
         delete [] data_;
         delete [] rows_;
         numRows_ = rhs.numRows_;
+        availableNumRows_ = rhs.availableNumRows_;
         numColumns_ = rhs.numColumns_;
-        data_ = new T[numRows_ * numColumns_]{};
+        numColumns_ = rhs.availableNumColumns_;
+        data_ = new T[availableNumRows_ * availableNumColumns_]{};
         T* beginRow = data_;
-        rows_ = new ProxyRow_t<T>[numRows_];
+        rows_ = new ProxyRow_t<T>[availableNumRows_];
         for (int i = 0; i < numRows_; ++i) {
             rows_[i].row_ = beginRow;
-            rows_[i].len_ = numColumns_;
-            beginRow += numColumns_;
+            rows_[i].len_ = availableNumColumns_;
+            beginRow += availableNumColumns_;
         }
         for (size_t i = 0; i < numColumns_*numRows_; ++i) {
             data_[i] = rhs.data_[i];
@@ -372,7 +385,7 @@ namespace mtrx {
     }
 
     template<typename T>
-    Matrix_t<T> Matrix_t<T>::Add_Column(Matrix_t<T> &column) {
+    Matrix_t<T> Matrix_t<T>::Connect_Column(Matrix_t<T> &column) {
         if (numRows_ != column.numRows_ && !column.empty()) {
             //TODO::error
         }
@@ -396,6 +409,53 @@ namespace mtrx {
             for(size_t j = 0; j < res.Num_Columns(); ++j) {
                 res[i][j] *= -1;
             }
+        }
+        return res;
+    }
+
+    template<typename T>
+    void Matrix_t<T>::Add_Row(Matrix_t<T> &mtrx) {
+        if (mtrx.Num_Columns() != Num_Columns()) {
+            //TODO: ERROR
+        }
+        if (mtrx.Num_Rows() <= availableNumRows_ - Num_Rows()) {
+            numRows_ = Num_Rows() + mtrx.numRows_;
+            for (size_t j = Num_Rows(); j < numRows_; ++j) {
+                for (size_t i = 0; i < Num_Columns(); ++i) {
+                    rows_[j][i] = mtrx[j - Num_Rows()][i];
+                }
+            }
+        } else {
+            Matrix_t<T> newMtrx(Num_Rows() + mtrx.numRows_, Num_Columns(),
+                                  Num_Rows() + mtrx.numRows_ * 2, Num_Columns());
+            for (size_t i = 0; i < Num_Rows(); ++i) {
+                for (size_t j = 0; j < newMtrx.numColumns_; ++j) {
+                    newMtrx[i][j] = rows_[i][j];
+                }
+            }
+
+            for (size_t i = Num_Rows(); i < newMtrx.Num_Rows(); ++i) {
+                for (size_t j = 0; j < newMtrx.numColumns_; ++j) {
+                    newMtrx[i][j] = mtrx[i - Num_Rows()][j];
+                }
+            }
+            *this = newMtrx;
+        }
+    }
+
+    template<typename T>
+    Matrix_t<T>::Matrix_t(size_t numRows, size_t numColumns, size_t availableNumRows, size_t availableNumColumns) :
+            Matrix_t{availableNumRows, availableNumColumns}
+    {
+        numRows_ = numRows;
+        numColumns_ = numColumns;
+    }
+
+    template<typename T>
+    Matrix_t<T> ConvertDiagMtrx(std::vector<T> &vec) {
+        Matrix_t<T> res{vec.size()};
+        for (size_t i = 0; i < vec.size(); ++i) {
+            res[i][i] = vec[i];
         }
         return res;
     }
