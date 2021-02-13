@@ -11,7 +11,7 @@ namespace mtrx {
 
     const double PRESISION = 0.00001;
 
-    enum {NUM_ELEM_SMALL_MATRIX = 10000};
+    enum {NUM_ELEM_SMALL_MATRIX = 10000, MATRIX_AMORTIZATION = 4};
 
     template <typename T>
     struct ProxyRow_t {
@@ -427,7 +427,7 @@ namespace mtrx {
             }
         } else {
             Matrix_t<T> newMtrx(Num_Rows() + mtrx.numRows_, Num_Columns(),
-                                  Num_Rows() + mtrx.numRows_ * 2, Num_Columns());
+                                  Num_Rows() + mtrx.numRows_ * MATRIX_AMORTIZATION, Num_Columns());
             for (size_t i = 0; i < Num_Rows(); ++i) {
                 for (size_t j = 0; j < newMtrx.numColumns_; ++j) {
                     newMtrx[i][j] = rows_[i][j];
