@@ -20,6 +20,7 @@ namespace grph {
         mtrx::Matrix_t<double> incMtrx_;
         mtrx::Matrix_t<double> conductMtrx_;
         mtrx::Matrix_t<double> emfMtrx_;
+        std::vector<size_t> loops_;
     };
 
 
@@ -69,13 +70,15 @@ grph::RTGraph_t::RTGraph_t(std::istream &is) {
 
     for (size_t i = 0; i < matrInfo.size(); ++i) {
         if (matrInfo[i].first.first != maxNumNode) {
-            incMtrx_[matrInfo[i].first.first - 1][i] = 1;
+            incMtrx_[matrInfo[i].first.first - 1][i] += 1;
         }
         if (matrInfo[i].first.second != maxNumNode) {
-            incMtrx_[matrInfo[i].first.second - 1][i] = -1;
+            incMtrx_[matrInfo[i].first.second - 1][i] += -1;
         }
-        if (matrInfo[i].first.first == matrInfo[i].first.second)
-            incMtrx_[matrInfo[i].first.first - 1][i] = 2;
+        if (matrInfo[i].first.first == matrInfo[i].first.second) {
+            incMtrx_[matrInfo[i].first.first - 1][i] = 0;
+            loops_.emplace_back(matrInfo[i].first.first);
+        }
 
         if (matrInfo[i].second.first != 0) {
             conductMtrx_[i][i] = 1 / matrInfo[i].second.first;
@@ -91,12 +94,13 @@ grph::RTGraph_t::RTGraph_t(std::istream &is) {
 
 std::vector<double> grph::RTGraph_t::Calculate_Potential() {
     mtrx::Matrix_t<double> incMtrxT = incMtrx_.Transposition();
+
     mtrx::Matrix_t<double> systEq = incMtrx_.Matrix_Mult(conductMtrx_).Matrix_Mult(incMtrxT);
 
     mtrx::Matrix_t<double> freeColumn = - incMtrx_.Matrix_Mult(conductMtrx_).Matrix_Mult(emfMtrx_);
-#ifdef DEBUG
+//#ifdef DEBUG
     std::cout << systEq << std::endl << freeColumn << std::endl;
-#endif
+//#endif
     std::vector<double> res = Gaussian_Method(systEq.Add_Column(freeColumn));
     return res;
 }
@@ -111,6 +115,15 @@ size_t grph::RTGraph_t::Num_Edges() {
 
 void grph::RTGraph_t::Calculate_Print_Amperage(std::ostream& os) {
     std::vector<double> pot = Calculate_Potential();
+    size_t loopNum = 0;
+    size_t idealCond = 0;
+    size_t flagFreeRow = 0;
+    for (size_t i = 0; i < Num_Edges(); ++i) {
+        if (mtrx::Double_Equal(conductMtrx_[i][i], 0)) {
+            idealCond++;
+        }
+    }
+    mtrx::Matrix_t<double> amperage{Num_Edges() - idealCond, Num_Edges() + 1};
     for (size_t i = 0; i < Num_Edges(); ++i) {
         size_t gNode1 = 0;
         size_t gNode2 = 0;
@@ -122,6 +135,10 @@ void grph::RTGraph_t::Calculate_Print_Amperage(std::ostream& os) {
                 gNode2 = j + 1;
             }
         }
+        if (gNode1 == 0 && gNode2 == 0) {
+            gNode1 = gNode2 = loops_[loopNum];
+            loopNum++;
+        }
         if (gNode1 == 0) {
             gNode1 = Num_Nodes();
         }
@@ -130,11 +147,14 @@ void grph::RTGraph_t::Calculate_Print_Amperage(std::ostream& os) {
         }
 
         double voltage = pot[gNode1 - 1] - pot[gNode2 - 1] + emfMtrx_[i][0];
-        double amperage = voltage * conductMtrx_[i][i];
-
-        os << gNode1 << " -- " << gNode2 << ": "
-                  << amperage << " A" << std::endl;
+        if (!mtrx::Double_Equal(conductMtrx_[i][i], 0)) {
+            amperage[flagFreeRow][i] = 1;
+            amperage[flagFreeRow][Num_Edges()] = voltage * conductMtrx_[i][i];
+      //      std::cout << "_" << pot[gNode1 - 1] - pot[gNode2 - 1] << "_";
+            flagFreeRow++;
+        }
     }
+    //std::cout << amperage << std::endl;
 }
 
 std::vector<double> grph::Gaussian_Method(mtrx::Matrix_t<double> mtrx) {
@@ -170,8 +190,9 @@ std::vector<double> grph::reverse_sub(mtrx::Matrix_t<double> &mtrx) {
         for (int j = i + 1; j < mtrx.Num_Rows(); ++j)
             result[i] -= mtrx[i][j] * result[j];
 
-
-        result[i] = result[i] / mtrx[i][i];
+        if (!mtrx::Double_Equal(mtrx[i][i], 0)) {
+            result[i] = result[i] / mtrx[i][i];
+        }
     }
 
     return result;
@@ -195,11 +216,11 @@ size_t grph::sequential_elim(mtrx::Matrix_t<double> &mtrx) {
 
         for (int i = k + 1; i < mtrx.Num_Rows(); ++i)
         {
-            double f = mtrx[i][k]/mtrx[k][k];
-
-            for (int j = k + 1; j < mtrx.Num_Columns(); ++j)
-                mtrx[i][j] -= mtrx[k][j]*f;
-
+            if (!mtrx::Double_Equal(mtrx[k][k], 0)) {
+                double f = mtrx[i][k] / mtrx[k][k];
+                for (int j = k + 1; j < mtrx.Num_Columns(); ++j)
+                    mtrx[i][j] -= mtrx[k][j] * f;
+            }
             mtrx[i][k] = 0;
         }
     }

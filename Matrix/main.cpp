@@ -3,12 +3,16 @@
 #include "Graph.hpp"
 
 int main() {
-    try {
-        grph::RTGraph_t gr(std::cin);
-        std::vector<double> res = gr.Calculate_Potential();
-        gr.Calculate_Print_Amperage(std::cout);
-    } catch (std::exception) {
-        std::cerr << "Incorrect input";
+    std::string str = "1 -- 2, 0;\n"
+                      "2 -- 3, 1; 1V\n"
+                      "3 -- 1, 0;";
+    std::stringstream is{str};
+    grph::RTGraph_t rtGraph{is};
+
+    rtGraph.Calculate_Print_Amperage(std::cout);
+    std::vector<double> res = rtGraph.Calculate_Potential();
+    for (auto& it : res) {
+        std::cout << it << " ";
     }
 
     return 0;

@@ -1,4 +1,4 @@
-# Install script for directory: /home/bibi/Desktop/2nd_Course/Matrix
+# Install script for directory: /home/minerkow/Рабочий стол/2nd_Course/Matrix
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/bibi/Desktop/2nd_Course/Matrix/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/minerkow/Рабочий стол/2nd_Course/Matrix/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
