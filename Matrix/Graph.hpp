@@ -1,32 +1,37 @@
 #pragma once
 #include "Matrix.hpp"
 #include <regex>
+#include <set>
 
 
 
 namespace grph {
     class RTGraph_t final{
+        using MatrCoord_t = std::pair<size_t, size_t>;
+        using EdgeInfo_t = std::pair<double, double>;
     public:
+
         RTGraph_t(std::istream& is);
         std::vector<double> Calculate_Potential();
-        void Calculate_Print_Amperage(std::ostream& os);
+        std::vector<std::pair<MatrCoord_t, double>> Calculate_Amperage(std::ostream& os);
+        mtrx::Matrix_t<int> Find_Cycles();
         size_t Num_Nodes();
         size_t Num_Edges();
 
     private:
-        using MatrCoord_t = std::pair<size_t, size_t>;
-        using EdgeInfo_t = std::pair<double, double>;
+        void Depth_Walk(mtrx::Matrix_t<int>& contourMtrx, std::set<size_t> climbedNodes, mtrx::Matrix_t<int> newRow,
+                        const size_t currentNode);
 
         mtrx::Matrix_t<double> incMtrx_;
-        mtrx::Matrix_t<double> conductMtrx_;
+        std::vector<double> resistMtrx_;
         mtrx::Matrix_t<double> emfMtrx_;
         std::vector<size_t> loops_;
     };
 
 
     std::vector<double> Gaussian_Method(mtrx::Matrix_t<double> mtrx);
-    size_t sequential_elim(mtrx::Matrix_t<double> &mtrx);
-    std::vector<double> reverse_sub(mtrx::Matrix_t<double> &mtrx);
+    size_t Sequential_Elim(mtrx::Matrix_t<double> &mtrx);
+    std::vector<double> Reverse_Sub(mtrx::Matrix_t<double> &mtrx);
 }
 
 grph::RTGraph_t::RTGraph_t(std::istream &is) {
@@ -64,25 +69,18 @@ grph::RTGraph_t::RTGraph_t(std::istream &is) {
         }
     }
 
-    incMtrx_ = mtrx::Matrix_t<int>{maxNumNode - 1, matrInfo.size()};
-    conductMtrx_ = mtrx::Matrix_t<double>{matrInfo.size()};
+    incMtrx_ = mtrx::Matrix_t<int>{maxNumNode, matrInfo.size()};
+    resistMtrx_ = std::vector<double>(matrInfo.size());
     emfMtrx_ = mtrx::Matrix_t<double>{matrInfo.size(), 1};
 
     for (size_t i = 0; i < matrInfo.size(); ++i) {
-        if (matrInfo[i].first.first != maxNumNode) {
-            incMtrx_[matrInfo[i].first.first - 1][i] += 1;
-        }
-        if (matrInfo[i].first.second != maxNumNode) {
-            incMtrx_[matrInfo[i].first.second - 1][i] += -1;
-        }
+        incMtrx_[matrInfo[i].first.first - 1][i] += 1;
+        incMtrx_[matrInfo[i].first.second - 1][i] += -1;
         if (matrInfo[i].first.first == matrInfo[i].first.second) {
             incMtrx_[matrInfo[i].first.first - 1][i] = 0;
             loops_.emplace_back(matrInfo[i].first.first);
         }
-
-        if (matrInfo[i].second.first != 0) {
-            conductMtrx_[i][i] = 1 / matrInfo[i].second.first;
-        }
+        resistMtrx_[i] = matrInfo[i].second.first;
         emfMtrx_[i][0] = matrInfo[i].second.second;
     }
 #ifdef DEBUG
@@ -94,14 +92,19 @@ grph::RTGraph_t::RTGraph_t(std::istream &is) {
 
 std::vector<double> grph::RTGraph_t::Calculate_Potential() {
     mtrx::Matrix_t<double> incMtrxT = incMtrx_.Transposition();
+    mtrx::Matrix_t<double> conductMtrx{mtrx::ConvertDiagMtrx(resistMtrx_)};
+    for (size_t i = 0; i < conductMtrx.Num_Columns(); ++i) {
+        conductMtrx[i][i] = 1 / conductMtrx[i][i];
+    }
+    mtrx::Matrix_t<double> incMtrxWithoutMaxNode = incMtrx_.Without_Row(incMtrx_.Num_Rows() - 1);
 
-    mtrx::Matrix_t<double> systEq = incMtrx_.Matrix_Mult(conductMtrx_).Matrix_Mult(incMtrxT);
+    mtrx::Matrix_t<double> systEq = incMtrxWithoutMaxNode.Matrix_Mult(conductMtrx).Matrix_Mult(incMtrxWithoutMaxNode);
 
-    mtrx::Matrix_t<double> freeColumn = - incMtrx_.Matrix_Mult(conductMtrx_).Matrix_Mult(emfMtrx_);
-//#ifdef DEBUG
+    mtrx::Matrix_t<double> freeColumn = - incMtrx_.Matrix_Mult(conductMtrx).Matrix_Mult(emfMtrx_);
+#ifdef DEBUG
     std::cout << systEq << std::endl << freeColumn << std::endl;
-//#endif
-    std::vector<double> res = Gaussian_Method(systEq.Add_Column(freeColumn));
+#endif
+    std::vector<double> res = Gaussian_Method(systEq.Connect_Column(freeColumn));
     return res;
 }
 
@@ -113,48 +116,37 @@ size_t grph::RTGraph_t::Num_Edges() {
     return emfMtrx_.Num_Rows();
 }
 
-void grph::RTGraph_t::Calculate_Print_Amperage(std::ostream& os) {
-    std::vector<double> pot = Calculate_Potential();
-    size_t loopNum = 0;
-    size_t idealCond = 0;
-    size_t flagFreeRow = 0;
-    for (size_t i = 0; i < Num_Edges(); ++i) {
-        if (mtrx::Double_Equal(conductMtrx_[i][i], 0)) {
-            idealCond++;
-        }
-    }
-    mtrx::Matrix_t<double> amperage{Num_Edges() - idealCond, Num_Edges() + 1};
-    for (size_t i = 0; i < Num_Edges(); ++i) {
-        size_t gNode1 = 0;
-        size_t gNode2 = 0;
-        for (size_t j = 0; j < Num_Nodes() - 1; ++j) {
-            if (mtrx::Double_Equal(incMtrx_[j][i], 1)) {
-                gNode1 = j + 1;
-            }
-            if (mtrx::Double_Equal(incMtrx_[j][i], -1)) {
-                gNode2 = j + 1;
-            }
-        }
-        if (gNode1 == 0 && gNode2 == 0) {
-            gNode1 = gNode2 = loops_[loopNum];
-            loopNum++;
-        }
-        if (gNode1 == 0) {
-            gNode1 = Num_Nodes();
-        }
-        if (gNode2 == 0) {
-            gNode2 = Num_Nodes();
-        }
+std::vector<std::pair<grph::RTGraph_t::MatrCoord_t, double>> grph::RTGraph_t::Calculate_Amperage(std::ostream &os) {
+    std::vector<std::pair<MatrCoord_t, double>> res(Num_Edges());
 
-        double voltage = pot[gNode1 - 1] - pot[gNode2 - 1] + emfMtrx_[i][0];
-        if (!mtrx::Double_Equal(conductMtrx_[i][i], 0)) {
-            amperage[flagFreeRow][i] = 1;
-            amperage[flagFreeRow][Num_Edges()] = voltage * conductMtrx_[i][i];
-      //      std::cout << "_" << pot[gNode1 - 1] - pot[gNode2 - 1] << "_";
-            flagFreeRow++;
+}
+
+mtrx::Matrix_t<int> grph::RTGraph_t::Find_Cycles() {
+        mtrx::Matrix_t<int> contourMtrx;
+        mtrx::Matrix_t<int> newRow{1, Num_Edges()};
+        std::set<size_t> climbedNodes;
+        size_t currentNode = 1;
+        Depth_Walk( contourMtrx, climbedNodes, newRow, currentNode);
+}
+
+void grph::RTGraph_t::Depth_Walk( mtrx::Matrix_t<int>& contourMtrx, std::set<size_t> climbedNodes,
+                                  mtrx::Matrix_t<int> newRow, const size_t currentNode)
+{
+    climbedNodes.insert(currentNode);
+    for (size_t i = 0; i < Num_Edges(); ++i) {
+        if (incMtrx_[currentNode - 1][i] != 0) {
+            size_t j = 0;
+            while (incMtrx_[j][i] != -incMtrx_[currentNode - 1][i]) {
+                j++;
+            }
+            if (climbedNodes.find(j) != climbedNodes.end()) {
+                newRow[0][i] = incMtrx_[currentNode - 1][i];
+                Depth_Walk( contourMtrx, climbedNodes, newRow, j + 1);
+            } else {
+                contourMtrx.Add_Row(newRow);
+            }
         }
     }
-    //std::cout << amperage << std::endl;
 }
 
 std::vector<double> grph::Gaussian_Method(mtrx::Matrix_t<double> mtrx) {
@@ -163,7 +155,7 @@ std::vector<double> grph::Gaussian_Method(mtrx::Matrix_t<double> mtrx) {
         //TODO::
     }
     size_t n = mtrx.Num_Rows();
-    int singularFlag = grph::sequential_elim(mtrx);
+    int singularFlag = grph::Sequential_Elim(mtrx);
 
     if (singularFlag != -1)
     {
@@ -178,10 +170,10 @@ std::vector<double> grph::Gaussian_Method(mtrx::Matrix_t<double> mtrx) {
         //TODO
     }
 
-    return grph::reverse_sub(mtrx);
+    return grph::Reverse_Sub(mtrx);
 }
 
-std::vector<double> grph::reverse_sub(mtrx::Matrix_t<double> &mtrx) {
+std::vector<double> grph::Reverse_Sub(mtrx::Matrix_t<double> &mtrx) {
     std::vector<double> result(mtrx.Num_Rows() + 1);
     for (int i = mtrx.Num_Rows() - 1; i >= 0; --i)
     {
@@ -198,7 +190,7 @@ std::vector<double> grph::reverse_sub(mtrx::Matrix_t<double> &mtrx) {
     return result;
 }
 
-size_t grph::sequential_elim(mtrx::Matrix_t<double> &mtrx) {
+size_t grph::Sequential_Elim(mtrx::Matrix_t<double> &mtrx) {
     for (int k = 0; k < mtrx.Num_Rows(); ++k)
     {
         int iMax = k;
