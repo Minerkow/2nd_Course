@@ -1,0 +1,1 @@
+/usr/bin/c++  -g -O0 -Wall -fprofile-arcs -ftest-coverage -g  -rdynamic CMakeFiles/test_matrix.dir/test/test_matrix.o  -o test_matrix  -Wl,-Bstatic -lgtest -Wl,-Bdynamic -lpthread 

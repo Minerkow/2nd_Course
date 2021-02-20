@@ -127,7 +127,7 @@ mtrx::Matrix_t<int> grph::RTGraph_t::Find_Cycles() {
         std::set<size_t> climbedNodes;
         size_t currentNode = 1;
         Depth_Walk( contourMtrx, climbedNodes, newRow, currentNode);
-        std::cout << contourMtrx;
+        std::cout << contourMtrx << std::endl;
         return contourMtrx;
 }
 
@@ -152,7 +152,6 @@ void grph::RTGraph_t::Depth_Walk( mtrx::Matrix_t<int>& contourMtrx, std::set<siz
                 newRow[0][i] = incMtrx_[currentNode - 1][i];
                 std::cout << "Add new row:" << newRow;
                 contourMtrx.Add_Row(newRow);
-                std::cout << "MTRX:" << contourMtrx << std::endl << std::endl;
             }
         }
     }

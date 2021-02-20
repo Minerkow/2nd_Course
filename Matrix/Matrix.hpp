@@ -11,7 +11,7 @@ namespace mtrx {
 
     const double PRESISION = 0.00001;
 
-    enum {NUM_ELEM_SMALL_MATRIX = 10000, MATRIX_AMORTIZATION = 4};
+    enum {MATRIX_AMORTIZATION = 4};
 
     template <typename T>
     struct ProxyRow_t {
@@ -56,7 +56,7 @@ namespace mtrx {
         void Swap_Rows(size_t rowNum1, size_t rowNum2);
 
         Matrix_t<T>& operator=(const Matrix_t<T>& rhs) ;
-        Matrix_t<T>& operator=(Matrix_t<T>&& rhs) noexcept;
+        //Matrix_t<T>& operator=(Matrix_t<T>&& rhs) noexcept;
         Matrix_t<T>& operator+=(const Matrix_t<T>& rhs);
         Matrix_t<T> operator-();
 
@@ -118,13 +118,13 @@ namespace mtrx {
                                                                availableNumRows_(numRows),
                                                                availableNumColumns_(numColumns)
     {
-        data_ = new T[numRows * numColumns]{};
+        data_ = new T[availableNumRows_ * availableNumColumns_]{};
         T* beginRow = data_;
-        rows_ = new ProxyRow_t<T>[numRows];
-        for (int i = 0; i < numRows; ++i) {
+        rows_ = new ProxyRow_t<T>[availableNumRows_];
+        for (int i = 0; i < availableNumRows_; ++i) {
             rows_[i].row_ = beginRow;
-            rows_[i].len_ = numColumns;
-            beginRow += numColumns;
+            rows_[i].len_ = availableNumColumns_;
+            beginRow += availableNumColumns_;
         }
     }
 
@@ -349,7 +349,7 @@ namespace mtrx {
         numRows_ = rhs.numRows_;
         availableNumRows_ = rhs.availableNumRows_;
         numColumns_ = rhs.numColumns_;
-        numColumns_ = rhs.availableNumColumns_;
+        availableNumColumns_ = rhs.availableNumColumns_;
         data_ = new T[availableNumRows_ * availableNumColumns_]{};
         T* beginRow = data_;
         rows_ = new ProxyRow_t<T>[availableNumRows_];
@@ -416,31 +416,44 @@ namespace mtrx {
     }
 
     template<typename T>
-    void Matrix_t<T>::Add_Row(Matrix_t<T> &mtrx) {
-        if (mtrx.Num_Columns() != Num_Columns()) {
+    void Matrix_t<T>::Add_Row(Matrix_t<T> &row) {
+        if (row.numColumns_ != numColumns_ && !empty()) {
             //TODO: ERROR
+            std::cout << "kek" << std::endl;
         }
-        if (mtrx.Num_Rows() <= availableNumRows_ - Num_Rows()) {
-            numRows_ = Num_Rows() + mtrx.numRows_;
-            for (size_t j = Num_Rows(); j < numRows_; ++j) {
-                for (size_t i = 0; i < Num_Columns(); ++i) {
-                    rows_[j][i] = mtrx[j - Num_Rows()][i];
+        if ((row.Num_Rows() <= (availableNumRows_ - Num_Rows())) && !empty()) {
+            for (size_t i = Num_Rows(); i < Num_Rows() + row.Num_Rows(); ++i) {
+                for (size_t j = 0; j < Num_Columns(); ++j) {
+                    rows_[i][j] =
+                            row[i - Num_Rows()][j];
                 }
             }
+            numRows_ += row.Num_Rows();
         } else {
-            Matrix_t<T> newMtrx(Num_Rows() + mtrx.numRows_, Num_Columns(),
-                                  Num_Rows() + mtrx.numRows_ * MATRIX_AMORTIZATION, Num_Columns());
+            size_t newNumColumns = Num_Columns();
+            if (empty()) {
+                newNumColumns = row.Num_Columns();
+            }
+
+            Matrix_t<T> newMtrx(Num_Rows() + row.numRows_, newNumColumns,
+                                Num_Rows() + row.numRows_ * MATRIX_AMORTIZATION, newNumColumns);
+            for (size_t k = 0; k < newMtrx.availableNumRows_; ++k) {
+                for (size_t l = 0; l < newMtrx.availableNumColumns_; ++l) {
+                    newMtrx[k][l];
+                }
+            }
             for (size_t i = 0; i < Num_Rows(); ++i) {
-                for (size_t j = 0; j < newMtrx.numColumns_; ++j) {
+                for (size_t j = 0; j < Num_Columns(); ++j) {
                     newMtrx[i][j] = rows_[i][j];
                 }
             }
 
             for (size_t i = Num_Rows(); i < newMtrx.Num_Rows(); ++i) {
                 for (size_t j = 0; j < newMtrx.numColumns_; ++j) {
-                    newMtrx[i][j] = mtrx[i - Num_Rows()][j];
+                    newMtrx[i][j] = row[i - Num_Rows()][j];
                 }
             }
+
             *this = newMtrx;
         }
     }
@@ -472,18 +485,18 @@ namespace mtrx {
         return res;
     }
 
-    template<typename T>
-    Matrix_t<T> &Matrix_t<T>::operator=(Matrix_t<T> &&rhs)  noexcept {
-        data_ = std::move(rhs.data_);
-        rows_ = std::move(rhs.rows_);
-        availableNumRows_ = rhs.availableNumRows_;
-        availableNumColumns_ = rhs.availableNumColumns_;
-        numColumns_ = rhs.numColumns_;
-        numRows_ = rhs.numRows_;
-        rhs.data_ = nullptr;
-        rhs.rows_ = nullptr;
-        return *this;
-    }
+//    template<typename T>
+//    Matrix_t<T> &Matrix_t<T>::operator=(Matrix_t<T> &&rhs)  noexcept {
+//        data_ = std::move(rhs.data_);
+//        rows_ = std::move(rhs.rows_);
+//        availableNumRows_ = rhs.availableNumRows_;
+//        availableNumColumns_ = rhs.availableNumColumns_;
+//        numColumns_ = rhs.numColumns_;
+//        numRows_ = rhs.numRows_;
+//        rhs.data_ = nullptr;
+//        rhs.rows_ = nullptr;
+//        return *this;
+//    }
 
     template<typename T>
     Matrix_t<T> ConvertDiagMtrx(std::vector<T> &vec) {
@@ -583,7 +596,7 @@ namespace mtrx {
 
     template<typename T>
     T &ProxyRow_t<T>::operator[](const size_t index) {
-        if (index > len_) {
+        if (index >= len_) {
             std::cerr << "Sigabrt error\n";
             exit(EXIT_FAILURE);
         }
