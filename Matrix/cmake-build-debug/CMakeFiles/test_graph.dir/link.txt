@@ -1,1 +1,0 @@
-/usr/bin/c++  -g -O0 -Wall -fprofile-arcs -ftest-coverage -g  -rdynamic CMakeFiles/test_graph.dir/test/test_graph.o  -o test_graph  -Wl,-Bstatic -lgtest -Wl,-Bdynamic -lpthread 
