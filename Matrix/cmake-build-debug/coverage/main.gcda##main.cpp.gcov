@@ -1,0 +1,31 @@
+        -:    0:Source:/home/minerkow/Рабочий стол/2nd_Course/Matrix/main.cpp
+        -:    0:Graph:/home/minerkow/Рабочий стол/2nd_Course/Matrix/cmake-build-debug/CMakeFiles/Matrix.dir/main.gcno
+        -:    0:Data:/home/minerkow/Рабочий стол/2nd_Course/Matrix/cmake-build-debug/CMakeFiles/Matrix.dir/main.gcda
+        -:    0:Runs:1
+        -:    1:#include <iostream>
+        -:    2:#include "Matrix.hpp"
+        -:    3:#include "Graph.hpp"
+        -:    4:
+        1:    5:int main() {
+        -:    6:    std::string str = "1 -- 2, 0;\n"
+        -:    7:                      "2 -- 3, 1; 2V\n"
+        2:    8:                      "3 -- 1, 0;";
+        1:    8-block  0
+    $$$$$:    8-block  1
+    $$$$$:    8-block  2
+        2:    9:    std::stringstream is{str};
+    $$$$$:    9-block  0
+        1:   10:    grph::RTGraph_t rtGraph{is};
+        1:   10-block  0
+    $$$$$:   10-block  1
+        1:   11:    rtGraph.Find_Cycles();
+        1:   11-block  0
+        1:   11-block  1
+        -:   12://
+        -:   13://    std::vector<double> res = rtGraph.Calculate_Potential();
+        -:   14://    for (auto& it : res) {
+        -:   15://        std::cout << it << " ";
+        -:   16://    }
+        -:   17:
+        1:   18:    return 0;
+        -:   19:}

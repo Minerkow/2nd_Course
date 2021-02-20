@@ -1,0 +1,1023 @@
+        -:    0:Source:/home/minerkow/Рабочий стол/2nd_Course/Matrix/Matrix.hpp
+        -:    0:Graph:/home/minerkow/Рабочий стол/2nd_Course/Matrix/cmake-build-debug/CMakeFiles/Matrix.dir/main.gcno
+        -:    0:Data:/home/minerkow/Рабочий стол/2nd_Course/Matrix/cmake-build-debug/CMakeFiles/Matrix.dir/main.gcda
+        -:    0:Runs:1
+        -:    1:#pragma once
+        -:    2:
+        -:    3:#include <vector>
+        -:    4:#include <iostream>
+        -:    5:#include <future>
+        -:    6:#include <exception>
+        -:    7:#include <cmath>
+        -:    8:#include <cassert>
+        -:    9:
+        -:   10:namespace mtrx {
+        -:   11:
+        -:   12:    const double PRESISION = 0.00001;
+        -:   13:
+        -:   14:    enum {NUM_ELEM_SMALL_MATRIX = 10000, MATRIX_AMORTIZATION = 4};
+        -:   15:
+        -:   16:    template <typename T>
+        -:   17:    struct ProxyRow_t {
+        -:   18:        T* row_;
+        -:   19:        size_t len_;
+        -:   20:        const T& operator[](const size_t index) const;
+        -:   21:        T& operator[](const size_t index);
+        -:   22:        T* operator*() {return row_;}
+        -:   23:    };
+        -:   24:
+        -:   25:    template<typename T>
+        -:   26:    class Matrix_t {
+        -:   27:    public:
+        -:   28:        using rows_t = std::vector<T>;
+        -:   29:
+        3:   30:        Matrix_t() : data_(nullptr), rows_(nullptr),
+        -:   31:                     numRows_(0), numColumns_(0),
+        3:   32:                     availableNumColumns_(0), availableNumRows_(0) {}
+------------------
+_ZN4mtrx8Matrix_tIiEC2Ev:
+        1:   30:        Matrix_t() : data_(nullptr), rows_(nullptr),
+        -:   31:                     numRows_(0), numColumns_(0),
+        1:   32:                     availableNumColumns_(0), availableNumRows_(0) {}
+------------------
+_ZN4mtrx8Matrix_tIdEC2Ev:
+        2:   30:        Matrix_t() : data_(nullptr), rows_(nullptr),
+        -:   31:                     numRows_(0), numColumns_(0),
+        2:   32:                     availableNumColumns_(0), availableNumRows_(0) {}
+------------------
+        -:   33:        Matrix_t(size_t numRows, size_t numColumns);
+        -:   34:
+        -:   35:        template<typename T2>
+        -:   36:        Matrix_t(const Matrix_t<T2>& matrix);
+        -:   37:
+        -:   38:        Matrix_t(const Matrix_t<T>& matrix);
+        -:   39:
+        -:   40:
+    #####:   41:        Matrix_t(size_t size) : Matrix_t{size, size} {}
+    %%%%%:   41-block  0
+        -:   42:        explicit Matrix_t(const std::vector<rows_t>& rows);
+        -:   43:
+       27:   44:        size_t Num_Rows() const {return numRows_;}
+------------------
+_ZNK4mtrx8Matrix_tIiE8Num_RowsEv:
+       22:   44:        size_t Num_Rows() const {return numRows_;}
+       22:   44-block  0
+------------------
+_ZNK4mtrx8Matrix_tIdE8Num_RowsEv:
+        5:   44:        size_t Num_Rows() const {return numRows_;}
+        5:   44-block  0
+------------------
+      13*:   45:        size_t Num_Columns() const {return numColumns_;}
+------------------
+_ZNK4mtrx8Matrix_tIiE11Num_ColumnsEv:
+       13:   45:        size_t Num_Columns() const {return numColumns_;}
+       13:   45-block  0
+------------------
+_ZNK4mtrx8Matrix_tIdE11Num_ColumnsEv:
+    #####:   45:        size_t Num_Columns() const {return numColumns_;}
+    %%%%%:   45-block  0
+------------------
+        -:   46:
+        -:   47:        Matrix_t<T> Transposition();
+        -:   48:        void Add_Row(mtrx::Matrix_t<T>& row);
+        -:   49:        Matrix_t<T> Without_Row(size_t rowNum);
+        -:   50:
+        -:   51:        double Determinant();
+        -:   52:        double Determinant2();
+        -:   53:
+        -:   54:        Matrix_t<T> Matrix_Mult(Matrix_t<T>& other);
+        -:   55:
+        -:   56:        void Swap_Rows(size_t rowNum1, size_t rowNum2);
+        -:   57:
+        -:   58:        Matrix_t<T>& operator=(const Matrix_t<T>& rhs) ;
+        -:   59:        Matrix_t<T>& operator=(Matrix_t<T>&& rhs) noexcept;
+        -:   60:        Matrix_t<T>& operator+=(const Matrix_t<T>& rhs);
+        -:   61:        Matrix_t<T> operator-();
+        -:   62:
+        -:   63:        template<typename coefficientT>
+        -:   64:        Matrix_t<T>& operator*=(coefficientT coeff);
+        -:   65:
+        -:   66:        ProxyRow_t<T>& operator[](const size_t index);
+        -:   67:        const ProxyRow_t<T>& operator[](const size_t index) const;
+        -:   68:
+        -:   69:        bool empty();
+        -:   70:
+        -:   71:        Matrix_t<T> Connect_Column(Matrix_t<T>& column);
+        -:   72:
+        -:   73:        ~Matrix_t();
+        -:   74:    private:
+        -:   75:        Matrix_t(size_t numColumns, size_t numRows, size_t availableNumRows, size_t availableNumColumns);
+        -:   76:
+        -:   77:        T* data_;
+        -:   78:        ProxyRow_t<T>* rows_;
+        -:   79:        size_t numRows_;
+        -:   80:        size_t availableNumRows_;
+        -:   81:        size_t numColumns_;
+        -:   82:        size_t availableNumColumns_;
+        -:   83:    };
+        -:   84:
+        -:   85:    template <typename T>
+        -:   86:    Matrix_t<T> ConvertDiagMtrx(std::vector<T>& vec);
+        -:   87:
+        -:   88:    template <typename T>
+        -:   89:    bool operator==(const Matrix_t<T>& lhs, const Matrix_t<T>& rhs);
+        -:   90:
+        -:   91:    template<typename T, typename coefficientT>
+        -:   92:    Matrix_t<T> operator*(coefficientT coeff, const Matrix_t<T>& matrix);
+        -:   93:
+        -:   94:    template <typename T>
+        -:   95:    std::ostream& operator<<(std::ostream& os, Matrix_t<T>& matrix);
+        -:   96:
+        -:   97:    template<typename first, typename second>
+        -:   98:    std::ostream& operator<<(std::ostream& os, std::pair<first, second> pair);
+        -:   99:
+        -:  100:    template <typename first, typename second>
+        -:  101:    std::ostream& operator<<(std::ostream& os, std::vector<std::pair<first, second>> vec);
+        -:  102:
+        -:  103:    template<typename T>
+        -:  104:    Matrix_t<T> operator+(Matrix_t<T>& lhs, Matrix_t<T>& rhs);
+        -:  105:
+        -:  106:    bool Double_Equal(double rhs, double lhs);
+        -:  107:
+        -:  108:    template <typename T>
+        -:  109:    Matrix_t<T> IdentityMatrix(size_t size);
+        -:  110:    }
+        -:  111:
+        -:  112://--------------------------------------------------------------------------------------------------------------------
+        -:  113:
+        -:  114:namespace mtrx {
+        -:  115:    template<typename T>
+        6:  116:    Matrix_t<T>::Matrix_t(size_t numRows, size_t numColumns) : numColumns_(numColumns),
+        -:  117:                                                               numRows_(numRows),
+        -:  118:                                                               availableNumRows_(numRows),
+        6:  119:                                                               availableNumColumns_(numColumns)
+        -:  120:    {
+      33*:  121:        data_ = new T[numRows * numColumns]{};
+        6:  122:        T* beginRow = data_;
+       6*:  123:        rows_ = new ProxyRow_t<T>[numRows];
+       21:  124:        for (int i = 0; i < numRows; ++i) {
+       15:  125:            rows_[i].row_ = beginRow;
+       15:  126:            rows_[i].len_ = numColumns;
+       15:  127:            beginRow += numColumns;
+        -:  128:        }
+        6:  129:    }
+------------------
+_ZN4mtrx8Matrix_tIdEC2Emm:
+        2:  116:    Matrix_t<T>::Matrix_t(size_t numRows, size_t numColumns) : numColumns_(numColumns),
+        -:  117:                                                               numRows_(numRows),
+        -:  118:                                                               availableNumRows_(numRows),
+        2:  119:                                                               availableNumColumns_(numColumns)
+        -:  120:    {
+      14*:  121:        data_ = new T[numRows * numColumns]{};
+        2:  121-block  0
+        2:  121-block  1
+    %%%%%:  121-block  2
+        2:  121-block  3
+       14:  121-block  4
+       12:  121-block  5
+        2:  122:        T* beginRow = data_;
+       2*:  123:        rows_ = new ProxyRow_t<T>[numRows];
+        2:  123-block  0
+        2:  123-block  1
+    %%%%%:  123-block  2
+        2:  123-block  3
+        8:  124:        for (int i = 0; i < numRows; ++i) {
+        8:  124-block  0
+        6:  125:            rows_[i].row_ = beginRow;
+        6:  126:            rows_[i].len_ = numColumns;
+        6:  127:            beginRow += numColumns;
+        6:  127-block  0
+        -:  128:        }
+        2:  129:    }
+------------------
+_ZN4mtrx8Matrix_tIiEC2Emm:
+        4:  116:    Matrix_t<T>::Matrix_t(size_t numRows, size_t numColumns) : numColumns_(numColumns),
+        -:  117:                                                               numRows_(numRows),
+        -:  118:                                                               availableNumRows_(numRows),
+        4:  119:                                                               availableNumColumns_(numColumns)
+        -:  120:    {
+      19*:  121:        data_ = new T[numRows * numColumns]{};
+        4:  121-block  0
+        4:  121-block  1
+    %%%%%:  121-block  2
+        4:  121-block  3
+       19:  121-block  4
+       15:  121-block  5
+        4:  122:        T* beginRow = data_;
+       4*:  123:        rows_ = new ProxyRow_t<T>[numRows];
+        4:  123-block  0
+        4:  123-block  1
+    %%%%%:  123-block  2
+        4:  123-block  3
+       13:  124:        for (int i = 0; i < numRows; ++i) {
+       13:  124-block  0
+        9:  125:            rows_[i].row_ = beginRow;
+        9:  126:            rows_[i].len_ = numColumns;
+        9:  127:            beginRow += numColumns;
+        9:  127-block  0
+        -:  128:        }
+        4:  129:    }
+------------------
+        -:  130:
+        -:  131:
+        -:  132:    template<typename T>
+    #####:  133:    Matrix_t<T> Matrix_t<T>::Transposition() {
+    #####:  134:        Matrix_t<T> res{numColumns_, numRows_};
+    %%%%%:  134-block  0
+    #####:  135:        for (size_t row = 0; row < res.numRows_; ++row) {
+    %%%%%:  135-block  0
+    %%%%%:  135-block  1
+    #####:  136:            for (size_t column = 0; column < res.numColumns_; ++column) {
+    %%%%%:  136-block  0
+    %%%%%:  136-block  1
+    #####:  137:                res[row][column] = rows_[column][row];
+    %%%%%:  137-block  0
+    %%%%%:  137-block  1
+    %%%%%:  137-block  2
+    %%%%%:  137-block  3
+        -:  138:            }
+        -:  139:        }
+    #####:  140:        return res;
+    %%%%%:  140-block  0
+    %%%%%:  140-block  1
+        -:  141:    }
+        -:  142:
+        -:  143:    template<typename T>
+        -:  144:    double Matrix_t<T>::Determinant2() {
+        -:  145:        if (numColumns_ != numRows_) {
+        -:  146:            return 0;
+        -:  147:        }
+        -:  148:
+        -:  149:        double det = 1.0;
+        -:  150:
+        -:  151:        if (rows_[0][0] == 0) {
+        -:  152:            return 0.0;
+        -:  153:        }
+        -:  154:
+        -:  155:        size_t n = numRows_;
+        -:  156:        Matrix_t<double> LU_Matrix{n, n};
+        -:  157:        for (size_t j = 0; j < n; ++j) {
+        -:  158:            LU_Matrix[0][j] = static_cast<double>(rows_[0][j]);
+        -:  159:            if (j == 0) {
+        -:  160:                LU_Matrix[j][0] *= static_cast<double>(rows_[j][0]) / LU_Matrix[0][0];
+        -:  161:            } else {
+        -:  162:                LU_Matrix[j][0] = static_cast<double>(rows_[j][0]) / LU_Matrix[0][0];
+        -:  163:            }
+        -:  164:        }
+        -:  165:
+        -:  166:
+        -:  167:        for (size_t i = 1; i < n; ++i) {
+        -:  168:            for (size_t j = i; j < n; ++j) {
+        -:  169:                double sum = 0.0;
+        -:  170:                for (size_t k = 0; k <= i - 1; ++k) {
+        -:  171:                    sum += LU_Matrix[i][k] * LU_Matrix[k][j];
+        -:  172:                }
+        -:  173:
+        -:  174:
+        -:  175:                LU_Matrix[i][j] = static_cast<double>(rows_[i][j]) - sum;
+        -:  176:
+        -:  177:                sum = 0.0;
+        -:  178:                for (size_t k = 0; k <= i - 1; ++k) {
+        -:  179:                    sum += LU_Matrix[j][k] * LU_Matrix[k][i];
+        -:  180:                }
+        -:  181:
+        -:  182:                if (j == i) {
+        -:  183:                    LU_Matrix[j][i] *= 1 / LU_Matrix[i][i] * (static_cast<double>(rows_[j][i]) - sum);
+        -:  184:                } else {
+        -:  185:                    LU_Matrix[j][i] = 1 / LU_Matrix[i][i] * (static_cast<double>(rows_[j][i]) - sum);
+        -:  186:                }
+        -:  187:            }
+        -:  188:        }
+        -:  189:
+        -:  190:        std::cout << "LU:" << LU_Matrix << std::endl;
+        -:  191:
+        -:  192:        for (size_t i = 0; i < n; ++i){
+        -:  193:            det *= LU_Matrix[i][i];
+        -:  194:        }
+        -:  195:        if (std::isnan(det)) {
+        -:  196:            return 0;
+        -:  197:        }
+        -:  198:        return det;
+        -:  199:    }
+        -:  200:
+        -:  201:    template <typename T>
+        -:  202:    double Matrix_t<T>::Determinant() {
+        -:  203:        if (numRows_ != numColumns_) {
+        -:  204:            return 0.0;
+        -:  205:        }
+        -:  206:        double det = 1.0;
+        -:  207:        const size_t n = numRows_;
+        -:  208:        Matrix_t<double> C(*this);
+        -:  209:
+        -:  210:        std::vector<size_t> P;
+        -:  211:        for (size_t i = 0; i < n; ++i) {
+        -:  212:            P.push_back(i);
+        -:  213:        }
+        -:  214:
+        -:  215:        for( size_t i = 0; i < n; i++ ) {
+        -:  216:            double pivotValue = 0.0;
+        -:  217:            int pivot = -1;
+        -:  218:            for( size_t row = i; row < n; ++row ) {
+        -:  219:                if( fabs(C[row][i]) > pivotValue ) {
+        -:  220:                    pivotValue = fabs(C[row][i]);
+        -:  221:                    pivot = row;
+        -:  222:                }
+        -:  223:            }
+        -:  224:
+        -:  225:
+        -:  226:
+        -:  227:            if(pivot != i && !Double_Equal(pivotValue, 0.0)) {
+        -:  228:                size_t  tmp = P[i];
+        -:  229:                P[i] = P[pivot];
+        -:  230:                P[pivot] = tmp;
+        -:  231:                det *= -1;
+        -:  232:
+        -:  233:                C.Swap_Rows(i, pivot);
+        -:  234:                P[n]++;
+        -:  235:            }
+        -:  236:
+        -:  237:            for(int j = i + 1; j < n; ++j) {
+        -:  238:                C[j][i] /= C[i][i];
+        -:  239:
+        -:  240:                for (int k = i + 1; k < n; ++k) {
+        -:  241:                    C[j][k] -= C[j][i] * C[i][k];
+        -:  242:                }
+        -:  243:            }
+        -:  244:        }
+        -:  245:
+        -:  246:        for (size_t i = 0; i < n; ++i) {
+        -:  247:            det *= C[i][i];
+        -:  248:        }
+        -:  249:        if (std::isnan(det)) {
+        -:  250:            return 0.0;
+        -:  251:        }
+        -:  252:        return det;
+        -:  253:    }
+        -:  254:
+        -:  255:    template<typename T>
+    #####:  256:    Matrix_t<T> Matrix_t<T>::Matrix_Mult(Matrix_t<T> &other) {
+    #####:  257:        if (other.numRows_ != numColumns_) {
+    %%%%%:  257-block  0
+    #####:  258:            std::cerr << "Matrix_Mult ERROR!\n";
+    %%%%%:  258-block  0
+    #####:  259:            exit(EXIT_FAILURE);
+    %%%%%:  259-block  0
+        -:  260:        }
+        -:  261:
+        -:  262:        /* [m*n] * [n*k] = [m*k] */
+        -:  263:
+    #####:  264:        Matrix_t<T> res{numRows_, other.numColumns_};
+    %%%%%:  264-block  0
+    #####:  265:            Matrix_t<T> othT = other.Transposition();
+    %%%%%:  265-block  0
+    %%%%%:  265-block  1
+    $$$$$:  265-block  2
+    #####:  266:            for (size_t m = 0; m < numRows_; ++m) {
+    %%%%%:  266-block  0
+    %%%%%:  266-block  1
+    %%%%%:  266-block  2
+    #####:  267:                const ProxyRow_t<T>& row = rows_[m];
+    #####:  268:                for (size_t k = 0; k < othT.numRows_; ++k) {
+    %%%%%:  268-block  0
+    %%%%%:  268-block  1
+    %%%%%:  268-block  2
+    #####:  269:                    for (size_t n = 0; n < othT.numColumns_; ++n) {
+    %%%%%:  269-block  0
+    %%%%%:  269-block  1
+    #####:  270:                        res[m][k] += row[n] * othT[k][n];
+    %%%%%:  270-block  0
+    %%%%%:  270-block  1
+    %%%%%:  270-block  2
+    %%%%%:  270-block  3
+    %%%%%:  270-block  4
+    %%%%%:  270-block  5
+        -:  271:                    }
+        -:  272:                }
+        -:  273:            }
+    #####:  274:            return res;
+    %%%%%:  274-block  0
+    %%%%%:  274-block  1
+        -:  275:    }
+        -:  276:
+        -:  277:    template<typename T>
+        -:  278:    Matrix_t<T>::Matrix_t(const std::vector<rows_t>& rows) : Matrix_t{rows.size(), rows.data()->size()}
+        -:  279:    {
+        -:  280:        for (size_t row = 0; row < numRows_; ++row) {
+        -:  281:            if (rows[row].size() != numColumns_) {
+        -:  282:                std::cerr << "Error construct Matrix -" << rows[row].size() << " != " << numColumns_;
+        -:  283:                exit(EXIT_FAILURE);
+        -:  284:            }
+        -:  285:            for(int column = 0; column < numColumns_; ++column) {
+        -:  286:                rows_[row][column] = rows[row][column];
+        -:  287:            }
+        -:  288:        }
+        -:  289:    }
+        -:  290:
+        -:  291:    template<typename T>
+        9:  292:    Matrix_t<T>::~Matrix_t() {
+        9:  293:        delete [] rows_;
+        9:  294:        delete [] data_;
+        9:  295:    }
+------------------
+_ZN4mtrx8Matrix_tIiED2Ev:
+        5:  292:    Matrix_t<T>::~Matrix_t() {
+        5:  293:        delete [] rows_;
+        5:  293-block  0
+        5:  293-block  1
+        5:  294:        delete [] data_;
+        5:  294-block  0
+        5:  294-block  1
+        5:  295:    }
+------------------
+_ZN4mtrx8Matrix_tIdED2Ev:
+        4:  292:    Matrix_t<T>::~Matrix_t() {
+        4:  293:        delete [] rows_;
+        4:  293-block  0
+        2:  293-block  1
+        4:  294:        delete [] data_;
+        4:  294-block  0
+        2:  294-block  1
+        4:  295:    }
+------------------
+        -:  296:
+        -:  297:    template<typename T>
+      22*:  298:    ProxyRow_t<T>& Matrix_t<T>::operator[](const size_t index) {
+      22*:  299:        if (index >= numRows_) {
+    #####:  300:            std::cerr << "Sigm error Matrix!\n";
+    #####:  301:            exit(EXIT_FAILURE);
+        -:  302:        }
+      22*:  303:        return rows_[index];
+        -:  304:    }
+------------------
+_ZN4mtrx8Matrix_tIiEixEm:
+    #####:  298:    ProxyRow_t<T>& Matrix_t<T>::operator[](const size_t index) {
+    #####:  299:        if (index >= numRows_) {
+    %%%%%:  299-block  0
+    #####:  300:            std::cerr << "Sigm error Matrix!\n";
+    %%%%%:  300-block  0
+    #####:  301:            exit(EXIT_FAILURE);
+        -:  302:        }
+    #####:  303:        return rows_[index];
+    %%%%%:  303-block  0
+        -:  304:    }
+------------------
+_ZN4mtrx8Matrix_tIdEixEm:
+       22:  298:    ProxyRow_t<T>& Matrix_t<T>::operator[](const size_t index) {
+       22:  299:        if (index >= numRows_) {
+       22:  299-block  0
+    #####:  300:            std::cerr << "Sigm error Matrix!\n";
+    %%%%%:  300-block  0
+    #####:  301:            exit(EXIT_FAILURE);
+        -:  302:        }
+       22:  303:        return rows_[index];
+       22:  303-block  0
+        -:  304:    }
+------------------
+        -:  305:
+        -:  306:    template<typename T>
+      12*:  307:    const ProxyRow_t<T>& Matrix_t<T>::operator[](const size_t index) const {
+      12*:  308:        if (index >= numRows_) {
+    #####:  309:            std::cerr << "Sigm error Matrix!\n";
+    #####:  310:            exit(EXIT_FAILURE);
+        -:  311:        }
+      12*:  312:        return rows_[index];
+        -:  313:    }
+------------------
+_ZNK4mtrx8Matrix_tIdEixEm:
+    #####:  307:    const ProxyRow_t<T>& Matrix_t<T>::operator[](const size_t index) const {
+    #####:  308:        if (index >= numRows_) {
+    %%%%%:  308-block  0
+    #####:  309:            std::cerr << "Sigm error Matrix!\n";
+    %%%%%:  309-block  0
+    #####:  310:            exit(EXIT_FAILURE);
+        -:  311:        }
+    #####:  312:        return rows_[index];
+    %%%%%:  312-block  0
+        -:  313:    }
+------------------
+_ZNK4mtrx8Matrix_tIiEixEm:
+       12:  307:    const ProxyRow_t<T>& Matrix_t<T>::operator[](const size_t index) const {
+       12:  308:        if (index >= numRows_) {
+       12:  308-block  0
+    #####:  309:            std::cerr << "Sigm error Matrix!\n";
+    %%%%%:  309-block  0
+    #####:  310:            exit(EXIT_FAILURE);
+        -:  311:        }
+       12:  312:        return rows_[index];
+       12:  312-block  0
+        -:  313:    }
+------------------
+        -:  314:
+        -:  315:    template<typename T>
+        -:  316:    Matrix_t<T> &Matrix_t<T>::operator+=(const Matrix_t<T> &rhs) {
+        -:  317:        if (rhs.numColumns_ != numColumns_ ||
+        -:  318:            rhs.numRows_ != numRows_) {
+        -:  319:            std::cerr << "Error matrix SUM!\n";
+        -:  320:            exit(EXIT_FAILURE);
+        -:  321:        }
+        -:  322:        for (size_t row = 0; row < numRows_; ++row) {
+        -:  323:            for (size_t column = 0; column < numColumns_; ++column) {
+        -:  324:                rows_[row][column] += rhs[row][column];
+        -:  325:            }
+        -:  326:        }
+        -:  327:        return *this;
+        -:  328:    }
+        -:  329:
+        -:  330:    template<typename T>
+        -:  331:    template<typename coefficientT>
+        -:  332:    Matrix_t<T> &Matrix_t<T>::operator*=(coefficientT coeff) {
+        -:  333:        for (size_t row = 0; row < numRows_; ++row) {
+        -:  334:            for (size_t column = 0; column < numColumns_; ++column) {
+        -:  335:                rows_[row][column] *= coeff;
+        -:  336:            }
+        -:  337:        }
+        -:  338:        return *this;
+        -:  339:    }
+        -:  340:
+        -:  341:    template<typename T>
+        1:  342:    Matrix_t<T> &Matrix_t<T>::operator=(const Matrix_t<T> &rhs) {
+        1:  343:        if (&rhs == this) {
+        1:  343-block  0
+    #####:  344:            return *this;
+    %%%%%:  344-block  0
+        -:  345:        }
+        -:  346:
+       1*:  347:        delete [] data_;
+        1:  347-block  0
+    %%%%%:  347-block  1
+       1*:  348:        delete [] rows_;
+        1:  348-block  0
+    %%%%%:  348-block  1
+        1:  349:        numRows_ = rhs.numRows_;
+        1:  350:        availableNumRows_ = rhs.availableNumRows_;
+        1:  351:        numColumns_ = rhs.numColumns_;
+        1:  352:        numColumns_ = rhs.availableNumColumns_;
+       1*:  353:        data_ = new T[availableNumRows_ * availableNumColumns_]{};
+        1:  353-block  0
+        1:  353-block  1
+    %%%%%:  353-block  2
+        1:  353-block  3
+        1:  353-block  4
+    %%%%%:  353-block  5
+        1:  354:        T* beginRow = data_;
+       1*:  355:        rows_ = new ProxyRow_t<T>[availableNumRows_];
+        1:  355-block  0
+        1:  355-block  1
+    %%%%%:  355-block  2
+        1:  355-block  3
+        2:  356:        for (int i = 0; i < numRows_; ++i) {
+        2:  356-block  0
+        1:  357:            rows_[i].row_ = beginRow;
+        1:  358:            rows_[i].len_ = availableNumColumns_;
+        1:  359:            beginRow += availableNumColumns_;
+        1:  359-block  0
+        -:  360:        }
+       1*:  361:        for (size_t i = 0; i < numColumns_*numRows_; ++i) {
+        1:  361-block  0
+        1:  361-block  1
+    #####:  362:            data_[i] = rhs.data_[i];
+    %%%%%:  362-block  0
+        -:  363:        }
+        1:  364:        return *this;
+        1:  364-block  0
+        -:  365:    }
+        -:  366:
+        -:  367:    template<typename T>
+    #####:  368:    void Matrix_t<T>::Swap_Rows(size_t rowNum1, size_t rowNum2) {
+    #####:  369:        T* tmp = rows_[rowNum1].row_;
+    #####:  370:        rows_[rowNum1].row_ = rows_[rowNum2].row_;
+    #####:  371:        rows_[rowNum2].row_ = tmp;
+    #####:  372:    }
+        -:  373:
+        -:  374:    template<typename T>
+        -:  375:    template<typename T2>
+        1:  376:    Matrix_t<T>::Matrix_t(const Matrix_t<T2> &matrix) : Matrix_t{matrix.Num_Rows(), matrix.Num_Columns()} {
+        1:  376-block  0
+    $$$$$:  376-block  1
+        4:  377:            for (size_t i = 0; i < numRows_; ++i) {
+        4:  377-block  0
+        3:  377-block  1
+       12:  378:                for (size_t j = 0; j < numColumns_; ++j) {
+        3:  378-block  0
+       12:  378-block  1
+        9:  379:                    rows_[i][j] = static_cast<T>(matrix[i][j]);
+        9:  379-block  0
+        9:  379-block  1
+        9:  379-block  2
+        9:  379-block  3
+        -:  380:                }
+        -:  381:            }
+        1:  382:    }
+        1:  382-block  0
+        -:  383:
+        -:  384:    template<typename T>
+    #####:  385:    bool Matrix_t<T>::empty() {
+    #####:  386:        return numColumns_ == 0 && numRows_ == 0;
+    %%%%%:  386-block  0
+    %%%%%:  386-block  1
+    %%%%%:  386-block  2
+    %%%%%:  386-block  3
+    %%%%%:  386-block  4
+        -:  387:    }
+        -:  388:
+        -:  389:    template<typename T>
+    #####:  390:    Matrix_t<T> Matrix_t<T>::Connect_Column(Matrix_t<T> &column) {
+    #####:  391:        if (numRows_ != column.numRows_ && !column.empty()) {
+    %%%%%:  391-block  0
+    %%%%%:  391-block  1
+    %%%%%:  391-block  2
+    %%%%%:  391-block  3
+    %%%%%:  391-block  4
+        -:  392:            //TODO::error
+        -:  393:        }
+    #####:  394:        Matrix_t<T> res{numRows_, numColumns_ + column.numColumns_};
+    %%%%%:  394-block  0
+        -:  395:
+    #####:  396:        for (size_t i = 0; i < res.Num_Rows(); ++i) {
+    %%%%%:  396-block  0
+    %%%%%:  396-block  1
+    #####:  397:            for (size_t j = 0; j < numColumns_; ++j) {
+    %%%%%:  397-block  0
+    %%%%%:  397-block  1
+    #####:  398:                res[i][j] = rows_[i][j];
+    %%%%%:  398-block  0
+    %%%%%:  398-block  1
+    %%%%%:  398-block  2
+    %%%%%:  398-block  3
+        -:  399:            }
+    #####:  400:            for (size_t j = 0; j < column.Num_Columns(); ++j) {
+    %%%%%:  400-block  0
+    %%%%%:  400-block  1
+    #####:  401:                res[i][numColumns_ + j] = column[i][j];
+    %%%%%:  401-block  0
+    %%%%%:  401-block  1
+    %%%%%:  401-block  2
+    %%%%%:  401-block  3
+    %%%%%:  401-block  4
+        -:  402:            }
+        -:  403:        }
+    #####:  404:        return res;
+    %%%%%:  404-block  0
+    %%%%%:  404-block  1
+        -:  405:    }
+        -:  406:
+        -:  407:    template<typename T>
+    #####:  408:    Matrix_t<T> Matrix_t<T>::operator-() {
+    #####:  409:        Matrix_t<T> res(*this);
+    %%%%%:  409-block  0
+    #####:  410:        for (size_t i = 0; i < res.Num_Rows(); ++i) {
+    %%%%%:  410-block  0
+    %%%%%:  410-block  1
+    #####:  411:            for(size_t j = 0; j < res.Num_Columns(); ++j) {
+    %%%%%:  411-block  0
+    %%%%%:  411-block  1
+    #####:  412:                res[i][j] *= -1;
+    %%%%%:  412-block  0
+    %%%%%:  412-block  1
+    %%%%%:  412-block  2
+        -:  413:            }
+        -:  414:        }
+    #####:  415:        return res;
+    %%%%%:  415-block  0
+    %%%%%:  415-block  1
+        -:  416:    }
+        -:  417:
+        -:  418:    template<typename T>
+        2:  419:    void Matrix_t<T>::Add_Row(Matrix_t<T> &mtrx) {
+        2:  420:        if (mtrx.Num_Columns() != Num_Columns()) {
+        2:  420-block  0
+        -:  421:            //TODO: ERROR
+        -:  422:        }
+        2:  423:        if (mtrx.Num_Rows() <= availableNumRows_ - Num_Rows()) {
+        2:  423-block  0
+        1:  424:            numRows_ = Num_Rows() + mtrx.numRows_;
+        1:  424-block  0
+       1*:  425:            for (size_t j = Num_Rows(); j < numRows_; ++j) {
+        1:  425-block  0
+    %%%%%:  425-block  1
+    #####:  426:                for (size_t i = 0; i < Num_Columns(); ++i) {
+    %%%%%:  426-block  0
+    %%%%%:  426-block  1
+    #####:  427:                    rows_[j][i] = mtrx[j - Num_Rows()][i];
+    %%%%%:  427-block  0
+        -:  428:                }
+        -:  429:            }
+        -:  430:        } else {
+        3:  431:            Matrix_t<T> newMtrx(Num_Rows() + mtrx.numRows_, Num_Columns(),
+        1:  431-block  0
+        1:  431-block  1
+    $$$$$:  431-block  2
+        1:  432:                                  Num_Rows() + mtrx.numRows_ * MATRIX_AMORTIZATION, Num_Columns());
+       1*:  433:            for (size_t i = 0; i < Num_Rows(); ++i) {
+        1:  433-block  0
+        1:  433-block  1
+    %%%%%:  433-block  2
+    #####:  434:                for (size_t j = 0; j < newMtrx.numColumns_; ++j) {
+    %%%%%:  434-block  0
+    %%%%%:  434-block  1
+    #####:  435:                    newMtrx[i][j] = rows_[i][j];
+    %%%%%:  435-block  0
+    %%%%%:  435-block  1
+    %%%%%:  435-block  2
+    %%%%%:  435-block  3
+        -:  436:                }
+        -:  437:            }
+        -:  438:
+        2:  439:            for (size_t i = Num_Rows(); i < newMtrx.Num_Rows(); ++i) {
+        1:  439-block  0
+        2:  439-block  1
+        1:  439-block  2
+       1*:  440:                for (size_t j = 0; j < newMtrx.numColumns_; ++j) {
+        1:  440-block  0
+        1:  440-block  1
+    #####:  441:                    newMtrx[i][j] = mtrx[i - Num_Rows()][j];
+    %%%%%:  441-block  0
+    %%%%%:  441-block  1
+    %%%%%:  441-block  2
+    %%%%%:  441-block  3
+    %%%%%:  441-block  4
+        -:  442:                }
+        -:  443:            }
+        1:  444:            *this = newMtrx;
+        1:  444-block  0
+        -:  445:        }
+        2:  446:    }
+        2:  446-block  0
+        -:  447:
+        -:  448:    template<typename T>
+        1:  449:    Matrix_t<T>::Matrix_t(size_t numRows, size_t numColumns, size_t availableNumRows, size_t availableNumColumns) :
+        1:  450:            Matrix_t{availableNumRows, availableNumColumns}
+        1:  450-block  0
+        -:  451:    {
+        1:  452:        numRows_ = numRows;
+        1:  453:        numColumns_ = numColumns;
+        1:  454:    }
+        -:  455:
+        -:  456:    template<typename T>
+    #####:  457:    Matrix_t<T> Matrix_t<T>::Without_Row(size_t rowNum) {
+    #####:  458:        if (rowNum >= numRows_) {
+    %%%%%:  458-block  0
+        -:  459:            //TODO: ERROR
+        -:  460:        }
+    #####:  461:        Matrix_t<T> res{numRows_ - 1, numColumns_};
+    %%%%%:  461-block  0
+    #####:  462:        for (size_t i = 0; i < rowNum; ++i) {
+    %%%%%:  462-block  0
+    %%%%%:  462-block  1
+    #####:  463:            for (size_t j = 0; j < numColumns_; ++j) {
+    %%%%%:  463-block  0
+    %%%%%:  463-block  1
+    #####:  464:                res[i][j] = rows_[i][j];
+    %%%%%:  464-block  0
+    %%%%%:  464-block  1
+    %%%%%:  464-block  2
+    %%%%%:  464-block  3
+        -:  465:            }
+        -:  466:        }
+    #####:  467:        for (size_t i = rowNum + 1; i < numRows_; ++i) {
+    %%%%%:  467-block  0
+    %%%%%:  467-block  1
+    %%%%%:  467-block  2
+    #####:  468:            for (size_t j = 0; j < numColumns_; ++j) {
+    %%%%%:  468-block  0
+    %%%%%:  468-block  1
+    #####:  469:                res[i - 1][j] = rows_[i][j];
+    %%%%%:  469-block  0
+    %%%%%:  469-block  1
+    %%%%%:  469-block  2
+    %%%%%:  469-block  3
+        -:  470:            }
+        -:  471:        }
+    #####:  472:        return res;
+    %%%%%:  472-block  0
+    %%%%%:  472-block  1
+        -:  473:    }
+        -:  474:
+        -:  475:    template<typename T>
+        2:  476:    Matrix_t<T> &Matrix_t<T>::operator=(Matrix_t<T> &&rhs)  noexcept {
+        2:  477:        data_ = std::move(rhs.data_);
+        2:  477-block  0
+        2:  478:        rows_ = std::move(rhs.rows_);
+        2:  479:        availableNumRows_ = rhs.availableNumRows_;
+        2:  480:        availableNumColumns_ = rhs.availableNumColumns_;
+        2:  481:        numColumns_ = rhs.numColumns_;
+        2:  482:        numRows_ = rhs.numRows_;
+        2:  483:        rhs.data_ = nullptr;
+        2:  484:        rhs.rows_ = nullptr;
+        2:  485:        return *this;
+        -:  486:    }
+        -:  487:
+        -:  488:    template<typename T>
+    #####:  489:    Matrix_t<T> ConvertDiagMtrx(std::vector<T> &vec) {
+    #####:  490:        Matrix_t<T> res{vec.size()};
+    %%%%%:  490-block  0
+    #####:  491:        for (size_t i = 0; i < vec.size(); ++i) {
+    %%%%%:  491-block  0
+    #####:  492:            res[i][i] = vec[i];
+    %%%%%:  492-block  0
+    %%%%%:  492-block  1
+    %%%%%:  492-block  2
+        -:  493:        }
+    #####:  494:        return res;
+    %%%%%:  494-block  0
+    %%%%%:  494-block  1
+        -:  495:    }
+        -:  496:
+        -:  497:    template<typename T>
+       1*:  498:    Matrix_t<T>::Matrix_t(const Matrix_t<T> &matrix) : Matrix_t{matrix.Num_Rows(), matrix.Num_Columns()} {
+       2*:  499:        for (size_t i = 0; i < numRows_; ++i) {
+       4*:  500:            for (size_t j = 0; j < numColumns_; ++j) {
+       3*:  501:                rows_[i][j] = static_cast<T>(matrix[i][j]);
+        -:  502:            }
+        -:  503:        }
+       1*:  504:    }
+------------------
+_ZN4mtrx8Matrix_tIiEC2ERKS1_:
+        1:  498:    Matrix_t<T>::Matrix_t(const Matrix_t<T> &matrix) : Matrix_t{matrix.Num_Rows(), matrix.Num_Columns()} {
+        1:  498-block  0
+    $$$$$:  498-block  1
+        2:  499:        for (size_t i = 0; i < numRows_; ++i) {
+        2:  499-block  0
+        1:  499-block  1
+        4:  500:            for (size_t j = 0; j < numColumns_; ++j) {
+        1:  500-block  0
+        4:  500-block  1
+        3:  501:                rows_[i][j] = static_cast<T>(matrix[i][j]);
+        3:  501-block  0
+        3:  501-block  1
+        3:  501-block  2
+        3:  501-block  3
+        -:  502:            }
+        -:  503:        }
+        1:  504:    }
+        1:  504-block  0
+------------------
+_ZN4mtrx8Matrix_tIdEC2ERKS1_:
+    #####:  498:    Matrix_t<T>::Matrix_t(const Matrix_t<T> &matrix) : Matrix_t{matrix.Num_Rows(), matrix.Num_Columns()} {
+    %%%%%:  498-block  0
+    $$$$$:  498-block  1
+    #####:  499:        for (size_t i = 0; i < numRows_; ++i) {
+    %%%%%:  499-block  0
+    %%%%%:  499-block  1
+    #####:  500:            for (size_t j = 0; j < numColumns_; ++j) {
+    %%%%%:  500-block  0
+    %%%%%:  500-block  1
+    #####:  501:                rows_[i][j] = static_cast<T>(matrix[i][j]);
+    %%%%%:  501-block  0
+    %%%%%:  501-block  1
+    %%%%%:  501-block  2
+    %%%%%:  501-block  3
+        -:  502:            }
+        -:  503:        }
+    #####:  504:    }
+    %%%%%:  504-block  0
+------------------
+        -:  505:
+        -:  506:
+        -:  507:    template <typename T>
+        -:  508:    bool operator==(const Matrix_t<T>& lhs, const Matrix_t<T>& rhs)  {
+        -:  509:        if (rhs.Num_Rows() != lhs.Num_Rows() ||
+        -:  510:            rhs.Num_Columns() != lhs.Num_Columns()) {
+        -:  511:            return false;
+        -:  512:        }
+        -:  513:        for (int i = 0; i < rhs.Num_Rows(); ++i) {
+        -:  514:            for (int j = 0; j < rhs.Num_Columns(); ++j) {
+        -:  515:                if (!Double_Equal(rhs[i][j], lhs[i][j])) {
+        -:  516:                    return false;
+        -:  517:                }
+        -:  518:            }
+        -:  519:        }
+        -:  520:        return true;
+        -:  521:    }
+        -:  522:
+        -:  523:    template<typename T, typename coefficientT>
+        -:  524:    Matrix_t<T> operator*(coefficientT coeff, const Matrix_t<T>& matrix) {
+        -:  525:        Matrix_t<T> res{matrix.Num_Rows(), matrix.Num_Columns()};
+        -:  526:        for (int row = 0; row < matrix.Num_Rows(); ++row) {
+        -:  527:            for (int column = 0; column < matrix.Num_Columns(); ++column) {
+        -:  528:                res[row][column] = matrix[row][column] * static_cast<T>(coeff);
+        -:  529:            }
+        -:  530:        }
+        -:  531:        return res;
+        -:  532:    }
+        -:  533:
+        -:  534:    template <typename T>
+        3:  535:    std::ostream& operator<<(std::ostream& os, Matrix_t<T>& matrix) {
+        8:  536:        for (size_t row = 0; row < matrix.Num_Rows(); ++row) {
+        3:  536-block  0
+        8:  536-block  1
+        -:  537:            //os << "( ";
+       5*:  538:            for (size_t column = 0; column < matrix.Num_Columns(); ++column) {
+        5:  538-block  0
+        5:  538-block  1
+    #####:  539:                os << matrix[row][column] << " ";
+    %%%%%:  539-block  0
+        -:  540:            }
+        5:  541:            os << "\n";
+        5:  541-block  0
+        -:  542:        }
+        3:  543:        return os;
+        3:  543-block  0
+        -:  544:    }
+        -:  545:
+        -:  546:    template<typename T, typename coefficientT>
+        -:  547:    Matrix_t<T> operator*( const Matrix_t<T>& matrix, coefficientT coeff) {
+        -:  548:        return coeff*matrix;
+        -:  549:    }
+        -:  550:
+        -:  551:    template<typename T>
+        -:  552:    Matrix_t<T> operator+(Matrix_t<T>& lhs, Matrix_t<T>& rhs) {
+        -:  553:        if (lhs.Num_Columns() != rhs.Num_Columns() ||
+        -:  554:            lhs.Num_Rows() != rhs.Num_Rows()) {
+        -:  555:            std::cerr << "Matrices of different sizes!\n";
+        -:  556:            exit(EXIT_FAILURE);
+        -:  557:        }
+        -:  558:        Matrix_t<T> res{lhs.Num_Rows(), lhs.Num_Columns()};
+        -:  559:        for (size_t row = 0; row < lhs.Num_Rows(); ++row) {
+        -:  560:            for (size_t column = 0; column < lhs.Num_Columns(); ++column) {
+        -:  561:                res[row][column] = lhs[row][column] + rhs[row][column];
+        -:  562:            }
+        -:  563:        }
+        -:  564:        return res;
+        -:  565:    }
+        -:  566:
+    #####:  567:    bool Double_Equal(double rhs, double lhs) {
+    #####:  568:        if (std::abs(rhs - lhs) < PRESISION) {
+    %%%%%:  568-block  0
+    #####:  569:            return true;
+    %%%%%:  569-block  0
+        -:  570:        } else {
+    #####:  571:            return false;
+    %%%%%:  571-block  0
+        -:  572:        }
+        -:  573:    }
+        -:  574:
+        -:  575:    template<typename T>
+      12*:  576:    const T &ProxyRow_t<T>::operator[](const size_t index) const {
+      12*:  577:        if (index > len_) {
+    #####:  578:            std::cerr << "Sigabrt error\n";
+    #####:  579:            exit(EXIT_FAILURE);
+        -:  580:        }
+      12*:  581:        return row_[index];
+        -:  582:    }
+------------------
+_ZNK4mtrx10ProxyRow_tIdEixEm:
+    #####:  576:    const T &ProxyRow_t<T>::operator[](const size_t index) const {
+    #####:  577:        if (index > len_) {
+    %%%%%:  577-block  0
+    #####:  578:            std::cerr << "Sigabrt error\n";
+    %%%%%:  578-block  0
+    #####:  579:            exit(EXIT_FAILURE);
+        -:  580:        }
+    #####:  581:        return row_[index];
+    %%%%%:  581-block  0
+        -:  582:    }
+------------------
+_ZNK4mtrx10ProxyRow_tIiEixEm:
+       12:  576:    const T &ProxyRow_t<T>::operator[](const size_t index) const {
+       12:  577:        if (index > len_) {
+       12:  577-block  0
+    #####:  578:            std::cerr << "Sigabrt error\n";
+    %%%%%:  578-block  0
+    #####:  579:            exit(EXIT_FAILURE);
+        -:  580:        }
+       12:  581:        return row_[index];
+       12:  581-block  0
+        -:  582:    }
+------------------
+        -:  583:
+        -:  584:    template<typename T>
+       34:  585:    T &ProxyRow_t<T>::operator[](const size_t index) {
+       34:  586:        if (index > len_) {
+    #####:  587:            std::cerr << "Sigabrt error\n";
+    #####:  588:            exit(EXIT_FAILURE);
+        -:  589:        }
+       34:  590:        return row_[index];
+        -:  591:    }
+        -:  592:
+        -:  593:    template <typename T>
+        -:  594:    Matrix_t<T> IdentityMatrix(size_t size) {
+        -:  595:        Matrix_t<T> res{size};
+        -:  596:
+        -:  597:        for (size_t i = 0; i < size; ++i) {
+        -:  598:            res[i][i] = 1;
+        -:  599:        }
+        -:  600:        return res;
+        -:  601:    }
+        -:  602:
+        -:  603:    template<typename first, typename second>
+        -:  604:    std::ostream& operator<<(std::ostream& os, std::pair<first, second> pair) {
+        -:  605:        os << "[ " << pair.first << " " << pair.second << " ]";
+        -:  606:        return os;
+        -:  607:    }
+        -:  608:
+        -:  609:    template <typename first, typename second>
+        -:  610:    std::ostream& operator<<(std::ostream& os, std::vector<std::pair<first, second>> vec) {
+        -:  611:        os << "{ ";
+        -:  612:        for (auto& it : vec) {
+        -:  613:            os << it << " ";
+        -:  614:        }
+        -:  615:        os << "}";
+        -:  616:        return os;
+        -:  617:    }
+        -:  618:}

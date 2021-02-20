@@ -164,11 +164,39 @@ TEST(Matrix, Determinant7) {
     ASSERT_NEAR(matrix.Determinant(), 0, mtrx::PRESISION);
 }
 
-//TEST(Matrix, Mult100x100) {
-//    matrixgen::MatrixGenerator_t gen{100};
-//    std::cout << gen << std::endl;
-//
-//    std::cout << gen.determinant_ << std::endl;
-//
-//    std::cout << gen.matrix_.Determinant();
-//}
+TEST(Matrix, Add_Row) {
+    mtrx::Matrix_t<int> matrix{{{0, 0, 0, 0, 0},
+                                       {0, 0, 0, 0, 0},
+                                       {0, 0, 0, 0, 0},
+                                       {0, 0, 0, 0, 0},
+                                       {0, 0, 0, 0, 0}}};
+    mtrx::Matrix_t<int> res{{{0, 0, 0, 0, 0},
+                             {0, 0, 0, 0, 0},
+                             {0, 0, 0, 0, 0},
+                             {0, 0, 0, 0, 0},
+                             {0, 0, 0, 0, 0},
+                             {1, 1, 1, 1, 1}}};
+    mtrx::Matrix_t<int> row{{{1, 1, 1, 1, 1}}};
+
+    matrix.Add_Row(row);
+
+    ASSERT_EQ(res, matrix);
+}
+
+TEST(Matrix, Without_Row) {
+    mtrx::Matrix_t<int> res{{{0, 0, 0, 0, 0},
+                                       {0, 0, 0, 0, 0},
+                                       {0, 0, 0, 0, 0},
+                                       {0, 0, 0, 0, 0},
+                                       {0, 0, 0, 0, 0}}};
+    mtrx::Matrix_t<int> matrix{{{0, 0, 0, 0, 0},
+                                    {0, 0, 0, 0, 0},
+                                    {0, 0, 0, 0, 0},
+                                    {0, 0, 0, 0, 0},
+                                    {0, 0, 0, 0, 0},
+                                    {1, 1, 1, 1, 1}}};
+
+    mtrx::Matrix_t<int> m = matrix.Without_Row(5);
+
+    ASSERT_EQ(res, m);
+}

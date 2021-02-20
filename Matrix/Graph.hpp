@@ -19,7 +19,7 @@ namespace grph {
         size_t Num_Edges();
 
     private:
-        void Depth_Walk(mtrx::Matrix_t<int>& contourMtrx, std::set<size_t> climbedNodes, mtrx::Matrix_t<int> newRow,
+        void Depth_Walk(mtrx::Matrix_t<int>& contourMtrx, std::set<size_t>& climbedNodes, mtrx::Matrix_t<int> newRow,
                         const size_t currentNode);
 
         mtrx::Matrix_t<double> incMtrx_;
@@ -69,9 +69,9 @@ grph::RTGraph_t::RTGraph_t(std::istream &is) {
         }
     }
 
-    incMtrx_ = mtrx::Matrix_t<int>{maxNumNode, matrInfo.size()};
+    incMtrx_ = mtrx::Matrix_t<int>(maxNumNode, matrInfo.size());
     resistMtrx_ = std::vector<double>(matrInfo.size());
-    emfMtrx_ = mtrx::Matrix_t<double>{matrInfo.size(), 1};
+    emfMtrx_ = mtrx::Matrix_t<double>(matrInfo.size(), 1);
 
     for (size_t i = 0; i < matrInfo.size(); ++i) {
         incMtrx_[matrInfo[i].first.first - 1][i] += 1;
@@ -127,23 +127,32 @@ mtrx::Matrix_t<int> grph::RTGraph_t::Find_Cycles() {
         std::set<size_t> climbedNodes;
         size_t currentNode = 1;
         Depth_Walk( contourMtrx, climbedNodes, newRow, currentNode);
+        std::cout << contourMtrx;
+        return contourMtrx;
 }
 
-void grph::RTGraph_t::Depth_Walk( mtrx::Matrix_t<int>& contourMtrx, std::set<size_t> climbedNodes,
+void grph::RTGraph_t::Depth_Walk( mtrx::Matrix_t<int>& contourMtrx, std::set<size_t>& climbedNodes,
                                   mtrx::Matrix_t<int> newRow, const size_t currentNode)
 {
+    std::cout << newRow << std::endl;
+    if (climbedNodes.find(currentNode) != climbedNodes.end()) {
+        return;
+    }
     climbedNodes.insert(currentNode);
     for (size_t i = 0; i < Num_Edges(); ++i) {
-        if (incMtrx_[currentNode - 1][i] != 0) {
+        if (incMtrx_[currentNode - 1][i] == 1) {
             size_t j = 0;
             while (incMtrx_[j][i] != -incMtrx_[currentNode - 1][i]) {
                 j++;
             }
-            if (climbedNodes.find(j) != climbedNodes.end()) {
+            if (climbedNodes.find(j+1) == climbedNodes.end()) {
                 newRow[0][i] = incMtrx_[currentNode - 1][i];
                 Depth_Walk( contourMtrx, climbedNodes, newRow, j + 1);
             } else {
+                newRow[0][i] = incMtrx_[currentNode - 1][i];
+                std::cout << "Add new row:" << newRow;
                 contourMtrx.Add_Row(newRow);
+                std::cout << "MTRX:" << contourMtrx << std::endl << std::endl;
             }
         }
     }

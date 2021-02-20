@@ -46,6 +46,7 @@ namespace mtrx {
 
         Matrix_t<T> Transposition();
         void Add_Row(mtrx::Matrix_t<T>& row);
+        Matrix_t<T> Without_Row(size_t rowNum);
 
         double Determinant();
         double Determinant2();
@@ -55,6 +56,7 @@ namespace mtrx {
         void Swap_Rows(size_t rowNum1, size_t rowNum2);
 
         Matrix_t<T>& operator=(const Matrix_t<T>& rhs) ;
+        Matrix_t<T>& operator=(Matrix_t<T>&& rhs) noexcept;
         Matrix_t<T>& operator+=(const Matrix_t<T>& rhs);
         Matrix_t<T> operator-();
 
@@ -449,6 +451,38 @@ namespace mtrx {
     {
         numRows_ = numRows;
         numColumns_ = numColumns;
+    }
+
+    template<typename T>
+    Matrix_t<T> Matrix_t<T>::Without_Row(size_t rowNum) {
+        if (rowNum >= numRows_) {
+            //TODO: ERROR
+        }
+        Matrix_t<T> res{numRows_ - 1, numColumns_};
+        for (size_t i = 0; i < rowNum; ++i) {
+            for (size_t j = 0; j < numColumns_; ++j) {
+                res[i][j] = rows_[i][j];
+            }
+        }
+        for (size_t i = rowNum + 1; i < numRows_; ++i) {
+            for (size_t j = 0; j < numColumns_; ++j) {
+                res[i - 1][j] = rows_[i][j];
+            }
+        }
+        return res;
+    }
+
+    template<typename T>
+    Matrix_t<T> &Matrix_t<T>::operator=(Matrix_t<T> &&rhs)  noexcept {
+        data_ = std::move(rhs.data_);
+        rows_ = std::move(rhs.rows_);
+        availableNumRows_ = rhs.availableNumRows_;
+        availableNumColumns_ = rhs.availableNumColumns_;
+        numColumns_ = rhs.numColumns_;
+        numRows_ = rhs.numRows_;
+        rhs.data_ = nullptr;
+        rhs.rows_ = nullptr;
+        return *this;
     }
 
     template<typename T>
