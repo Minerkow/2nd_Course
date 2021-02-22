@@ -417,6 +417,9 @@ namespace mtrx {
 
     template<typename T>
     void Matrix_t<T>::Add_Row(Matrix_t<T> &row) {
+        if (row.empty()) {
+            return;
+        }
         if (row.numColumns_ != numColumns_ && !empty()) {
             //TODO: ERROR
             std::cout << "kek" << std::endl;

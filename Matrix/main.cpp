@@ -10,8 +10,8 @@ int main() {
                       "2 -- 4, 0;";
     std::stringstream is{str};
     grph::RTGraph_t rtGraph{is};
-    rtGraph.Find_Cycles();
-    //std::cout << res << std::endl;
+    mtrx::Matrix_t<int> res = rtGraph.Find_Cycles();
+    std::cout << res << std::endl;
 //
 //    std::vector<double> res = rtGraph.Calculate_Potential();
 //    for (auto& it : res) {

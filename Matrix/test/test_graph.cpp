@@ -30,27 +30,19 @@ TEST(Graph, GaussTest2) {
                 mtrx::Double_Equal(res[2], 1));
 }
 
-TEST(Graph, Find_Potential1) {
-    std::string str = "1 -- 2, 1.0; 1.0V\n"
-                     "2 -- 1, 1.0;";
+TEST(Graph, Find_Cycles1) {
+    std::string str = "1 -- 2, 0;\n"
+                      "2 -- 3, 1; 2V\n"
+                      "3 -- 1, 0;\n"
+                      "3 -- 4, 0;\n"
+                      "2 -- 4, 0;";
     std::stringstream is{str};
+    mtrx::Matrix_t<int> res {{{1, 1, 1, 0, 0},
+                              {0, 1, 0, 1, -1}}};
     grph::RTGraph_t rtGraph{is};
-    std::vector<double> res = rtGraph.Calculate_Potential();
-    ASSERT_TRUE(mtrx::Double_Equal(res[0], -0.5));
+    ASSERT_EQ(res, rtGraph.Find_Cycles());
 }
 
-TEST(Graph, Find_Potential2) {
-    std::string str = "1 -- 2, 0;\n"
-                      "2 -- 3, 1; 1V\n"
-                      "3 -- 1, 0;";
-    std::stringstream is{str};
-    grph::RTGraph_t rtGraph{is};
-    std::vector<double> res = rtGraph.Calculate_Potential();
-    for (auto& it : res) {
-        std::cout << it << " ";
-    }
-    std::cout << std::endl;
-}
 //TEST(Graph, Find_Amperage1) {
 //    std::string pathIn {PATH};
 //    std::string pathOut {PATH};

@@ -211,6 +211,21 @@ TEST(Matrix, Add_Row3) {
     ASSERT_EQ(res, matrix);
 }
 
+TEST(Matrix, Add_Row4) {
+    mtrx::Matrix_t<int> matrix{{{0, 0, 0, 0, 0},
+                                {0, 0, 0, 0, 0},
+                                {0, 0, 0, 0, 0},
+                                {0, 0, 0, 0, 0},
+                                {0, 0, 0, 0, 0},
+                                {1, 1, 1, 1, 1}}};
+    mtrx::Matrix_t<int> row;
+    try {
+        matrix.Add_Row(row);
+    } catch(std::exception) {
+        FAIL();
+    }
+}
+
 TEST(Matrix, Without_Row) {
     mtrx::Matrix_t<int> res{{{0, 0, 0, 0, 0},
                                        {0, 0, 0, 0, 0},
