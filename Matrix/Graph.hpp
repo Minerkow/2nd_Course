@@ -19,8 +19,9 @@ namespace grph {
         size_t Num_Edges();
 
     private:
-        void Depth_Walk(mtrx::Matrix_t<int>& contourMtrx, std::set<size_t>& climbedNodes, mtrx::Matrix_t<int> newRow,
+        void Depth_Walk(mtrx::Matrix_t<int>& contourMtrx, std::set<size_t>& climbedNodes, std::stack<size_t> newCycle,
                         const size_t currentNode);
+        mtrx::Matrix_t<int> Get_Cycle(std::stack<size_t>& stack);
 
         mtrx::Matrix_t<double> incMtrx_;
         std::vector<double> resistMtrx_;
@@ -88,6 +89,7 @@ grph::RTGraph_t::RTGraph_t(std::istream &is) {
               << conductMtrx_ << std::endl
               << emfMtrx_ << std::endl;
 #endif
+    std::cout << incMtrx_ << std::endl;
 }
 
 std::vector<double> grph::RTGraph_t::Calculate_Potential() {
@@ -123,38 +125,62 @@ std::vector<std::pair<grph::RTGraph_t::MatrCoord_t, double>> grph::RTGraph_t::Ca
 
 mtrx::Matrix_t<int> grph::RTGraph_t::Find_Cycles() {
         mtrx::Matrix_t<int> contourMtrx;
-        mtrx::Matrix_t<int> newRow{1, Num_Edges()};
+        std::stack<size_t> newCycle;
         std::set<size_t> climbedNodes;
         size_t currentNode = 1;
-        Depth_Walk( contourMtrx, climbedNodes, newRow, currentNode);
+        Depth_Walk(contourMtrx, climbedNodes, newCycle, currentNode);
         std::cout << contourMtrx << std::endl;
         return contourMtrx;
 }
 
-void grph::RTGraph_t::Depth_Walk( mtrx::Matrix_t<int>& contourMtrx, std::set<size_t>& climbedNodes,
-                                  mtrx::Matrix_t<int> newRow, const size_t currentNode)
+void grph::RTGraph_t::Depth_Walk(mtrx::Matrix_t<int>& contourMtrx, std::set<size_t>& climbedNodes,
+                                 std::stack<size_t> newCycle, const size_t currentNode)
 {
-    std::cout << newRow << std::endl;
     if (climbedNodes.find(currentNode) != climbedNodes.end()) {
         return;
     }
     climbedNodes.insert(currentNode);
+    newCycle.push(currentNode);
     for (size_t i = 0; i < Num_Edges(); ++i) {
-        if (incMtrx_[currentNode - 1][i] == 1) {
+        if (std::abs(incMtrx_[currentNode - 1][i]) == 1) {
             size_t j = 0;
             while (incMtrx_[j][i] != -incMtrx_[currentNode - 1][i]) {
                 j++;
             }
+            if (j + 1 == newCycle.top()) {
+                break;
+            }
             if (climbedNodes.find(j+1) == climbedNodes.end()) {
-                newRow[0][i] = incMtrx_[currentNode - 1][i];
-                Depth_Walk( contourMtrx, climbedNodes, newRow, j + 1);
+                Depth_Walk(contourMtrx, climbedNodes, newCycle, j + 1);
             } else {
-                newRow[0][i] = incMtrx_[currentNode - 1][i];
-                std::cout << "Add new row:" << newRow;
-                contourMtrx.Add_Row(newRow);
+                newCycle.push(j+1);
+                mtrx::Matrix_t<int> cycleRow = Get_Cycle(newCycle);
+                contourMtrx.Add_Row(cycleRow);
             }
         }
     }
+}
+
+mtrx::Matrix_t<int> grph::RTGraph_t::Get_Cycle(std::stack<size_t> &stack) {
+    mtrx::Matrix_t<int> cycle{1, Num_Edges()};
+    size_t midlNode = stack.top();
+    while (!stack.empty()) {
+        size_t node = stack.top();
+        stack.pop();
+        size_t nextNode = stack.top();
+        for (size_t i = 0; i < Num_Edges(); ++i) {
+            if (incMtrx_[node - 1][i] != 0 &&
+                    incMtrx_[node - 1][i] == -incMtrx_[nextNode - 1][i])
+            {
+                    cycle[0][i] = incMtrx_[nextNode - 1][i];
+                    break;
+            }
+        }
+        if (nextNode == midlNode) {
+            return cycle;
+        }
+    }
+    assert(1 && "Oooops");
 }
 
 std::vector<double> grph::Gaussian_Method(mtrx::Matrix_t<double> mtrx) {
@@ -236,4 +262,3 @@ std::ostream& operator<<(std::ostream& os, std::vector<T>& vec) {
     os << "}";
     return os;
 }
-

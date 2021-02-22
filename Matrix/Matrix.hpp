@@ -350,10 +350,10 @@ namespace mtrx {
         availableNumRows_ = rhs.availableNumRows_;
         numColumns_ = rhs.numColumns_;
         availableNumColumns_ = rhs.availableNumColumns_;
-        data_ = new T[availableNumRows_ * availableNumColumns_]{};
+        data_ = new T[availableNumRows_ * availableNumColumns_];
         T* beginRow = data_;
         rows_ = new ProxyRow_t<T>[availableNumRows_];
-        for (int i = 0; i < numRows_; ++i) {
+        for (int i = 0; i < availableNumRows_; ++i) {
             rows_[i].row_ = beginRow;
             rows_[i].len_ = availableNumColumns_;
             beginRow += availableNumColumns_;
@@ -437,11 +437,6 @@ namespace mtrx {
 
             Matrix_t<T> newMtrx(Num_Rows() + row.numRows_, newNumColumns,
                                 Num_Rows() + row.numRows_ * MATRIX_AMORTIZATION, newNumColumns);
-            for (size_t k = 0; k < newMtrx.availableNumRows_; ++k) {
-                for (size_t l = 0; l < newMtrx.availableNumColumns_; ++l) {
-                    newMtrx[k][l];
-                }
-            }
             for (size_t i = 0; i < Num_Rows(); ++i) {
                 for (size_t j = 0; j < Num_Columns(); ++j) {
                     newMtrx[i][j] = rows_[i][j];

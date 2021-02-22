@@ -192,25 +192,24 @@ TEST(Matrix, Add_Row2) {
     ASSERT_EQ(res, matrix);
 }
 
-//TEST(Matrix, Add_Row3) {
-//    mtrx::Matrix_t<int> matrix;
-//    mtrx::Matrix_t<int> row{{{1, 1, 1, 1, 1}}};
-//    mtrx::Matrix_t<int> res{{{1, 1, 1, 1, 1},
-//                                  {1, 1, 1, 1, 1},
-//                                  {1, 1, 1, 1, 1},
-//                                  {1, 1, 1, 1, 1},
-//                                  {1, 1, 1, 1, 1},
-//                                  {1, 1, 1, 1, 1}}};
-//    matrix.Add_Row(row);
-//    matrix.Add_Row(row);
-//    matrix.Add_Row(row);
-//    matrix.Add_Row(row);
-//    matrix.Add_Row(row);
-//    matrix.Add_Row(row);
-//
-//    std::cout << matrix << std::endl;
-//    //ASSERT_EQ(res, matrix);
-//}
+TEST(Matrix, Add_Row3) {
+    mtrx::Matrix_t<int> matrix;
+    mtrx::Matrix_t<int> row{{{1, 1, 1, 1, 1}}};
+    mtrx::Matrix_t<int> res{{{1, 1, 1, 1, 1},
+                                  {1, 1, 1, 1, 1},
+                                  {1, 1, 1, 1, 1},
+                                  {1, 1, 1, 1, 1},
+                                  {1, 1, 1, 1, 1},
+                                  {1, 1, 1, 1, 1}}};
+    matrix.Add_Row(row);
+    matrix.Add_Row(row);
+    matrix.Add_Row(row);
+    matrix.Add_Row(row);
+    matrix.Add_Row(row);
+    matrix.Add_Row(row);
+
+    ASSERT_EQ(res, matrix);
+}
 
 TEST(Matrix, Without_Row) {
     mtrx::Matrix_t<int> res{{{0, 0, 0, 0, 0},
