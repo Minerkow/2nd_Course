@@ -1,0 +1,533 @@
+        -:    0:Source:/home/minerkow/Рабочий стол/2nd_Course/Matrix/Graph.hpp
+        -:    0:Graph:/home/minerkow/Рабочий стол/2nd_Course/Matrix/cmake-build-debug/CMakeFiles/test_graph.dir/test/test_graph.gcno
+        -:    0:Data:/home/minerkow/Рабочий стол/2nd_Course/Matrix/cmake-build-debug/CMakeFiles/test_graph.dir/test/test_graph.gcda
+        -:    0:Runs:2
+        -:    1:#pragma once
+        -:    2:#include "Matrix.hpp"
+        -:    3:#include <regex>
+        -:    4:#include <set>
+        -:    5:
+        -:    6:
+        -:    7:
+        -:    8:namespace grph {
+        -:    9:    using MatrCoord_t = std::pair<size_t, size_t>;
+        -:   10:    class RTGraph_t final{
+        -:   11:        using MatrCoord_t = std::pair<size_t, size_t>;
+        -:   12:        using EdgeInfo_t = std::pair<double, double>;
+        -:   13:    public:
+        -:   14:
+        -:   15:        RTGraph_t(std::istream& is);
+        -:   16://        std::vector<double> Calculate_Potential();
+        -:   17:        std::vector<std::pair<MatrCoord_t, double>> Calculate_Amperage();
+        -:   18:        mtrx::Matrix_t<int> Find_Cycles();
+        -:   19:        size_t Num_Nodes();
+        -:   20:        size_t Num_Edges();
+        -:   21:
+        -:   22:    private:
+        -:   23:        void Depth_Walk(mtrx::Matrix_t<int>& contourMtrx, std::set<size_t>& climbedNodes, std::stack<size_t> newCycle,
+        -:   24:                        const size_t currentNode);
+        -:   25:        mtrx::Matrix_t<int> Get_Cycle(std::stack<size_t> stack);
+        -:   26:
+        -:   27:        mtrx::Matrix_t<double> incMtrx_;
+        -:   28:        std::vector<double> resistMtrx_;
+        -:   29:        mtrx::Matrix_t<double> emfMtrx_;
+        -:   30://        std::vector<size_t> loops_;
+        -:   31:    };
+        -:   32:
+        -:   33:
+        -:   34:    std::vector<double> Gaussian_Method(mtrx::Matrix_t<double> mtrx);
+        -:   35:    size_t Sequential_Elim(mtrx::Matrix_t<double> &mtrx);
+        -:   36:    std::vector<double> Reverse_Sub(mtrx::Matrix_t<double> &mtrx);
+        -:   37:}
+        -:   38:
+        4:   39:grph::RTGraph_t::RTGraph_t(std::istream &is) {
+        4:   39-block  0
+    $$$$$:   39-block  1
+    $$$$$:   39-block  2
+    $$$$$:   39-block  3
+        8:   40:    std::string line;
+    $$$$$:   40-block  0
+        8:   41:    std::cmatch result;
+    $$$$$:   41-block  0
+        4:   42:    size_t maxNumNode = 0;
+        8:   43:    std::vector<std::pair<MatrCoord_t, EdgeInfo_t>> matrInfo{};
+    $$$$$:   43-block  0
+        -:   44:    const std::regex regular("(\\d+)"
+        -:   45:                             "(\\s*\\-\\-\\s*)"
+        -:   46:                             "(\\d+)"
+        -:   47:                             "(\\s*[,]\\s*)"
+        -:   48:                             "(\\d+[.]?\\d*)"
+        -:   49:                             "(\\s*[;]\\s*)"
+        -:   50:                             "((\\-?\\d+([.]\\d)?)"
+        -:   51:                             "([V]?))?"
+        8:   52:                       );
+        4:   52-block  0
+    $$$$$:   52-block  1
+       20:   53:    while (getline(is, line, '\n')) {
+       20:   53-block  0
+       20:   53-block  1
+       20:   53-block  2
+        -:   54:        size_t grNode1, grNode2;
+       16:   55:        EdgeInfo_t rv;
+       16:   56:        if (std::regex_search(line.c_str(), result, regular)) {
+       16:   56-block  0
+       16:   56-block  1
+       16:   57:            grNode1 = std::atoi(result[1].str().c_str());
+       16:   57-block  0
+       16:   57-block  1
+       16:   57-block  2
+       16:   58:            grNode2 = std::atoi(result[3].str().c_str());
+       16:   58-block  0
+       16:   58-block  1
+        -:   59:
+       16:   60:            maxNumNode = std::max(maxNumNode, std::max(grNode1, grNode2));
+        -:   61:
+       16:   62:            rv.first = std::atof(result[5].str().c_str());
+       16:   62-block  0
+       16:   62-block  1
+       16:   63:            if (result.size() < 8) {
+    #####:   64:                rv.second = 0.0;
+    %%%%%:   64-block  0
+        -:   65:            } else {
+       16:   66:                rv.second = std::atof(result[7].str().c_str());
+       16:   66-block  0
+       16:   66-block  1
+       16:   66-block  2
+        -:   67:            }
+       16:   68:            matrInfo.push_back({{grNode1, grNode2}, rv});
+       16:   68-block  0
+       16:   68-block  1
+    $$$$$:   68-block  2
+    $$$$$:   68-block  3
+        -:   69:        } else {
+    #####:   70:            throw std::regex_error(std::regex_constants::error_collate);
+    %%%%%:   70-block  0
+    %%%%%:   70-block  1
+    $$$$$:   70-block  2
+        -:   71:        }
+        -:   72:    }
+        -:   73:
+        4:   74:    incMtrx_ = mtrx::Matrix_t<int>(maxNumNode, matrInfo.size());
+        4:   74-block  0
+        4:   74-block  1
+        4:   74-block  2
+        4:   74-block  3
+    $$$$$:   74-block  4
+    $$$$$:   74-block  5
+    $$$$$:   74-block  6
+    $$$$$:   74-block  7
+        4:   75:    resistMtrx_ = std::vector<double>(matrInfo.size());
+        4:   75-block  0
+    $$$$$:   75-block  1
+    $$$$$:   75-block  2
+        4:   76:    emfMtrx_ = mtrx::Matrix_t<double>(matrInfo.size(), 1);
+        4:   76-block  0
+        4:   76-block  1
+    $$$$$:   76-block  2
+    $$$$$:   76-block  3
+        -:   77:
+       20:   78:    for (size_t i = 0; i < matrInfo.size(); ++i) {
+       20:   78-block  0
+       16:   79:        incMtrx_[matrInfo[i].first.first - 1][i] += 1;
+       16:   79-block  0
+       16:   79-block  1
+       16:   80:        incMtrx_[matrInfo[i].first.second - 1][i] += -1;
+       16:   80-block  0
+       16:   80-block  1
+       16:   81:        if (matrInfo[i].first.first == matrInfo[i].first.second) {
+       16:   81-block  0
+    #####:   82:            incMtrx_[matrInfo[i].first.first - 1][i] = 2;
+    %%%%%:   82-block  0
+    %%%%%:   82-block  1
+    %%%%%:   82-block  2
+        -:   83:            //loops_.emplace_back(matrInfo[i].first.first);
+        -:   84:        }
+       16:   85:        resistMtrx_[i] = matrInfo[i].second.first;
+       16:   85-block  0
+       16:   86:        emfMtrx_[i][0] = matrInfo[i].second.second;
+       16:   86-block  0
+       16:   86-block  1
+        -:   87:    }
+        -:   88:#ifdef DEBUG
+        -:   89:    std::cout << incMtrx_ << std::endl
+        -:   90:              << conductMtrx_ << std::endl
+        -:   91:              << emfMtrx_ << std::endl;
+        -:   92:#endif
+        4:   93:}
+        -:   94:
+        -:   95://std::vector<double> grph::RTGraph_t::Calculate_Potential() {
+        -:   96://    mtrx::Matrix_t<double> incMtrxT = incMtrx_.Transposition();
+        -:   97://    mtrx::Matrix_t<double> conductMtrx{mtrx::ConvertDiagMtrx(resistMtrx_)};
+        -:   98://    for (size_t i = 0; i < conductMtrx.Num_Columns(); ++i) {
+        -:   99://        conductMtrx[i][i] = 1 / conductMtrx[i][i];
+        -:  100://    }
+        -:  101://    mtrx::Matrix_t<double> incMtrxWithoutMaxNode = incMtrx_.Without_Row(incMtrx_.Num_Rows() - 1);
+        -:  102://
+        -:  103://    mtrx::Matrix_t<double> systEq = incMtrxWithoutMaxNode.Matrix_Mult(conductMtrx).Matrix_Mult(incMtrxWithoutMaxNode);
+        -:  104://
+        -:  105://    mtrx::Matrix_t<double> freeColumn = - incMtrx_.Matrix_Mult(conductMtrx).Matrix_Mult(emfMtrx_);
+        -:  106://#ifdef DEBUG
+        -:  107://    std::cout << systEq << std::endl << freeColumn << std::endl;
+        -:  108://#endif
+        -:  109://    std::vector<double> res = Gaussian_Method(systEq.Connect_Column(freeColumn));
+        -:  110://    return res;
+        -:  111://}
+        -:  112:
+       28:  113:size_t grph::RTGraph_t::Num_Nodes() {
+       28:  114:    return incMtrx_.Num_Rows();
+       28:  114-block  0
+        -:  115:}
+        -:  116:
+      144:  117:size_t grph::RTGraph_t::Num_Edges() {
+      144:  118:    return emfMtrx_.Num_Rows();
+      144:  118-block  0
+        -:  119:}
+        -:  120:
+        2:  121:std::vector<std::pair<grph::RTGraph_t::MatrCoord_t, double>> grph::RTGraph_t::Calculate_Amperage() {
+       2*:  122:    mtrx::Matrix_t<double> contourMtrx = Find_Cycles();
+        2:  122-block  0
+        2:  122-block  1
+    $$$$$:  122-block  2
+    $$$$$:  122-block  3
+        -:  123:    mtrx::Matrix_t<double> eqSyst =
+       4*:  124:            contourMtrx.Matrix_Mult(mtrx::ConvertDiagMtrx(resistMtrx_)).Matrix_Mult(contourMtrx.Transposition());
+        2:  124-block  0
+        2:  124-block  1
+        2:  124-block  2
+    $$$$$:  124-block  3
+    $$$$$:  124-block  4
+    $$$$$:  124-block  5
+    $$$$$:  124-block  6
+       2*:  125:    mtrx::Matrix_t<double> bMtrx = contourMtrx.Matrix_Mult(emfMtrx_);
+    $$$$$:  125-block  0
+       2*:  126:    std::vector<double> amps = Gaussian_Method(contourMtrx.Connect_Column(bMtrx));
+        2:  126-block  0
+        2:  126-block  1
+    %%%%%:  126-block  2
+    $$$$$:  126-block  3
+    $$$$$:  126-block  4
+        2:  127:    std::vector<std::pair<MatrCoord_t, double>> res;
+        4:  128:    for (size_t i = 0; i < Num_Edges(); ++i) {
+        4:  128-block  0
+        4:  128-block  1
+        2:  128-block  2
+        4:  129:        size_t gNode1 = 0;
+        4:  130:        size_t gNode2 = 0;
+       16:  131:        for (size_t j = 0; j < Num_Nodes(); ++j) {
+        4:  131-block  0
+       16:  131-block  1
+       16:  131-block  2
+       12:  131-block  3
+       12:  132:            if (incMtrx_[j][i] == 1) {
+       12:  132-block  0
+       12:  132-block  1
+       12:  132-block  2
+        4:  133:                gNode1 = j + 1;
+        4:  133-block  0
+        -:  134:            }
+       12:  135:            if (incMtrx_[j][i] == -1) {
+       12:  135-block  0
+       12:  135-block  1
+       12:  135-block  2
+        4:  136:                gNode2 = j + 1;
+        4:  136-block  0
+        -:  137:            }
+       12:  138:            if (incMtrx_[j][i] == 2) {
+       12:  138-block  0
+       12:  138-block  1
+       12:  138-block  2
+    #####:  139:                res.push_back({{j + 1, j + 1}, amps[i]});
+    %%%%%:  139-block  0
+    %%%%%:  139-block  1
+    $$$$$:  139-block  2
+    $$$$$:  139-block  3
+    $$$$$:  139-block  4
+    $$$$$:  139-block  5
+        -:  140:            }
+        -:  141:        }
+       4*:  142:        if (gNode1 == 0 && gNode2 == 0) {
+        4:  142-block  0
+    %%%%%:  142-block  1
+    #####:  143:            continue;
+    %%%%%:  143-block  0
+        -:  144:        }
+        4:  145:        double amperage = 0;
+        6:  146:        for (size_t j = 0; j < contourMtrx.Num_Rows(); ++j) {
+        4:  146-block  0
+        6:  146-block  1
+        4:  147:            amperage += contourMtrx[i][j];
+        4:  147-block  0
+        2:  147-block  1
+        2:  147-block  2
+        -:  148:        }
+        2:  149:        res.push_back({{gNode1, gNode2}, amperage});
+        2:  149-block  0
+        2:  149-block  1
+    $$$$$:  149-block  2
+    $$$$$:  149-block  3
+        -:  150:    }
+    #####:  151:    return res;
+    %%%%%:  151-block  0
+    %%%%%:  151-block  1
+        -:  152:}
+        -:  153:
+        4:  154:mtrx::Matrix_t<int> grph::RTGraph_t::Find_Cycles() {
+        4:  155:        mtrx::Matrix_t<int> contourMtrx;
+        4:  155-block  0
+        8:  156:        std::stack<size_t> newCycle;
+    $$$$$:  156-block  0
+        8:  157:        std::set<size_t> climbedNodes;
+        4:  157-block  0
+        4:  157-block  1
+    $$$$$:  157-block  2
+        4:  158:        size_t currentNode = 1;
+        4:  159:        Depth_Walk(contourMtrx, climbedNodes, newCycle, currentNode);
+        4:  159-block  0
+        4:  159-block  1
+    $$$$$:  159-block  2
+    $$$$$:  159-block  3
+        8:  160:        return contourMtrx;
+        4:  160-block  0
+        -:  161:}
+        -:  162:
+       14:  163:void grph::RTGraph_t::Depth_Walk(mtrx::Matrix_t<int>& contourMtrx, std::set<size_t>& climbedNodes,
+        -:  164:                                 std::stack<size_t> newCycle, const size_t currentNode)
+        -:  165:{
+       14:  166:    if (climbedNodes.find(currentNode) != climbedNodes.end()) {
+       14:  166-block  0
+       14:  166-block  1
+    $$$$$:  166-block  2
+    #####:  167:        return;
+    %%%%%:  167-block  0
+        -:  168:    }
+       14:  169:    climbedNodes.insert(currentNode);
+       14:  169-block  0
+       14:  170:    size_t prevNode = newCycle.top();
+       14:  171:    newCycle.push(currentNode);
+       58:  172:    for (size_t i = 0; i < Num_Edges(); ++i) {
+       58:  172-block  0
+       44:  172-block  1
+       54:  173:        if (std::abs(incMtrx_[currentNode - 1][i]) == 1) {
+       54:  173-block  0
+       32:  174:            size_t j = 0;
+       32:  174-block  0
+       74:  175:            while (incMtrx_[j][i] != -incMtrx_[currentNode - 1][i]) {
+       74:  175-block  0
+       42:  176:                j++;
+       42:  176-block  0
+        -:  177:            }
+       32:  178:            if (j + 1 == prevNode) {
+       32:  178-block  0
+       10:  179:                continue;
+       10:  179-block  0
+        -:  180:            }
+       22:  181:            if (climbedNodes.find(j+1) == climbedNodes.end()) {
+       22:  181-block  0
+       22:  181-block  1
+    $$$$$:  181-block  2
+    $$$$$:  181-block  3
+       10:  182:                Depth_Walk(contourMtrx, climbedNodes, newCycle, j + 1);
+       10:  182-block  0
+       10:  182-block  1
+    $$$$$:  182-block  2
+    $$$$$:  182-block  3
+        -:  183:            } else {
+       12:  184:                newCycle.push(j+1);
+       12:  184-block  0
+    $$$$$:  184-block  1
+       12:  185:                mtrx::Matrix_t<int> cycleRow = Get_Cycle(newCycle);
+       12:  185-block  0
+       12:  185-block  1
+    $$$$$:  185-block  2
+    $$$$$:  185-block  3
+       12:  186:                contourMtrx.Add_Row(cycleRow);
+       12:  187:                newCycle.pop();
+       12:  187-block  0
+       12:  188:                if (climbedNodes.size() == Num_Nodes()) {
+       12:  188-block  0
+       10:  189:                    return;
+       10:  189-block  0
+        -:  190:                }
+        -:  191:            }
+        -:  192:        }
+        -:  193:    }
+        -:  194:}
+        -:  195:
+       12:  196:mtrx::Matrix_t<int> grph::RTGraph_t::Get_Cycle(std::stack<size_t> stack) {
+       12:  197:    mtrx::Matrix_t<int> cycle{1, Num_Edges()};
+       12:  197-block  0
+       12:  197-block  1
+    $$$$$:  197-block  2
+       12:  198:    size_t midlNode = stack.top();
+       12:  198-block  0
+       32:  199:    while (!stack.empty()) {
+       32:  199-block  0
+       20:  199-block  1
+       32:  200:        size_t node = stack.top();
+       32:  200-block  0
+       32:  201:        stack.pop();
+       32:  202:        if (stack.empty()) {
+        6:  203:            return mtrx::Matrix_t<int>{};
+        6:  203-block  0
+        -:  204:        }
+       26:  205:        size_t nextNode = stack.top();
+       26:  205-block  0
+       70:  206:        for (size_t i = 0; i < Num_Edges(); ++i) {
+       70:  206-block  0
+       70:  206-block  1
+       44:  206-block  2
+      110:  207:            if (incMtrx_[node - 1][i] != 0 &&
+       70:  207-block  0
+       70:  207-block  1
+       70:  207-block  2
+       26:  207-block  3
+       44:  207-block  4
+       70:  207-block  5
+       40:  208:                    incMtrx_[node - 1][i] == -incMtrx_[nextNode - 1][i])
+       40:  208-block  0
+       40:  208-block  1
+       40:  208-block  2
+       40:  208-block  3
+       40:  208-block  4
+        -:  209:            {
+       26:  210:                    cycle[0][i] = incMtrx_[nextNode - 1][i];
+       26:  210-block  0
+       26:  210-block  1
+       26:  210-block  2
+       26:  210-block  3
+       26:  211:                    break;
+       26:  211-block  0
+        -:  212:            }
+        -:  213:        }
+       26:  214:        if (nextNode == midlNode) {
+       26:  214-block  0
+        6:  215:            return cycle;
+        6:  215-block  0
+        -:  216:        }
+        -:  217:    }
+        -:  218:    assert(1 && "Oooops");
+    #####:  219:}
+    %%%%%:  219-block  0
+        -:  220:
+        6:  221:std::vector<double> grph::Gaussian_Method(mtrx::Matrix_t<double> mtrx) {
+        6:  222:    if (mtrx.Num_Rows() + 1 != mtrx.Num_Columns()) {
+        6:  222-block  0
+        -:  223:        //have not solution
+        -:  224:        //TODO::
+        -:  225:    }
+        6:  226:    size_t n = mtrx.Num_Rows();
+        6:  226-block  0
+        6:  227:    int singularFlag = grph::Sequential_Elim(mtrx);
+        -:  228:
+        6:  229:    if (singularFlag != -1)
+        -:  230:    {
+    #####:  231:        printf("Singular Matrix.\n");
+    %%%%%:  231-block  0
+        -:  232:
+    #####:  233:        if (mtrx[singularFlag][n])
+    #####:  234:            printf("Inconsistent System.");
+    %%%%%:  234-block  0
+        -:  235:        else
+    #####:  236:            printf("May have infinitely many "
+    %%%%%:  236-block  0
+        -:  237:                   "solutions.");
+        -:  238:
+        -:  239:        //TODO
+        -:  240:    }
+        -:  241:
+        6:  242:    return grph::Reverse_Sub(mtrx);
+        6:  242-block  0
+        -:  243:}
+        -:  244:
+        6:  245:std::vector<double> grph::Reverse_Sub(mtrx::Matrix_t<double> &mtrx) {
+        6:  246:    std::vector<double> result(mtrx.Num_Rows() + 1);
+        6:  246-block  0
+    $$$$$:  246-block  1
+       20:  247:    for (int i = mtrx.Num_Rows() - 1; i >= 0; --i)
+       20:  247-block  0
+       14:  247-block  1
+        -:  248:    {
+       14:  249:        result[i] = mtrx[i][mtrx.Num_Rows()];
+       14:  249-block  0
+       14:  249-block  1
+       14:  249-block  2
+        -:  250:
+       26:  251:        for (int j = i + 1; j < mtrx.Num_Rows(); ++j)
+       26:  251-block  0
+       12:  252:            result[i] -= mtrx[i][j] * result[j];
+       12:  252-block  0
+       12:  252-block  1
+       12:  252-block  2
+        -:  253:
+       14:  254:        if (!mtrx::Double_Equal(mtrx[i][i], 0)) {
+       14:  254-block  0
+       14:  254-block  1
+       14:  254-block  2
+       14:  255:            result[i] = result[i] / mtrx[i][i];
+       14:  255-block  0
+       14:  255-block  1
+       14:  255-block  2
+        -:  256:        }
+        -:  257:    }
+        -:  258:
+        6:  259:    return result;
+        6:  259-block  0
+        6:  259-block  1
+        -:  260:}
+        -:  261:
+        6:  262:size_t grph::Sequential_Elim(mtrx::Matrix_t<double> &mtrx) {
+       20:  263:    for (int k = 0; k < mtrx.Num_Rows(); ++k)
+        6:  263-block  0
+       20:  263-block  1
+       14:  263-block  2
+        -:  264:    {
+       14:  265:        int iMax = k;
+       14:  266:        int vMax = mtrx[iMax][k];
+       14:  266-block  0
+        -:  267:
+       26:  268:        for (int i = k + 1; i < mtrx.Num_Rows(); ++i) {
+       26:  268-block  0
+       12:  268-block  1
+       12:  269:            if (std::abs(mtrx[i][k]) > vMax) {
+       12:  269-block  0
+        6:  270:                vMax = mtrx[i][k];
+        6:  270-block  0
+        6:  271:                iMax = i;
+        -:  272:            }
+        -:  273:        }
+        -:  274:
+       14:  275:        if (iMax != k)
+       14:  275-block  0
+        6:  276:            mtrx.Swap_Rows(k, iMax);
+        6:  276-block  0
+        -:  277:
+       26:  278:        for (int i = k + 1; i < mtrx.Num_Rows(); ++i)
+       14:  278-block  0
+       26:  278-block  1
+        -:  279:        {
+       12:  280:            if (!mtrx::Double_Equal(mtrx[k][k], 0)) {
+       12:  280-block  0
+       12:  281:                double f = mtrx[i][k] / mtrx[k][k];
+       12:  281-block  0
+       44:  282:                for (int j = k + 1; j < mtrx.Num_Columns(); ++j)
+       44:  282-block  0
+       32:  283:                    mtrx[i][j] -= mtrx[k][j] * f;
+       32:  283-block  0
+        -:  284:            }
+       12:  285:            mtrx[i][k] = 0;
+       12:  285-block  0
+        -:  286:        }
+        -:  287:    }
+        6:  288:    return -1;
+        6:  288-block  0
+        -:  289:}
+        -:  290:
+        -:  291:template <typename T>
+        -:  292:std::ostream& operator<<(std::ostream& os, std::vector<T>& vec) {
+        -:  293:    os << " {";
+        -:  294:    for (auto& it : vec) {
+        -:  295:        os << it << " ";
+        -:  296:    }
+        -:  297:    os << "}";
+        -:  298:    return os;
+        -:  299:}

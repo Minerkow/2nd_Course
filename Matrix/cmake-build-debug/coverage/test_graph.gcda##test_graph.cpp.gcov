@@ -1,0 +1,322 @@
+        -:    0:Source:/home/minerkow/Рабочий стол/2nd_Course/Matrix/test/test_graph.cpp
+        -:    0:Graph:/home/minerkow/Рабочий стол/2nd_Course/Matrix/cmake-build-debug/CMakeFiles/test_graph.dir/test/test_graph.gcno
+        -:    0:Data:/home/minerkow/Рабочий стол/2nd_Course/Matrix/cmake-build-debug/CMakeFiles/test_graph.dir/test/test_graph.gcda
+        -:    0:Runs:2
+        -:    1:#include "../Graph.hpp"
+        -:    2:#include <gtest/gtest.h>
+        -:    3:#include <fstream>
+        -:    4:
+        -:    5:#define PATH __FILE__
+        -:    6:
+        2:    7:int main() {
+        2:    8:    testing::InitGoogleTest();
+        2:    8-block  0
+       2*:    9:    return RUN_ALL_TESTS();
+        -:   10:}
+        -:   11:
+        4:   12:TEST(Graph, GaussTest1) {
+        -:   13:    mtrx::Matrix_t<double> mtrx1 {{ {3, 2, -5, -1},
+        -:   14:                                    {2, -1, 3, 13},
+       12:   15:                                    {1, 2, -1, 9} }};
+        -:   16:    std::vector<double> res =
+        2:   17:            grph::Gaussian_Method(mtrx1);
+       2*:   18:    ASSERT_TRUE(mtrx::Double_Equal(res[0], 3) &&
+        -:   19:                mtrx::Double_Equal(res[1], 5) &&
+        -:   20:                mtrx::Double_Equal(res[2], 4));
+        -:   21:}
+------------------
+_ZN21Graph_GaussTest1_Test8TestBodyEv:
+        2:   12:TEST(Graph, GaussTest1) {
+        -:   13:    mtrx::Matrix_t<double> mtrx1 {{ {3, 2, -5, -1},
+        -:   14:                                    {2, -1, 3, 13},
+       12:   15:                                    {1, 2, -1, 9} }};
+        2:   15-block  0
+        2:   15-block  1
+        2:   15-block  2
+        2:   15-block  3
+        2:   15-block  4
+        6:   15-block  5
+        2:   15-block  6
+    $$$$$:   15-block  7
+    $$$$$:   15-block  8
+    $$$$$:   15-block  9
+    $$$$$:   15-block 10
+    $$$$$:   15-block 11
+    $$$$$:   15-block 12
+    $$$$$:   15-block 13
+    $$$$$:   15-block 14
+    $$$$$:   15-block 15
+    $$$$$:   15-block 16
+    $$$$$:   15-block 17
+        -:   16:    std::vector<double> res =
+        2:   17:            grph::Gaussian_Method(mtrx1);
+        2:   17-block  0
+    $$$$$:   17-block  1
+    $$$$$:   17-block  2
+       2*:   18:    ASSERT_TRUE(mtrx::Double_Equal(res[0], 3) &&
+        2:   18-block  0
+        2:   18-block  1
+        2:   18-block  2
+    %%%%%:   18-block  3
+        2:   18-block  4
+    %%%%%:   18-block  5
+    %%%%%:   18-block  6
+    %%%%%:   18-block  7
+    %%%%%:   18-block  8
+    %%%%%:   18-block  9
+    $$$$$:   18-block 10
+    $$$$$:   18-block 11
+    $$$$$:   18-block 12
+    $$$$$:   18-block 13
+    $$$$$:   18-block 14
+    $$$$$:   18-block 15
+    $$$$$:   18-block 16
+        -:   19:                mtrx::Double_Equal(res[1], 5) &&
+        -:   20:                mtrx::Double_Equal(res[2], 4));
+        -:   21:}
+------------------
+_ZN21Graph_GaussTest1_TestC2Ev:
+        2:   12:TEST(Graph, GaussTest1) {
+        2:   12-block  0
+------------------
+        -:   22:
+        4:   23:TEST(Graph, GaussTest2) {
+        -:   24:    mtrx::Matrix_t<double> mtrx1 {{ {4, 2, -1, 1},
+        -:   25:                                    {5, 3, -2, 2},
+       12:   26:                                    {3, 2, -3, 0} }};
+        2:   27:    std::vector<double> res = grph::Gaussian_Method(mtrx1);
+       2*:   28:    ASSERT_TRUE(mtrx::Double_Equal(res[0], -1) &&
+        -:   29:                mtrx::Double_Equal(res[1], 3) &&
+        -:   30:                mtrx::Double_Equal(res[2], 1));
+        -:   31:}
+------------------
+_ZN21Graph_GaussTest2_Test8TestBodyEv:
+        2:   23:TEST(Graph, GaussTest2) {
+        -:   24:    mtrx::Matrix_t<double> mtrx1 {{ {4, 2, -1, 1},
+        -:   25:                                    {5, 3, -2, 2},
+       12:   26:                                    {3, 2, -3, 0} }};
+        2:   26-block  0
+        2:   26-block  1
+        2:   26-block  2
+        2:   26-block  3
+        2:   26-block  4
+        6:   26-block  5
+        2:   26-block  6
+    $$$$$:   26-block  7
+    $$$$$:   26-block  8
+    $$$$$:   26-block  9
+    $$$$$:   26-block 10
+    $$$$$:   26-block 11
+    $$$$$:   26-block 12
+    $$$$$:   26-block 13
+    $$$$$:   26-block 14
+    $$$$$:   26-block 15
+    $$$$$:   26-block 16
+    $$$$$:   26-block 17
+        2:   27:    std::vector<double> res = grph::Gaussian_Method(mtrx1);
+        2:   27-block  0
+    $$$$$:   27-block  1
+    $$$$$:   27-block  2
+       2*:   28:    ASSERT_TRUE(mtrx::Double_Equal(res[0], -1) &&
+        2:   28-block  0
+        2:   28-block  1
+        2:   28-block  2
+    %%%%%:   28-block  3
+        2:   28-block  4
+    %%%%%:   28-block  5
+    %%%%%:   28-block  6
+    %%%%%:   28-block  7
+    %%%%%:   28-block  8
+    %%%%%:   28-block  9
+    $$$$$:   28-block 10
+    $$$$$:   28-block 11
+    $$$$$:   28-block 12
+    $$$$$:   28-block 13
+    $$$$$:   28-block 14
+    $$$$$:   28-block 15
+    $$$$$:   28-block 16
+        -:   29:                mtrx::Double_Equal(res[1], 3) &&
+        -:   30:                mtrx::Double_Equal(res[2], 1));
+        -:   31:}
+------------------
+_ZN21Graph_GaussTest2_TestC2Ev:
+        2:   23:TEST(Graph, GaussTest2) {
+        2:   23-block  0
+------------------
+        -:   32:
+        4:   33:TEST(Graph, Find_Cycles1) {
+        -:   34:    std::string str = "1 -- 2, 0;\n"
+        -:   35:                      "2 -- 3, 1; 2V\n"
+        -:   36:                      "3 -- 1, 0;\n"
+        -:   37:                      "3 -- 4, 0;\n"
+        2:   38:                      "2 -- 4, 0;";
+        2:   39:    std::stringstream is{str};
+        -:   40:    mtrx::Matrix_t<int> res {{{1, 1, 1, 0, 0},
+       10:   41:                              {0, 1, 0, 1, -1}}};
+        2:   42:    grph::RTGraph_t rtGraph{is};
+       4*:   43:    ASSERT_EQ(res, rtGraph.Find_Cycles());
+        -:   44:}
+------------------
+_ZN23Graph_Find_Cycles1_Test8TestBodyEv:
+        2:   33:TEST(Graph, Find_Cycles1) {
+        -:   34:    std::string str = "1 -- 2, 0;\n"
+        -:   35:                      "2 -- 3, 1; 2V\n"
+        -:   36:                      "3 -- 1, 0;\n"
+        -:   37:                      "3 -- 4, 0;\n"
+        2:   38:                      "2 -- 4, 0;";
+        2:   38-block  0
+    $$$$$:   38-block  1
+    $$$$$:   38-block  2
+        2:   39:    std::stringstream is{str};
+    $$$$$:   39-block  0
+        -:   40:    mtrx::Matrix_t<int> res {{{1, 1, 1, 0, 0},
+       10:   41:                              {0, 1, 0, 1, -1}}};
+        2:   41-block  0
+        2:   41-block  1
+        2:   41-block  2
+        2:   41-block  3
+        4:   41-block  4
+        2:   41-block  5
+    $$$$$:   41-block  6
+    $$$$$:   41-block  7
+    $$$$$:   41-block  8
+    $$$$$:   41-block  9
+    $$$$$:   41-block 10
+    $$$$$:   41-block 11
+    $$$$$:   41-block 12
+    $$$$$:   41-block 13
+    $$$$$:   41-block 14
+        2:   42:    grph::RTGraph_t rtGraph{is};
+    $$$$$:   42-block  0
+       4*:   43:    ASSERT_EQ(res, rtGraph.Find_Cycles());
+        2:   43-block  0
+        2:   43-block  1
+    %%%%%:   43-block  2
+    %%%%%:   43-block  3
+    %%%%%:   43-block  4
+    %%%%%:   43-block  5
+    $$$$$:   43-block  6
+    $$$$$:   43-block  7
+    $$$$$:   43-block  8
+    $$$$$:   43-block  9
+    $$$$$:   43-block 10
+    $$$$$:   43-block 11
+        -:   44:}
+------------------
+_ZN23Graph_Find_Cycles1_TestC2Ev:
+        2:   33:TEST(Graph, Find_Cycles1) {
+        2:   33-block  0
+------------------
+        -:   45:
+        4:   46:TEST(Graph, Find_Cycles2) {
+        -:   47:    std::string str = "1 -- 2, 0;\n"
+        -:   48:                      "2 -- 3, 1; 2V\n"
+       2*:   49:                      "3 -- 1, 0;\n";
+       2*:   50:    std::stringstream is{str};
+       2*:   51:    grph::RTGraph_t rtGraph{is};
+       2*:   52:    std::vector<std::pair<grph::MatrCoord_t, double>> res = rtGraph.Calculate_Amperage();
+    #####:   53:    for (auto& it : res) {
+    #####:   54:        std::cout << it.first.first << " -- " << it.first.second
+    #####:   55:                  << ":" << it.second << "A" << std::endl;
+        -:   56:    }
+        -:   57:    //ASSERT_EQ(trueRes, rtGraph.Find_Cycles());
+    #####:   58:}
+------------------
+_ZN23Graph_Find_Cycles2_Test8TestBodyEv:
+        2:   46:TEST(Graph, Find_Cycles2) {
+        -:   47:    std::string str = "1 -- 2, 0;\n"
+        -:   48:                      "2 -- 3, 1; 2V\n"
+       2*:   49:                      "3 -- 1, 0;\n";
+        2:   49-block  0
+    $$$$$:   49-block  1
+    $$$$$:   49-block  2
+       2*:   50:    std::stringstream is{str};
+    $$$$$:   50-block  0
+       2*:   51:    grph::RTGraph_t rtGraph{is};
+        2:   51-block  0
+    $$$$$:   51-block  1
+       2*:   52:    std::vector<std::pair<grph::MatrCoord_t, double>> res = rtGraph.Calculate_Amperage();
+        2:   52-block  0
+    %%%%%:   52-block  1
+    $$$$$:   52-block  2
+    #####:   53:    for (auto& it : res) {
+    %%%%%:   53-block  0
+    %%%%%:   53-block  1
+    %%%%%:   53-block  2
+    %%%%%:   53-block  3
+    #####:   54:        std::cout << it.first.first << " -- " << it.first.second
+    %%%%%:   54-block  0
+    %%%%%:   54-block  1
+    #####:   55:                  << ":" << it.second << "A" << std::endl;
+    %%%%%:   55-block  0
+    %%%%%:   55-block  1
+    %%%%%:   55-block  2
+    %%%%%:   55-block  3
+        -:   56:    }
+        -:   57:    //ASSERT_EQ(trueRes, rtGraph.Find_Cycles());
+    #####:   58:}
+------------------
+_ZN23Graph_Find_Cycles2_TestC2Ev:
+        2:   46:TEST(Graph, Find_Cycles2) {
+        2:   46-block  0
+------------------
+        -:   59://TEST(Graph, Find_Amperage1) {
+        -:   60://    std::string pathIn {PATH};
+        -:   61://    std::string pathOut {PATH};
+        -:   62://    pathIn = pathIn.substr(0, pathIn.size() - 14) + "FileTestForGraph/test1.in";
+        -:   63://    pathOut = pathOut.substr(0, pathOut.size() - 14) + "FileTestForGraph/test1.out";
+        -:   64://    std::ifstream is{pathIn};
+        -:   65://    std::ifstream out{pathOut};
+        -:   66://
+        -:   67://    grph::RTGraph_t rtGraph{is};
+        -:   68://    std::stringstream res;
+        -:   69://    rtGraph.Calculate_Print_Amperage(res);
+        -:   70://    std::string trueRes(res.str().size(), 0);
+        -:   71://    out.read(const_cast<char *>(trueRes.c_str()), trueRes.size());
+        -:   72://
+        -:   73://    ASSERT_EQ(res.str(), trueRes);
+        -:   74://}
+        -:   75:
+        -:   76://TEST(Graph, Find_Amperage2) {
+        -:   77://    std::string pathIn {PATH};
+        -:   78://    std::string pathOut {PATH};
+        -:   79://    pathIn = pathIn.substr(0, pathIn.size() - 14) + "FileTestForGraph/test2.in";
+        -:   80://    pathOut = pathOut.substr(0, pathOut.size() - 14) + "FileTestForGraph/test2.out";
+        -:   81://    std::ifstream is{pathIn};
+        -:   82://    std::ifstream out{pathOut};
+        -:   83://
+        -:   84://    grph::RTGraph_t rtGraph{is};
+        -:   85://    std::stringstream res;
+        -:   86://    std::vector<double> resP = rtGraph.Calculate_Potential();
+        -:   87://    for (auto& it : resP) {
+        -:   88://        std::cout << it << " ";
+        -:   89://    }
+        -:   90://    std::cout << std::endl;
+        -:   91://
+        -:   92://
+        -:   93://    rtGraph.Calculate_Print_Amperage(res);
+        -:   94://    std::string trueRes(res.str().size(), 0);
+        -:   95://    out.read(const_cast<char *>(trueRes.c_str()), trueRes.size());
+        -:   96://    std::cout << res.str();
+        -:   97://    //ASSERT_EQ(res.str(), trueRes);
+        -:   98://}
+        -:   99:
+        -:  100:
+        -:  101://TEST(Graph, Find_Amperage3) {
+        -:  102://    std::string pathIn {PATH};
+        -:  103://    std::string pathOut {PATH};
+        -:  104://    pathIn = pathIn.substr(0, pathIn.size() - 14) + "FileTestForGraph/test3.in";
+        -:  105://    pathOut = pathOut.substr(0, pathOut.size() - 14) + "FileTestForGraph/test3.out";
+        -:  106://    std::ifstream is{pathIn};
+        -:  107://    std::ifstream out{pathOut};
+        -:  108://
+        -:  109://    grph::RTGraph_t rtGraph{is};
+        -:  110://    std::stringstream res;
+        -:  111://
+        -:  112://    rtGraph.Calculate_Print_Amperage(res);
+        -:  113://    std::string trueRes(res.str().size(), 0);
+        -:  114://    out.read(const_cast<char *>(trueRes.c_str()), trueRes.size());
+        -:  115://
+        -:  116://    ASSERT_EQ(res.str(), trueRes);
+        -:  117://}
+        -:  118:

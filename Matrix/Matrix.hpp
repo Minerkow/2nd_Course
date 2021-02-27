@@ -44,14 +44,14 @@ namespace mtrx {
         size_t Num_Rows() const {return numRows_;}
         size_t Num_Columns() const {return numColumns_;}
 
-        Matrix_t<T> Transposition();
+        Matrix_t<T> Transposition() const;
         void Add_Row(mtrx::Matrix_t<T>& row);
         Matrix_t<T> Without_Row(size_t rowNum);
 
         double Determinant();
         double Determinant2();
 
-        Matrix_t<T> Matrix_Mult(Matrix_t<T>& other);
+        Matrix_t<T> Matrix_Mult(const Matrix_t<T>& other);
 
         void Swap_Rows(size_t rowNum1, size_t rowNum2);
 
@@ -68,7 +68,7 @@ namespace mtrx {
 
         bool empty();
 
-        Matrix_t<T> Connect_Column(Matrix_t<T>& column);
+        Matrix_t<T> Connect_Column(Matrix_t <T> &column);
 
         ~Matrix_t();
     private:
@@ -130,7 +130,7 @@ namespace mtrx {
 
 
     template<typename T>
-    Matrix_t<T> Matrix_t<T>::Transposition() {
+    Matrix_t<T> Matrix_t<T>::Transposition() const {
         Matrix_t<T> res{numColumns_, numRows_};
         for (size_t row = 0; row < res.numRows_; ++row) {
             for (size_t column = 0; column < res.numColumns_; ++column) {
@@ -253,7 +253,7 @@ namespace mtrx {
     }
 
     template<typename T>
-    Matrix_t<T> Matrix_t<T>::Matrix_Mult(Matrix_t<T> &other) {
+    Matrix_t<T> Matrix_t<T>::Matrix_Mult(const Matrix_t<T> &other) {
         if (other.numRows_ != numColumns_) {
             std::cerr << "Matrix_Mult ERROR!\n";
             exit(EXIT_FAILURE);
@@ -387,7 +387,7 @@ namespace mtrx {
     }
 
     template<typename T>
-    Matrix_t<T> Matrix_t<T>::Connect_Column(Matrix_t<T> &column) {
+    Matrix_t<T> Matrix_t<T>::Connect_Column(Matrix_t <T> &column) {
         if (numRows_ != column.numRows_ && !column.empty()) {
             //TODO::error
         }

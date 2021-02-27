@@ -6,14 +6,15 @@
 
 
 namespace grph {
+    using MatrCoord_t = std::pair<size_t, size_t>;
     class RTGraph_t final{
         using MatrCoord_t = std::pair<size_t, size_t>;
         using EdgeInfo_t = std::pair<double, double>;
     public:
 
         RTGraph_t(std::istream& is);
-        std::vector<double> Calculate_Potential();
-        std::vector<std::pair<MatrCoord_t, double>> Calculate_Amperage(std::ostream& os);
+//        std::vector<double> Calculate_Potential();
+        std::vector<std::pair<MatrCoord_t, double>> Calculate_Amperage();
         mtrx::Matrix_t<int> Find_Cycles();
         size_t Num_Nodes();
         size_t Num_Edges();
@@ -26,7 +27,7 @@ namespace grph {
         mtrx::Matrix_t<double> incMtrx_;
         std::vector<double> resistMtrx_;
         mtrx::Matrix_t<double> emfMtrx_;
-        std::vector<size_t> loops_;
+//        std::vector<size_t> loops_;
     };
 
 
@@ -78,8 +79,8 @@ grph::RTGraph_t::RTGraph_t(std::istream &is) {
         incMtrx_[matrInfo[i].first.first - 1][i] += 1;
         incMtrx_[matrInfo[i].first.second - 1][i] += -1;
         if (matrInfo[i].first.first == matrInfo[i].first.second) {
-            incMtrx_[matrInfo[i].first.first - 1][i] = 0;
-            loops_.emplace_back(matrInfo[i].first.first);
+            incMtrx_[matrInfo[i].first.first - 1][i] = 2;
+            //loops_.emplace_back(matrInfo[i].first.first);
         }
         resistMtrx_[i] = matrInfo[i].second.first;
         emfMtrx_[i][0] = matrInfo[i].second.second;
@@ -91,23 +92,23 @@ grph::RTGraph_t::RTGraph_t(std::istream &is) {
 #endif
 }
 
-std::vector<double> grph::RTGraph_t::Calculate_Potential() {
-    mtrx::Matrix_t<double> incMtrxT = incMtrx_.Transposition();
-    mtrx::Matrix_t<double> conductMtrx{mtrx::ConvertDiagMtrx(resistMtrx_)};
-    for (size_t i = 0; i < conductMtrx.Num_Columns(); ++i) {
-        conductMtrx[i][i] = 1 / conductMtrx[i][i];
-    }
-    mtrx::Matrix_t<double> incMtrxWithoutMaxNode = incMtrx_.Without_Row(incMtrx_.Num_Rows() - 1);
-
-    mtrx::Matrix_t<double> systEq = incMtrxWithoutMaxNode.Matrix_Mult(conductMtrx).Matrix_Mult(incMtrxWithoutMaxNode);
-
-    mtrx::Matrix_t<double> freeColumn = - incMtrx_.Matrix_Mult(conductMtrx).Matrix_Mult(emfMtrx_);
-#ifdef DEBUG
-    std::cout << systEq << std::endl << freeColumn << std::endl;
-#endif
-    std::vector<double> res = Gaussian_Method(systEq.Connect_Column(freeColumn));
-    return res;
-}
+//std::vector<double> grph::RTGraph_t::Calculate_Potential() {
+//    mtrx::Matrix_t<double> incMtrxT = incMtrx_.Transposition();
+//    mtrx::Matrix_t<double> conductMtrx{mtrx::ConvertDiagMtrx(resistMtrx_)};
+//    for (size_t i = 0; i < conductMtrx.Num_Columns(); ++i) {
+//        conductMtrx[i][i] = 1 / conductMtrx[i][i];
+//    }
+//    mtrx::Matrix_t<double> incMtrxWithoutMaxNode = incMtrx_.Without_Row(incMtrx_.Num_Rows() - 1);
+//
+//    mtrx::Matrix_t<double> systEq = incMtrxWithoutMaxNode.Matrix_Mult(conductMtrx).Matrix_Mult(incMtrxWithoutMaxNode);
+//
+//    mtrx::Matrix_t<double> freeColumn = - incMtrx_.Matrix_Mult(conductMtrx).Matrix_Mult(emfMtrx_);
+//#ifdef DEBUG
+//    std::cout << systEq << std::endl << freeColumn << std::endl;
+//#endif
+//    std::vector<double> res = Gaussian_Method(systEq.Connect_Column(freeColumn));
+//    return res;
+//}
 
 size_t grph::RTGraph_t::Num_Nodes() {
     return incMtrx_.Num_Rows();
@@ -117,9 +118,54 @@ size_t grph::RTGraph_t::Num_Edges() {
     return emfMtrx_.Num_Rows();
 }
 
-std::vector<std::pair<grph::RTGraph_t::MatrCoord_t, double>> grph::RTGraph_t::Calculate_Amperage(std::ostream &os) {
-    std::vector<std::pair<MatrCoord_t, double>> res(Num_Edges());
-
+std::vector<std::pair<grph::RTGraph_t::MatrCoord_t, double>> grph::RTGraph_t::Calculate_Amperage() {
+    mtrx::Matrix_t<double> contourMtrx = Find_Cycles();
+    std::cout << contourMtrx <<std::endl;
+    auto resistMtrx = mtrx::ConvertDiagMtrx(resistMtrx_);
+    mtrx::Matrix_t<double> eqSyst =
+            contourMtrx.Matrix_Mult(resistMtrx).Matrix_Mult(contourMtrx.Transposition());
+    mtrx::Matrix_t<double> bMtrx = contourMtrx.Matrix_Mult(emfMtrx_);
+    eqSyst = eqSyst.Connect_Column(bMtrx);
+    for (size_t i = 0; i < Num_Nodes() - 1; ++i) {
+        mtrx::Matrix_t<double> newRow{1, Num_Edges()};
+        bool cycle = false;
+        for (size_t j = 0; j < Num_Edges(); ++j) {
+            if (incMtrx_[i][j] == 2) {
+                cycle = true;
+                break;
+            }
+            newRow[0][j] = incMtrx_[i][j];
+        }
+        if (!cycle) {
+            eqSyst.Add_Row(newRow);
+        }
+    }
+    std::vector<double> amps = Gaussian_Method(contourMtrx.Connect_Column(bMtrx));
+    std::vector<std::pair<MatrCoord_t, double>> res;
+    for (size_t i = 0; i < Num_Edges(); ++i) {
+        size_t gNode1 = 0;
+        size_t gNode2 = 0;
+        for (size_t j = 0; j < Num_Nodes(); ++j) {
+            if (incMtrx_[j][i] == 1) {
+                gNode1 = j + 1;
+            }
+            if (incMtrx_[j][i] == -1) {
+                gNode2 = j + 1;
+            }
+            if (incMtrx_[j][i] == 2) {
+                res.push_back({{j + 1, j + 1}, amps[i]});
+            }
+        }
+        if (gNode1 == 0 && gNode2 == 0) {
+            continue;
+        }
+        double amperage = 0;
+        for (size_t j = 0; j < contourMtrx.Num_Rows(); ++j) {
+            amperage += contourMtrx[i][j];
+        }
+        res.push_back({{gNode1, gNode2}, amperage});
+    }
+    return res;
 }
 
 mtrx::Matrix_t<int> grph::RTGraph_t::Find_Cycles() {

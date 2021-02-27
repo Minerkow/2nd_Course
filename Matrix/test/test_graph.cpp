@@ -43,6 +43,19 @@ TEST(Graph, Find_Cycles1) {
     ASSERT_EQ(res, rtGraph.Find_Cycles());
 }
 
+TEST(Graph, Find_Cycles2) {
+    std::string str = "1 -- 2, 0;\n"
+                      "2 -- 3, 1; 2V\n"
+                      "3 -- 1, 0;\n";
+    std::stringstream is{str};
+    grph::RTGraph_t rtGraph{is};
+    std::vector<std::pair<grph::MatrCoord_t, double>> res = rtGraph.Calculate_Amperage();
+    for (auto& it : res) {
+        std::cout << it.first.first << " -- " << it.first.second
+                  << ":" << it.second << "A" << std::endl;
+    }
+    //ASSERT_EQ(trueRes, rtGraph.Find_Cycles());
+}
 //TEST(Graph, Find_Amperage1) {
 //    std::string pathIn {PATH};
 //    std::string pathOut {PATH};
